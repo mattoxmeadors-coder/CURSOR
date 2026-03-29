@@ -9,6 +9,12 @@ const {
 } = require("../../utils/copilot-data");
 const { generateCopilotResponse } = require("../../utils/copilot-engine");
 
+const modeOptions = [
+  { id: "prepare", label: "开始准备这次见面", desc: "先把礼数、节奏和高压问题准备到位。" },
+  { id: "align", label: "和 TA 对齐口径", desc: "在见面前统一婚期、房车、城市等敏感问题。" },
+  { id: "battlePlan", label: "生成当天作战方案", desc: "直接拿到这次见面的五段式动作清单。" },
+];
+
 const personaOptions = [
   { id: "male", label: "男生" },
   { id: "female", label: "女生" },
@@ -21,11 +27,7 @@ function findIndex(list, id) {
 
 Page({
   data: {
-    modeOptions: [
-      { id: "prepare", label: "开始准备这次见面", desc: "我快见家长了，帮我准备到位。" },
-      { id: "align", label: "和 TA 对齐口径", desc: "先统一高压问题，防止现场失配。" },
-      { id: "battlePlan", label: "生成当天作战方案", desc: "直接按场景给我今天能执行的动作。" },
-    ],
+    modeOptions,
     personaOptions,
     familyStyles,
     parentBackgrounds,
@@ -45,9 +47,18 @@ Page({
     relationStageIndex: 0,
     alignmentIndex: 2,
     pressureIndex: 0,
-    result: null,
     selectedAttendeesMap: {},
     selectedStressorsMap: {},
+    currentModeTitle: modeOptions[0].label,
+    currentModeDesc: modeOptions[0].desc,
+  },
+
+  syncModeMeta(mode) {
+    const match = modeOptions.find((item) => item.id === mode) || modeOptions[0];
+    this.setData({
+      currentModeTitle: match.label,
+      currentModeDesc: match.desc,
+    });
   },
 
   syncSelectionMaps(form) {
@@ -77,7 +88,9 @@ Page({
   },
 
   onModeChange(event) {
-    this.setField("mode", event.currentTarget.dataset.id);
+    const mode = event.currentTarget.dataset.id;
+    this.setField("mode", mode);
+    this.syncModeMeta(mode);
   },
 
   onPersonaChange(event) {
@@ -165,9 +178,9 @@ Page({
 
   generatePlan() {
     const result = generateCopilotResponse(this.data.form);
-    const payload = encodeURIComponent(JSON.stringify(result));
+    wx.setStorageSync("copilotResult", result);
     wx.navigateTo({
-      url: `/pages/result/result?payload=${payload}`,
+      url: "/pages/result/result",
     });
   },
 
@@ -180,6 +193,7 @@ Page({
       alignmentIndex: findIndex(yesNoAnswers, this.data.form.alignmentReady),
       pressureIndex: findIndex(yesNoAnswers, this.data.form.parentPressure),
     });
+    this.syncModeMeta(this.data.form.mode);
     this.syncSelectionMaps(this.data.form);
   },
 });

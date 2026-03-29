@@ -1,0 +1,43 @@
+{
+  "name": "jianjiachang-ai-copilot",
+  "version": "1.0.0",
+  "description": "AI-first family visit copilot for preparation, alignment, and battle plans.",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mattoxmeadors-coder/CURSOR.git"
+  },
+  "keywords": [
+    "nextjs",
+    "ai",
+    "relationship",
+    "family-visit",
+    "copilot"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mattoxmeadors-coder/CURSOR/issues"
+  },
+  "homepage": "https://github.com/mattoxmeadors-coder/CURSOR#readme",
+  "dependencies": {
+    "next": "^16.2.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.4",
+    "eslint-config-next": "^16.2.1",
+    "typescript": "^5.9.3"
+  }
+}

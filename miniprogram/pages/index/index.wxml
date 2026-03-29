@@ -67,7 +67,7 @@
         <view
           wx:for="{{attendeeOptions}}"
           wx:key="*this"
-          class="chip {{form.attendees.includes(item) ? 'chip-active' : ''}}"
+          class="chip {{selectedAttendeesMap[item] ? 'chip-active' : ''}}"
           data-value="{{item}}"
           bindtap="toggleAttendee"
         >
@@ -82,7 +82,7 @@
         <view
           wx:for="{{stressorOptions}}"
           wx:key="*this"
-          class="chip {{form.primaryStressors.includes(item) ? 'chip-active' : ''}}"
+          class="chip {{selectedStressorsMap[item] ? 'chip-active' : ''}}"
           data-value="{{item}}"
           bindtap="toggleStressor"
         >

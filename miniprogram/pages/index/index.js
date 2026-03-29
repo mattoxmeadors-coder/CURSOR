@@ -46,6 +46,28 @@ Page({
     alignmentIndex: 2,
     pressureIndex: 0,
     result: null,
+    selectedAttendeesMap: {},
+    selectedStressorsMap: {},
+  },
+
+  syncSelectionMaps(form) {
+    const attendees = form.attendees || [];
+    const stressors = form.primaryStressors || [];
+    const selectedAttendeesMap = {};
+    const selectedStressorsMap = {};
+
+    attendees.forEach((item) => {
+      selectedAttendeesMap[item] = true;
+    });
+
+    stressors.forEach((item) => {
+      selectedStressorsMap[item] = true;
+    });
+
+    this.setData({
+      selectedAttendeesMap,
+      selectedStressorsMap,
+    });
   },
 
   setField(key, value) {
@@ -120,6 +142,10 @@ Page({
     this.setData({
       "form.attendees": next,
     });
+    this.syncSelectionMaps({
+      ...this.data.form,
+      attendees: next,
+    });
   },
 
   toggleStressor(event) {
@@ -130,6 +156,10 @@ Page({
       : items.concat(value);
     this.setData({
       "form.primaryStressors": next,
+    });
+    this.syncSelectionMaps({
+      ...this.data.form,
+      primaryStressors: next,
     });
   },
 
@@ -150,5 +180,6 @@ Page({
       alignmentIndex: findIndex(yesNoAnswers, this.data.form.alignmentReady),
       pressureIndex: findIndex(yesNoAnswers, this.data.form.parentPressure),
     });
+    this.syncSelectionMaps(this.data.form);
   },
 });

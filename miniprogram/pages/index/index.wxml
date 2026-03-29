@@ -1,0 +1,198 @@
+<view class="page">
+  <view class="hero-card">
+    <view class="eyebrow">见家长 AI 参谋</view>
+    <view class="hero-title">第一次见家长，不拼会不会来事，只拼能不能稳住分寸。</view>
+    <view class="hero-copy">
+      这不是礼仪百科，也不是讨好长辈教程。它做的是：把你这次见面最容易翻车的瞬间，提前拆出来。
+    </view>
+    <view class="hero-highlights">
+      <view class="hero-chip">准备诊断</view>
+      <view class="hero-chip">情侣协同</view>
+      <view class="hero-chip">当天作战</view>
+    </view>
+  </view>
+
+  <view class="section-card">
+    <view class="section-head">
+      <view class="section-head-main">
+        <view class="section-title">选择你的入口</view>
+        <view class="section-copy">三条路径，进入同一套高标准方案系统。</view>
+      </view>
+      <view class="status-pill">当前：{{currentModeTitle}}</view>
+    </view>
+    <view class="mode-grid">
+      <view
+        wx:for="{{modeOptions}}"
+        wx:key="id"
+        class="mode-card {{form.mode === item.id ? 'active' : ''}}"
+        data-id="{{item.id}}"
+        bindtap="onModeChange"
+      >
+        <view class="mode-title">{{item.label}}</view>
+        <view class="mode-desc">{{item.desc}}</view>
+        <view class="mode-tag">适合现在就开始</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-card">
+    <view class="section-head">
+      <view class="section-title">基础画像</view>
+      <view class="section-copy">先把场景定准，后面的建议才会像真的发生在你身上。</view>
+    </view>
+
+    <view class="form-grid">
+      <view class="field-card">
+        <view class="field-label">你的身份</view>
+        <picker range="{{personaOptions}}" range-key="label" value="{{personaIndex}}" bindchange="onPersonaChange">
+          <view class="picker">
+            <view class="picker-text">{{personaOptions[personaIndex].label}}</view>
+          </view>
+        </picker>
+      </view>
+
+      <view class="field-card">
+        <view class="field-label">家庭待客风格</view>
+        <picker range="{{familyStyles}}" range-key="label" value="{{familyStyleIndex}}" bindchange="onFamilyStyleChange">
+          <view class="picker">
+            <view class="picker-text">{{familyStyles[familyStyleIndex].label}}</view>
+          </view>
+        </picker>
+        <view class="field-help">{{familyStyles[familyStyleIndex].description}}</view>
+      </view>
+
+      <view class="field-card">
+        <view class="field-label">父母背景</view>
+        <picker range="{{parentBackgrounds}}" range-key="label" value="{{parentBackgroundIndex}}" bindchange="onParentBackgroundChange">
+          <view class="picker">
+            <view class="picker-text">{{parentBackgrounds[parentBackgroundIndex].label}}</view>
+          </view>
+        </picker>
+      </view>
+
+      <view class="field-card">
+        <view class="field-label">见面性质</view>
+        <picker range="{{relationStages}}" range-key="label" value="{{relationStageIndex}}" bindchange="onRelationStageChange">
+          <view class="picker">
+            <view class="picker-text">{{relationStages[relationStageIndex].label}}</view>
+          </view>
+        </picker>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-card">
+    <view class="section-head">
+      <view class="section-title">本次任务</view>
+      <view class="section-copy">把时间、预算和在场人员说清楚，系统才能给出更稳的动作建议。</view>
+    </view>
+
+    <view class="form-grid">
+      <view class="field-card">
+        <view class="field-label">计划哪天见面</view>
+        <input class="input" value="{{form.scheduledTime}}" data-field="scheduledTime" bindinput="onTextInput" placeholder="例如：下周六晚饭" />
+      </view>
+
+      <view class="field-card">
+        <view class="field-label">预算范围</view>
+        <input class="input" value="{{form.budget}}" data-field="budget" bindinput="onTextInput" placeholder="例如：300-500" />
+      </view>
+    </view>
+
+    <view class="field-card">
+      <view class="field-label">这次会有哪些人在场</view>
+      <view class="chip-grid">
+        <view
+          wx:for="{{attendeeOptions}}"
+          wx:key="*this"
+          class="chip {{selectedAttendeesMap[item] ? 'chip-active' : ''}}"
+          data-value="{{item}}"
+          bindtap="toggleAttendee"
+        >
+          {{item}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-card">
+    <view class="section-head">
+      <view class="section-title">风险预判</view>
+      <view class="section-copy">真正影响表现的不是你知不知道规矩，而是你会在哪些瞬间乱掉。</view>
+    </view>
+
+    <view class="field-card">
+      <view class="field-label">你最担心什么</view>
+      <view class="chip-grid">
+        <view
+          wx:for="{{stressorOptions}}"
+          wx:key="*this"
+          class="chip {{selectedStressorsMap[item] ? 'chip-active' : ''}}"
+          data-value="{{item}}"
+          bindtap="toggleStressor"
+        >
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <view class="form-grid">
+      <view class="field-card">
+        <view class="field-label">你和 TA 口径统一了吗</view>
+        <picker range="{{yesNoAnswers}}" range-key="label" value="{{alignmentIndex}}" bindchange="onAlignmentChange">
+          <view class="picker">
+            <view class="picker-text">{{yesNoAnswers[alignmentIndex].label}}</view>
+          </view>
+        </picker>
+      </view>
+
+      <view class="field-card">
+        <view class="field-label">对方家庭是否偏强势</view>
+        <picker range="{{yesNoAnswers}}" range-key="label" value="{{pressureIndex}}" bindchange="onPressureChange">
+          <view class="picker">
+            <view class="picker-text">{{yesNoAnswers[pressureIndex].label}}</view>
+          </view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="field-card">
+      <view class="field-label">补充背景</view>
+      <textarea
+        class="textarea"
+        value="{{form.notes}}"
+        data-field="notes"
+        bindinput="onTextInput"
+        maxlength="-1"
+        placeholder="例如：她妈妈讲话很直接，可能会问工作和以后在哪个城市定居；我不太会喝酒；这次还有爷爷在。"
+      />
+    </view>
+  </view>
+
+  <view class="submit-wrap">
+    <button class="primary-button" bindtap="generatePlan">生成我的专属方案</button>
+    <view class="submit-caption">输出内容包括：风险画像、五段式作战方案、情侣协同建议、礼物策略与练习提示。</view>
+  </view>
+
+  <view class="section-card">
+    <view class="section-title">生成后你将得到</view>
+    <view class="preview-list">
+      <view class="preview-item">
+        <view class="preview-title">1. 风险画像与高危瞬间</view>
+        <view class="preview-copy">你最容易在哪些场景乱掉，会被直接指出来。</view>
+      </view>
+      <view class="preview-item">
+        <view class="preview-title">2. 当天五段式作战方案</view>
+        <view class="preview-copy">从见面前到回家后，一段一段告诉你该怎么做。</view>
+      </view>
+      <view class="preview-item">
+        <view class="preview-title">3. 情侣协同与礼物策略</view>
+        <view class="preview-copy">不只看你自己，也看你和 TA 该统一什么。</view>
+      </view>
+      <view class="preview-item">
+        <view class="preview-title">4. 知识卡与演练提示</view>
+        <view class="preview-copy">把最容易翻车的话题先练顺，再去现场。</view>
+      </view>
+    </view>
+  </view>
+</view>

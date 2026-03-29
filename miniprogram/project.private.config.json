@@ -1,0 +1,12 @@
+{
+  "projectname": "jianjiachang-ai-copilot",
+  "setting": {
+    "compileHotReLoad": true,
+    "urlCheck": false,
+    "es6": true,
+    "postcss": true,
+    "minified": true,
+    "enhance": true,
+    "ignoreUploadUnusedFiles": true
+  }
+}

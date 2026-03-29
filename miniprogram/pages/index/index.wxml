@@ -160,7 +160,10 @@
 
     <view class="subsection">
       <view class="sub-title">知识卡</view>
-      <view class="bullet" wx:for="{{result.knowledgeRecommendations}}" wx:key="*this">• {{item}}</view>
+      <view class="knowledge-card" wx:for="{{result.knowledgeRecommendations}}" wx:key="title">
+        <view class="list-title">{{item.title}}</view>
+        <view class="bullet" wx:for="{{item.bullets}}" wx:key="*this">• {{item}}</view>
+      </view>
     </view>
 
     <view class="subsection">

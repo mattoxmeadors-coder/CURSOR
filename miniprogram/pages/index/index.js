@@ -5,9 +5,19 @@ const {
   yesNoAnswers,
   stressorOptions,
   attendeeOptions,
-  defaultInput,
+  defaultForm,
 } = require("../../utils/copilot-data");
-const { generateCopilotResult } = require("../../utils/copilot-engine");
+const { generateCopilotResponse } = require("../../utils/copilot-engine");
+
+const personaOptions = [
+  { id: "male", label: "男生" },
+  { id: "female", label: "女生" },
+];
+
+function findIndex(list, id) {
+  const index = list.findIndex((item) => item.id === id);
+  return index >= 0 ? index : 0;
+}
 
 Page({
   data: {
@@ -16,13 +26,26 @@ Page({
       { id: "align", label: "和 TA 对齐口径", desc: "先统一高压问题，防止现场失配。" },
       { id: "battlePlan", label: "生成当天作战方案", desc: "直接按场景给我今天能执行的动作。" },
     ],
+    personaOptions,
     familyStyles,
     parentBackgrounds,
     relationStages,
     yesNoAnswers,
     stressorOptions,
     attendeeOptions,
-    form: { ...defaultInput },
+    riskLevelText: {
+      high: "高压",
+      medium: "中压",
+      low: "低压",
+    },
+    form: { ...defaultForm },
+    personaIndex: 0,
+    familyStyleIndex: 0,
+    parentBackgroundIndex: 0,
+    relationStageIndex: 0,
+    alignmentIndex: 2,
+    pressureIndex: 0,
+    result: null,
   },
 
   setField(key, value) {
@@ -31,61 +54,101 @@ Page({
     });
   },
 
-  onModeTap(event) {
-    this.setField("mode", event.currentTarget.dataset.value);
+  onModeChange(event) {
+    this.setField("mode", event.currentTarget.dataset.id);
   },
 
   onPersonaChange(event) {
-    this.setField("persona", event.detail.value);
-  },
-
-  onFamilyStyleChange(event) {
-    this.setField("familyStyle", event.detail.value);
-  },
-
-  onParentBackgroundChange(event) {
-    this.setField("parentBackground", event.detail.value);
-  },
-
-  onRelationStageChange(event) {
-    this.setField("relationStage", event.detail.value);
-  },
-
-  onScheduledTimeInput(event) {
-    this.setField("scheduledTime", event.detail.value);
-  },
-
-  onBudgetInput(event) {
-    this.setField("budget", event.detail.value);
-  },
-
-  onChoiceFieldChange(event) {
-    const key = event.currentTarget.dataset.key;
-    this.setField(key, event.detail.value);
-  },
-
-  onNotesInput(event) {
-    this.setField("notes", event.detail.value);
-  },
-
-  onToggleListItem(event) {
-    const key = event.currentTarget.dataset.key;
-    const value = event.currentTarget.dataset.value;
-    const items = this.data.form[key] || [];
-    const next = items.includes(value)
-      ? items.filter((item) => item !== value)
-      : items.concat(value);
-
+    const index = Number(event.detail.value);
     this.setData({
-      [`form.${key}`]: next,
+      personaIndex: index,
+      "form.persona": personaOptions[index].id,
     });
   },
 
-  onSubmit() {
-    const result = generateCopilotResult(this.data.form);
-    const encoded = encodeURIComponent(JSON.stringify(result));
+  onFamilyStyleChange(event) {
+    const index = Number(event.detail.value);
+    this.setData({
+      familyStyleIndex: index,
+      "form.familyStyle": familyStyles[index].id,
+    });
+  },
+
+  onParentBackgroundChange(event) {
+    const index = Number(event.detail.value);
+    this.setData({
+      parentBackgroundIndex: index,
+      "form.parentBackground": parentBackgrounds[index].id,
+    });
+  },
+
+  onRelationStageChange(event) {
+    const index = Number(event.detail.value);
+    this.setData({
+      relationStageIndex: index,
+      "form.relationStage": relationStages[index].id,
+    });
+  },
+
+  onAlignmentChange(event) {
+    const index = Number(event.detail.value);
+    this.setData({
+      alignmentIndex: index,
+      "form.alignmentReady": yesNoAnswers[index].id,
+    });
+  },
+
+  onPressureChange(event) {
+    const index = Number(event.detail.value);
+    this.setData({
+      pressureIndex: index,
+      "form.parentPressure": yesNoAnswers[index].id,
+    });
+  },
+
+  onTextInput(event) {
+    const key = event.currentTarget.dataset.field;
+    this.setField(key, event.detail.value);
+  },
+
+  toggleAttendee(event) {
+    const value = event.currentTarget.dataset.value;
+    const items = this.data.form.attendees || [];
+    const next = items.includes(value)
+      ? items.filter((item) => item !== value)
+      : items.concat(value);
+    this.setData({
+      "form.attendees": next,
+    });
+  },
+
+  toggleStressor(event) {
+    const value = event.currentTarget.dataset.value;
+    const items = this.data.form.primaryStressors || [];
+    const next = items.includes(value)
+      ? items.filter((item) => item !== value)
+      : items.concat(value);
+    this.setData({
+      "form.primaryStressors": next,
+    });
+  },
+
+  generatePlan() {
+    const result = generateCopilotResponse(this.data.form);
+    const payload = encodeURIComponent(JSON.stringify(result));
     wx.navigateTo({
-      url: `/pages/result/result?payload=${encoded}`,
+      url: `/pages/result/result?payload=${payload}`,
+    });
+  },
+
+  onLoad() {
+    this.setData({
+      personaIndex: findIndex(personaOptions, this.data.form.persona),
+      familyStyleIndex: findIndex(familyStyles, this.data.form.familyStyle),
+      parentBackgroundIndex: findIndex(parentBackgrounds, this.data.form.parentBackground),
+      relationStageIndex: findIndex(relationStages, this.data.form.relationStage),
+      alignmentIndex: findIndex(yesNoAnswers, this.data.form.alignmentReady),
+      pressureIndex: findIndex(yesNoAnswers, this.data.form.parentPressure),
     });
   },
 });

@@ -1,6 +1,11 @@
 Page({
   data: {
     result: null,
+    riskTone: {
+      high: "高压",
+      medium: "中压",
+      low: "低压",
+    },
   },
 
   onLoad(query) {
@@ -35,7 +40,7 @@ Page({
     }
   },
 
-  backHome() {
+  handleBack() {
     wx.navigateBack({
       delta: 1,
       fail: () => {

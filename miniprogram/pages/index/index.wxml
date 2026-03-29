@@ -1,0 +1,181 @@
+<view class="page">
+  <view class="hero card">
+    <view class="eyebrow">AI FAMILY VISIT COPILOT</view>
+    <view class="hero-title">第一次见家长，不靠硬撑，靠系统作战。</view>
+    <view class="hero-copy">
+      前台只保留三个极简入口，后台是完整的诊断、协同、作战和运营自动化底座。
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">三个入口</view>
+    <view class="segmented">
+      <view
+        wx:for="{{modeOptions}}"
+        wx:key="id"
+        class="segment {{form.mode === item.id ? 'segment-active' : ''}}"
+        data-id="{{item.id}}"
+        bindtap="onModeChange"
+      >
+        {{item.label}}
+      </view>
+    </view>
+
+    <view class="form-grid">
+      <view class="field">
+        <view class="label">你的身份</view>
+        <picker range="{{personaOptions}}" range-key="label" value="{{personaIndex}}" bindchange="onPersonaChange">
+          <view class="picker">{{personaOptions[personaIndex].label}}</view>
+        </picker>
+      </view>
+
+      <view class="field">
+        <view class="label">对方家庭待客风格</view>
+        <picker range="{{familyStyles}}" range-key="label" value="{{familyStyleIndex}}" bindchange="onFamilyStyleChange">
+          <view class="picker">{{familyStyles[familyStyleIndex].label}}</view>
+        </picker>
+      </view>
+
+      <view class="field">
+        <view class="label">父母背景</view>
+        <picker range="{{parentBackgrounds}}" range-key="label" value="{{parentBackgroundIndex}}" bindchange="onParentBackgroundChange">
+          <view class="picker">{{parentBackgrounds[parentBackgroundIndex].label}}</view>
+        </picker>
+      </view>
+
+      <view class="field">
+        <view class="label">见面性质</view>
+        <picker range="{{relationStages}}" range-key="label" value="{{relationStageIndex}}" bindchange="onRelationStageChange">
+          <view class="picker">{{relationStages[relationStageIndex].label}}</view>
+        </picker>
+      </view>
+
+      <view class="field">
+        <view class="label">计划哪天见面</view>
+        <input class="input" value="{{form.scheduledTime}}" data-field="scheduledTime" bindinput="onTextInput" placeholder="例如：下周六晚饭" />
+      </view>
+
+      <view class="field">
+        <view class="label">预算</view>
+        <input class="input" value="{{form.budget}}" data-field="budget" bindinput="onTextInput" placeholder="例如：300-500" />
+      </view>
+    </view>
+
+    <view class="field block">
+      <view class="label">这次在场的人</view>
+      <view class="chip-grid">
+        <view
+          wx:for="{{attendeeOptions}}"
+          wx:key="*this"
+          class="chip {{form.attendees.includes(item) ? 'chip-active' : ''}}"
+          data-value="{{item}}"
+          bindtap="toggleAttendee"
+        >
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <view class="field block">
+      <view class="label">你最担心什么</view>
+      <view class="chip-grid">
+        <view
+          wx:for="{{stressorOptions}}"
+          wx:key="*this"
+          class="chip {{form.primaryStressors.includes(item) ? 'chip-active' : ''}}"
+          data-value="{{item}}"
+          bindtap="toggleStressor"
+        >
+          {{item}}
+        </view>
+      </view>
+    </view>
+
+    <view class="form-grid">
+      <view class="field">
+        <view class="label">是否已统一口径</view>
+        <picker range="{{yesNoAnswers}}" range-key="label" value="{{alignmentIndex}}" bindchange="onAlignmentChange">
+          <view class="picker">{{yesNoAnswers[alignmentIndex].label}}</view>
+        </picker>
+      </view>
+
+      <view class="field">
+        <view class="label">对方家庭是否偏强势</view>
+        <picker range="{{yesNoAnswers}}" range-key="label" value="{{pressureIndex}}" bindchange="onPressureChange">
+          <view class="picker">{{yesNoAnswers[pressureIndex].label}}</view>
+        </picker>
+      </view>
+    </view>
+
+    <view class="field block">
+      <view class="label">补充描述</view>
+      <textarea
+        class="textarea"
+        value="{{form.notes}}"
+        data-field="notes"
+        bindinput="onTextInput"
+        maxlength="-1"
+        placeholder="例如：她妈妈讲话很直接，可能会问工作和以后在哪个城市定居；我不太会喝酒；这次应该还有爷爷在。"
+      />
+    </view>
+
+    <button class="primary-button" bindtap="generatePlan">生成我的顶配方案</button>
+  </view>
+
+  <view class="card" wx:if="{{result}}">
+    <view class="section-title">{{result.heroTitle}}</view>
+    <view class="summary">{{result.heroSummary}}</view>
+    <view class="risk-line">
+      <view class="pill {{result.riskLevel}}">{{riskLevelText[result.riskLevel]}}</view>
+      <view class="persona">总体画像：{{result.personaLabel}}</view>
+    </view>
+
+    <view class="subsection">
+      <view class="sub-title">核心风险</view>
+      <view class="list-card" wx:for="{{result.topRisks}}" wx:key="title">
+        <view class="list-title">{{item.title}}</view>
+        <view class="list-desc">{{item.reason}}</view>
+      </view>
+    </view>
+
+    <view class="subsection">
+      <view class="sub-title">当天作战方案</view>
+      <view class="plan-card" wx:for="{{result.battlePlan}}" wx:key="phase">
+        <view class="list-title">{{item.phase}}</view>
+        <view class="bullet" wx:for="{{item.actions}}" wx:key="*this">• {{item}}</view>
+      </view>
+    </view>
+
+    <view class="subsection">
+      <view class="sub-title">情侣协同建议</view>
+      <view class="summary">{{result.alignmentSummary}}</view>
+      <view class="bullet" wx:for="{{result.alignmentActions}}" wx:key="*this">• {{item}}</view>
+    </view>
+
+    <view class="subsection">
+      <view class="sub-title">{{result.giftPlan.title}}</view>
+      <view class="summary">{{result.giftPlan.summary}}</view>
+      <view class="bullet" wx:for="{{result.giftPlan.items}}" wx:key="*this">• {{item}}</view>
+    </view>
+
+    <view class="subsection">
+      <view class="sub-title">知识卡</view>
+      <view class="bullet" wx:for="{{result.knowledgeRecommendations}}" wx:key="*this">• {{item}}</view>
+    </view>
+
+    <view class="subsection">
+      <view class="sub-title">社媒 / 私域内容包</view>
+      <view class="mini-title">短视频标题</view>
+      <view class="bullet" wx:for="{{result.contentPack.shortVideoHooks}}" wx:key="*this">• {{item}}</view>
+      <view class="mini-title">图文选题</view>
+      <view class="bullet" wx:for="{{result.contentPack.socialPosts}}" wx:key="*this">• {{item}}</view>
+      <view class="mini-title">私域首条消息</view>
+      <view class="summary">{{result.contentPack.privateDomainOpen}}</view>
+    </view>
+
+    <view class="subsection">
+      <view class="sub-title">模拟演练提示</view>
+      <view class="bullet" wx:for="{{result.simulationPrompts}}" wx:key="*this">• {{item}}</view>
+    </view>
+  </view>
+</view>

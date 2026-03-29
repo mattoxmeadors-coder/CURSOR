@@ -1,0 +1,14 @@
+{
+  "pages": [
+    "pages/index/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "见家长 AI Copilot",
+    "navigationBarBackgroundColor": "#08101a",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#08101a",
+    "backgroundTextStyle": "light"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

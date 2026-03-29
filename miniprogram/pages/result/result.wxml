@@ -1,0 +1,88 @@
+<view class="page">
+  <view class="hero card">
+    <view class="eyebrow">AI FAMILY VISIT COPILOT</view>
+    <view class="hero-title">{{result.heroTitle}}</view>
+    <view class="hero-summary">{{result.heroSummary}}</view>
+    <view class="hero-meta">
+      <view class="pill {{result.riskLevel}}">
+        {{riskTone[result.riskLevel]}}
+      </view>
+      <view class="persona">画像：{{result.personaLabel}}</view>
+      <view class="score">风险分：{{result.riskScore}}</view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">核心风险</view>
+    <block wx:for="{{result.topRisks}}" wx:key="title">
+      <view class="risk-item">
+        <view class="risk-head">
+          <text>{{item.title}}</text>
+          <text class="risk-level {{item.severity}}">{{riskTone[item.severity]}}</text>
+        </view>
+        <view class="risk-reason">{{item.reason}}</view>
+      </view>
+    </block>
+  </view>
+
+  <view class="card">
+    <view class="section-title">当天作战方案</view>
+    <block wx:for="{{result.battlePlan}}" wx:key="phase">
+      <view class="phase-card">
+        <view class="phase-title">{{item.phase}}</view>
+        <block wx:for="{{item.actions}}" wx:key="*this">
+          <view class="bullet">• {{item}}</view>
+        </block>
+      </view>
+    </block>
+  </view>
+
+  <view class="card">
+    <view class="section-title">情侣协同建议</view>
+    <view class="summary">{{result.alignmentSummary}}</view>
+    <block wx:for="{{result.alignmentActions}}" wx:key="*this">
+      <view class="bullet">• {{item}}</view>
+    </block>
+  </view>
+
+  <view class="card">
+    <view class="section-title">礼物建议</view>
+    <view class="gift-title">{{result.giftPlan.title}}</view>
+    <view class="summary">{{result.giftPlan.summary}}</view>
+    <block wx:for="{{result.giftPlan.items}}" wx:key="*this">
+      <view class="bullet">• {{item}}</view>
+    </block>
+  </view>
+
+  <view class="card">
+    <view class="section-title">知识卡推荐</view>
+    <block wx:for="{{result.knowledgeRecommendations}}" wx:key="*this">
+      <view class="bullet">• {{item}}</view>
+    </block>
+  </view>
+
+  <view class="card">
+    <view class="section-title">模拟演练提示</view>
+    <block wx:for="{{result.simulationPrompts}}" wx:key="*this">
+      <view class="bullet">• {{item}}</view>
+    </block>
+  </view>
+
+  <view class="card">
+    <view class="section-title">社媒 / 私域内容包</view>
+    <view class="sub-title">短视频标题</view>
+    <block wx:for="{{result.contentPack.shortVideoHooks}}" wx:key="*this">
+      <view class="bullet">• {{item}}</view>
+    </block>
+
+    <view class="sub-title space-top">图文选题</view>
+    <block wx:for="{{result.contentPack.socialPosts}}" wx:key="*this">
+      <view class="bullet">• {{item}}</view>
+    </block>
+
+    <view class="sub-title space-top">私域开场语</view>
+    <view class="summary">{{result.contentPack.privateDomainOpen}}</view>
+  </view>
+
+  <button class="back-button" bindtap="handleBack">返回继续调整</button>
+</view>

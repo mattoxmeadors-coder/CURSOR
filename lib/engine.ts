@@ -1,423 +1,299 @@
 import {
-  battlePlanSections,
-  coupleQuestions,
   familyStyles,
-  individualQuestions,
-  insightLibrary,
-  operatingPrinciples,
-  riskAxisLabels,
-  systemCapabilities,
+  knowledgeCards,
+  parentBackgrounds,
+  relationStages,
 } from "@/lib/content";
-import {
-  BattlePlan,
-  BattlePlanSection,
-  CoupleAnswer,
-  CoupleInput,
-  CoupleResult,
-  FamilyStyle,
-  FollowUpStep,
-  GeneratedContentPack,
-  IndividualAnswer,
-  IndividualInput,
-  IndividualResult,
-  Question,
-  RiskAxis,
-  RiskLens,
-  SocialContentItem,
-  StyleKey,
-  SystemSection,
+import type {
+  BattlePlanPhase,
+  ChoiceState,
+  CopilotInput,
+  CopilotResponse,
+  FamilyStyleOption,
+  GiftPlan,
+  RiskLevel,
+  RiskSummary,
 } from "@/lib/types";
 
-const defaultAxisScore = (): Record<RiskAxis, number> => ({
-  etiquette: 0,
-  boundaries: 0,
-  empathy: 0,
-  coordination: 0,
-  resilience: 0,
-});
-
-const addScore = (
-  current: Record<RiskAxis, number>,
-  axes: RiskAxis[],
-  amount: number,
-) => {
-  axes.forEach((axis) => {
-    current[axis] += amount;
-  });
+const riskRank: Record<RiskLevel, number> = {
+  low: 1,
+  medium: 2,
+  high: 3,
 };
 
-const getPreferredOption = (question: Question) =>
-  question.options.find((option) => option.weight === 3) ?? question.options[0];
+function resolveFamilyStyle(id: CopilotInput["familyStyle"]): FamilyStyleOption {
+  return familyStyles.find((style) => style.id === id) ?? familyStyles[0];
+}
 
-const resolveFamilyStyle = (styleKey: StyleKey): FamilyStyle =>
-  familyStyles.find((style) => style.key === styleKey) ?? familyStyles[0];
+function resolveStageLabel(id: CopilotInput["relationStage"]) {
+  return relationStages.find((stage) => stage.id === id)?.label ?? relationStages[0].label;
+}
 
-export const buildDemoIndividualAnswers = (
-  path: "male" | "female",
-): IndividualAnswer[] =>
-  individualQuestions
-    .filter((question) => question.path === path || question.path === "shared")
-    .map((question) => ({
-      questionId: question.id,
-      optionId: getPreferredOption(question).id,
-    }));
-
-export const buildDemoCoupleAnswers = (): CoupleAnswer[] =>
-  coupleQuestions.map((question, index) => ({
-    questionId: question.id,
-    selfOptionId:
-      question.options[index % question.options.length]?.id ?? question.options[0].id,
-    partnerOptionId:
-      question.options[(index + 1) % question.options.length]?.id ??
-      question.options[0].id,
-  }));
-
-const scoreIndividualAnswers = (answers: IndividualAnswer[]) => {
-  const scores = defaultAxisScore();
-  const behavioralSignals: Record<string, number> = {
-    overplay: 0,
-    stable: 0,
-    restrained: 0,
-    defensive: 0,
-    overcompensating: 0,
-  };
-
-  answers.forEach((answer) => {
-    const question = individualQuestions.find((item) => item.id === answer.questionId);
-    const option = question?.options.find((item) => item.id === answer.optionId);
-
-    if (!question || !option) {
-      return;
-    }
-
-    addScore(scores, question.axes, option.weight);
-    behavioralSignals[option.signal] = (behavioralSignals[option.signal] ?? 0) + 1;
-  });
-
-  return { scores, behavioralSignals };
-};
-
-const scoreCoupleAnswers = (answers: CoupleAnswer[]) => {
-  const scores = defaultAxisScore();
-  const tensions: string[] = [];
-  const alignmentByQuestion = answers.map((answer) => {
-    const question = coupleQuestions.find((item) => item.id === answer.questionId);
-    if (!question) {
-      return {
-        questionId: answer.questionId,
-        alignment: 0,
-        label: answer.questionId,
-      };
-    }
-
-    const selfOption = question.options.find((item) => item.id === answer.selfOptionId);
-    const partnerOption = question.options.find(
-      (item) => item.id === answer.partnerOptionId,
-    );
-
-    const alignment = selfOption?.id === partnerOption?.id ? 3 : 1;
-    const base = Math.min(selfOption?.weight ?? 1, partnerOption?.weight ?? 1);
-    addScore(scores, question.axes, base);
-
-    if (alignment === 1) {
-      tensions.push(question.prompt);
-    }
-
-    return {
-      questionId: question.id,
-      alignment,
-      label: question.shortLabel,
-    };
-  });
-
-  return { scores, tensions, alignmentByQuestion };
-};
-
-const pickTopAxes = (scores: Record<RiskAxis, number>, count = 2) =>
-  Object.entries(scores)
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, count)
-    .map(([axis]) => axis as RiskAxis);
-
-const pickBottomAxes = (scores: Record<RiskAxis, number>, count = 2) =>
-  Object.entries(scores)
-    .sort((a, b) => a[1] - b[1])
-    .slice(0, count)
-    .map(([axis]) => axis as RiskAxis);
-
-const resolveLens = (
-  signals: Record<string, number>,
-  weakestAxes: RiskAxis[],
-): RiskLens => {
-  const highestSignal = Object.entries(signals).sort((a, b) => b[1] - a[1])[0]?.[0];
-
-  if (highestSignal === "overplay") {
-    return {
-      key: "warm-overdrive",
-      title: "热情过满型",
-      summary: "诚意很足，但容易过度表现，抢在场景前面。",
-      tone: "把主动做成自然，不要把认真做成冒进。",
-    };
-  }
-
-  if (highestSignal === "restrained") {
-    return {
-      key: "guarded-sincere",
-      title: "真诚拘谨型",
-      summary: "你不失礼，但容易在关键节点显得过于安静。",
-      tone: "减少自我审查，学会用一句自然的话接住场面。",
-    };
-  }
-
-  if (highestSignal === "defensive") {
-    return {
-      key: "hard-shield",
-      title: "临场硬撑型",
-      summary: "敏感问题里容易急着立住自己，反而失去松弛感。",
-      tone: "先接住对方的关心，再说事实和节奏，不急于证明。",
-    };
-  }
-
-  if (weakestAxes.includes("coordination")) {
-    return {
-      key: "solo-performer",
-      title: "配合失焦型",
-      summary: "你个人表现不差，但容易忽略和伴侣的同频配合。",
-      tone: "这不是单人秀，所有关键问题都要先和伴侣对齐。",
-    };
-  }
-
-  return {
-    key: "steady-poise",
-    title: "稳中有礼型",
-    summary: "你的稳定感和礼数感较强，整体容易留下成熟印象。",
-    tone: "保持自然观察和低调配合，不需要额外加戏。",
-  };
-};
-
-const buildHighRiskMoments = (
-  weakestAxes: RiskAxis[],
-  questions: Question[],
-): string[] =>
-  questions
-    .filter((question) => question.axes.some((axis) => weakestAxes.includes(axis)))
-    .slice(0, 3)
-    .map((question) => question.prompt);
-
-const buildRecommendations = (
-  strongestAxes: RiskAxis[],
-  weakestAxes: RiskAxis[],
-): string[] => {
-  const recommendations: string[] = [];
-
-  weakestAxes.forEach((axis) => {
-    recommendations.push(
-      `重点补 ${riskAxisLabels[axis]}：${insightLibrary[axis][0] ?? "保持真诚与分寸。"}`,
-    );
-  });
-
-  strongestAxes.forEach((axis) => {
-    recommendations.push(`继续发挥 ${riskAxisLabels[axis]}：${insightLibrary[axis][1]}`);
-  });
-
-  return recommendations.slice(0, 4);
-};
-
-const buildFollowUpSteps = (
-  sections: BattlePlanSection[],
-  style: FamilyStyle,
-): FollowUpStep[] =>
-  sections.map((section, index) => ({
-    title: section.title,
-    timing: index === 0 ? "见面前" : index === sections.length - 1 ? "见面后" : "当天",
-    detail: `${section.items[0]} 围绕 ${style.name} 的家庭节奏调整表达。`,
-  }));
-
-const chooseSectionsForStyle = (style: FamilyStyle): BattlePlanSection[] =>
-  battlePlanSections.map((section) => ({
-    ...section,
-    items: [
-      ...section.items,
-      `针对${style.name}重点注意：${style.guidance}`,
-    ].slice(0, 4),
-  }));
-
-export const evaluateIndividual = (input: IndividualInput): IndividualResult => {
-  const { scores, behavioralSignals } = scoreIndividualAnswers(input.answers);
-  const strongestAxes = pickTopAxes(scores);
-  const weakestAxes = pickBottomAxes(scores);
-  const questions = individualQuestions.filter(
-    (question) => question.path === input.path || question.path === "shared",
+function resolveBackgroundLabel(id: CopilotInput["parentBackground"]) {
+  return (
+    parentBackgrounds.find((background) => background.id === id)?.label ??
+    parentBackgrounds[0].label
   );
-  const style = resolveFamilyStyle(input.familyStyle);
-  const lens = resolveLens(behavioralSignals, weakestAxes);
-  const highRiskMoments = buildHighRiskMoments(weakestAxes, questions);
-  const planSections = chooseSectionsForStyle(style);
+}
 
-  return {
-    lens,
-    strongestAxes,
-    weakestAxes,
-    scoreByAxis: scores,
-    highRiskMoments,
-    recommendations: buildRecommendations(strongestAxes, weakestAxes),
-    followUpSteps: buildFollowUpSteps(planSections, style),
-    styleSummary: `${style.name}通常重视${style.focus.join("、")}，建议维持“真诚但不过界”的节奏。`,
-  };
-};
+function parseBudgetLevel(budget: string) {
+  const numbers = budget.match(/\d+/g)?.map((item) => Number(item)) ?? [];
+  if (numbers.length === 0) return "mid";
+  const top = Math.max(...numbers);
+  if (top <= 300) return "lean";
+  if (top <= 800) return "mid";
+  return "premium";
+}
 
-const buildAlignmentSummary = (
-  scoreByAxis: Record<RiskAxis, number>,
-  tensions: string[],
-): string => {
-  const strongest = pickTopAxes(scoreByAxis, 1)[0];
-  if (tensions.length === 0) {
-    return `你们在${riskAxisLabels[strongest]}上配合度较高，适合用“主次分工”而不是“同时发力”的方式出场。`;
+function decideRiskLevel(input: CopilotInput): { score: number; level: RiskLevel } {
+  let score = 38;
+
+  score += Math.min(input.primaryStressors.length * 6, 24);
+  score += input.attendees.includes("有祖辈") ? 8 : 0;
+  score += input.attendees.includes("可能有亲戚") ? 6 : 0;
+  score += input.attendees.includes("可能有邻居或父母朋友") ? 5 : 0;
+  score += input.parentPressure === "yes" ? 18 : input.parentPressure === "partial" ? 10 : 0;
+  score += input.alignmentReady === "no" ? 16 : input.alignmentReady === "partial" ? 8 : 0;
+  score += input.mode === "align" ? 6 : 0;
+  score += input.mode === "battlePlan" ? 4 : 0;
+  score += /婚期|房|彩礼|收入|工作|定居/.test(input.notes) ? 10 : 0;
+  score = Math.min(score, 96);
+
+  if (score >= 75) return { score, level: "high" };
+  if (score >= 50) return { score, level: "medium" };
+  return { score, level: "low" };
+}
+
+function inferPersona(input: CopilotInput, riskLevel: RiskLevel) {
+  if (input.alignmentReady === "no") return "配合失焦型";
+  if (input.primaryStressors.includes("怕礼数拿捏不准")) return "真诚拘谨型";
+  if (
+    input.primaryStressors.includes("怕被问收入/房车") ||
+    input.primaryStressors.includes("怕婚期话题")
+  ) {
+    return riskLevel === "high" ? "临场硬撑型" : "稳中有礼型";
+  }
+  if (input.primaryStressors.includes("怕饭桌场景失手")) return "热情过满型";
+  return "稳中有礼型";
+}
+
+function buildRiskItems(input: CopilotInput, style: FamilyStyleOption): RiskSummary[] {
+  const items: RiskSummary[] = [];
+
+  if (input.primaryStressors.includes("怕被问收入/房车")) {
+    items.push({
+      title: "现实条件问答",
+      severity: input.parentPressure === "yes" ? "high" : "medium",
+      reason: `这类${style.label}家庭会观察稳定度，最忌讳说大话或把话说满。`,
+    });
   }
 
-  return `你们有${tensions.length}处明显口径分歧，最需要先统一的是${tensions[0]}。`;
-};
+  if (input.primaryStressors.includes("怕婚期话题")) {
+    items.push({
+      title: "婚期与承诺边界",
+      severity: input.alignmentReady === "no" ? "high" : "medium",
+      reason: "如果你和 TA 没统一口径，现场最容易出现一人说太满、一人来不及补位。",
+    });
+  }
 
-export const evaluateCouple = (input: CoupleInput): CoupleResult => {
-  const { scores, tensions, alignmentByQuestion } = scoreCoupleAnswers(input.answers);
-  const strongestAxes = pickTopAxes(scores);
-  const weakestAxes = pickBottomAxes(scores);
-  const style = resolveFamilyStyle(input.familyStyle);
+  if (input.primaryStressors.includes("怕饭桌场景失手")) {
+    items.push({
+      title: "饭桌节奏与善意接球",
+      severity: "medium",
+      reason: "长辈夹菜、倒茶、敬酒时，最容易在过度客气和过度表现之间失衡。",
+    });
+  }
+
+  if (input.primaryStressors.includes("怕和 TA 配合不好")) {
+    items.push({
+      title: "情侣协同失配",
+      severity: "high",
+      reason: "真正翻车往往不是一个人不懂，而是两个人没有主次和补位方案。",
+    });
+  }
+
+  if (items.length < 3) {
+    items.push({
+      title: "第一印象强度控制",
+      severity: "medium",
+      reason: `面对${style.label}，重点不是热闹，而是分寸、节奏和观察力。`,
+    });
+  }
+
+  return items
+    .sort((a, b) => riskRank[b.severity] - riskRank[a.severity])
+    .slice(0, 3);
+}
+
+function buildBattlePlan(input: CopilotInput, style: FamilyStyleOption): BattlePlanPhase[] {
+  const stageLabel = resolveStageLabel(input.relationStage);
+
+  return [
+    {
+      phase: "见面前 24 小时",
+      actions: [
+        `把这次见面定义为「${stageLabel}」场景，不要按普通吃饭的松弛心态上桌。`,
+        `围绕 ${style.focus.join("、")} 做最后校准：礼物、称呼、时间和穿搭统一成一条线。`,
+        "先和 TA 对齐三个问题：婚期怎么答、工作城市怎么答、谁先接长辈第一轮问题。",
+      ],
+    },
+    {
+      phase: "进门前 10 分钟",
+      actions: [
+        "礼物先递再落座，称呼统一用叔叔/阿姨，不抢亲近感。",
+        `针对${style.label}，第一轮表达保持 ${style.scriptTone}，宁可少一点，也不要抢节奏。`,
+        "手机静音，进门后先观察谁是节奏中心，再决定自己要不要主动接话。",
+      ],
+    },
+    {
+      phase: "饭桌阶段",
+      actions: [
+        "先接善意，再表达边界：夹菜、倒茶、敬酒都先感谢，再决定接多少。",
+        "冷场时回到共同信息，不要硬抖机灵，也不要把自己缩没了。",
+        "如果 TA 在说，你负责补稳，不要抢答；如果 TA 卡住，你负责接一层，不要长篇接管。",
+      ],
+    },
+    {
+      phase: "敏感问题阶段",
+      actions: [
+        "回答顺序固定为：先接住关心 -> 再说现状 -> 最后给时间窗口。",
+        "不替两个人拍板，不承诺超出控制范围的事，不拿情绪顶问题。",
+        `面对${resolveBackgroundLabel(input.parentBackground)}背景家庭，越具体越好，但具体不等于确定性承诺。`,
+      ],
+    },
+    {
+      phase: "收尾与回家后",
+      actions: [
+        "临走时感谢招待，用一句具体感受收尾，不需要过度长文表忠心。",
+        "回家先和 TA 复盘三件事：谁回答最顺、哪里差点翻、下次要统一什么。",
+        "当天可发简短感谢消息，为下一次往来留下自然续口。",
+      ],
+    },
+  ];
+}
+
+function buildAlignment(input: CopilotInput, style: FamilyStyleOption) {
+  if (input.alignmentReady === "yes") {
+    return {
+      summary: `你和 TA 已经有基础口径，接下来重点不是再讨论观点，而是按 ${style.label} 的场子分好主次和补位。`,
+      actions: [
+        "更稳的一方负责第一轮敏感问题开场。",
+        "更松弛的一方负责冷场时把气氛拉回家常。",
+        "任何涉及婚期、买房、城市的问题，都先给阶段性表达，不直接拍板。",
+      ],
+    };
+  }
 
   return {
-    alignmentSummary: buildAlignmentSummary(scores, tensions),
-    strongestAxes,
-    weakestAxes,
-    scoreByAxis: scores,
-    topMisalignments:
-      tensions.length > 0
-        ? tensions.slice(0, 3)
-        : [
-            "你们暂时没有高冲突项，可以把注意力放在现场分工而不是继续拉扯观点。",
-          ],
-    recommendedRoles: [
-      "更稳定的一方负责开场和敏感问题的第一句话。",
-      "更松弛的一方负责在冷场时补充日常话题。",
-      `遇到${style.name}的家庭节奏时，优先保持“先观察、再进入”的默契。`,
+    summary:
+      "你们目前口径还不够稳。这次见面最大的风险不是不会答，而是一个人答太满、另一个人当场改口。",
+    actions: [
+      "见面前至少统一：婚期、工作城市、房车计划、节日安排四个问题。",
+      "约定一个补位规则：谁先开口，谁负责收尾，谁在对方说满时把话拉回阶段性表述。",
+      `面对${style.label}家庭，不要把“有诚意”演成“过度确定”。`,
     ],
-    synchronizedScripts: [
-      "婚期问题：先说“我们在认真规划”，再补时间窗口，不抢先定死。",
-      "工作城市问题：先表达双方正在协调，再说明当下阶段。",
-      "买房问题：先说现状与节奏，不说超出掌控的承诺。",
-    ],
-    rehearsalPrompts: alignmentByQuestion
-      .filter((item) => item.alignment < 3)
-      .slice(0, 3)
-      .map(
-        (item) =>
-          `围绕「${item.label}」做一次角色扮演：一人回答，一人负责补位收口。`,
-      ),
   };
-};
+}
 
-const buildPersonalizedSection = (
-  section: BattlePlanSection,
-  style: FamilyStyle,
-  result: IndividualResult,
-): BattlePlanSection => {
-  const weakestLabel = riskAxisLabels[result.weakestAxes[0] ?? "boundaries"];
+function buildGiftPlan(input: CopilotInput, style: FamilyStyleOption): GiftPlan {
+  const budgetLevel = parseBudgetLevel(input.budget);
+
+  if (budgetLevel === "lean") {
+    return {
+      title: "轻预算稳妥组合",
+      summary: `预算不高也能做稳，关键是结构清楚，符合 ${style.giftTone} 的送礼调性。`,
+      items: [
+        "2-4 样礼物，避免单一奢侈品孤零零顶在前面。",
+        "优先实用型：茶点、营养品、应季水果礼盒。",
+        "如果有祖辈，额外补一件更偏长辈向的小体面礼物。",
+      ],
+    };
+  }
+
+  if (budgetLevel === "premium") {
+    return {
+      title: "高预算但不过度表演",
+      summary: "预算高时最怕失衡，不是越贵越好，而是要避免压场和制造负担。",
+      items: [
+        "保持 4-6 样结构，主礼有体面，副礼有温度。",
+        "不要让礼物比人更高调，价格感尽量弱化，体面感放在包装和组合逻辑上。",
+        "如果是正式相见或谈婚论嫁，提前和 TA 确认禁忌与偏好。",
+      ],
+    };
+  }
 
   return {
-    ...section,
+    title: "标准稳妥组合",
+    summary: `按 ${style.label} 的待客风格，礼物重点是得体、成体系、有主次。`,
     items: [
-      ...section.items,
-      `结合你的弱项「${weakestLabel}」，这一阶段尽量少做超前表现。`,
-      `围绕 ${style.name} 的家庭风格，优先照顾 ${style.focus[0]} 的感受。`,
-    ].slice(0, 4),
+      "建议准备 4 样左右，主礼偏长辈向，副礼偏家庭共享型。",
+      "别强调花了多少钱，递礼时一句“想着第一次上门，带点心意”就够了。",
+      "如果当天还有祖辈或孩子，准备要更完整，但仍然避免堆满式送礼。",
+    ],
   };
-};
+}
 
-export const generateBattlePlan = (
-  input: IndividualInput,
-  result: IndividualResult,
-): BattlePlan => {
-  const style = resolveFamilyStyle(input.familyStyle);
-  const sections = battlePlanSections.map((section) =>
-    buildPersonalizedSection(section, style, result),
-  );
+function buildContentPack(input: CopilotInput, style: FamilyStyleOption, personaLabel: string) {
+  const firstRisk = input.primaryStressors[0] ?? "第一次见家长";
 
   return {
-    title: `给 ${input.userName || "你"} 的当天作战方案`,
-    summary: `${style.name} | ${input.stage} | 在场人：${input.attendees.join("、")}。重点是稳住${riskAxisLabels[result.weakestAxes[0] ?? "boundaries"]}，把表现做轻。`,
-    sections,
-    reminders: [
-      "不要急着证明自己，先接住场子。",
-      "涉及婚期、房车、城市等敏感题，先说双方在认真规划。",
-      "见后当天发一条简短感谢，别刷屏式复盘。",
+    shortVideoHooks: [
+      `第一次见${style.label}家庭，最容易翻车的不是不会说话`,
+      `${firstRisk}，到底怎么答才不显得你在硬撑`,
+      `你的见家长类型是「${personaLabel}」，最危险的三个瞬间是什么`,
     ],
+    socialPosts: [
+      `不是讨好长辈，而是稳住分寸：${style.label}家庭第一次见面操作清单`,
+      "饭后要不要抢着洗碗？很多人不是不努力，是用力方向错了",
+      "被问婚期、收入、房车时，最稳的回答结构只有三步",
+    ],
+    privateDomainOpen:
+      "我看了你的这次场景，先给你拆出最危险的 3 个瞬间，再按家庭风格给你一版当天作战卡和礼物组合。",
   };
-};
+}
 
-const socialTemplates = [
-  {
-    title: "第一次见家长最容易翻车的，不是不会说话",
-    hook: "而是太急着证明自己。",
-  },
-  {
-    title: "阿姨说“来就来还买什么”时，千万别这样接",
-    hook: "一句话就能看出你是自然还是用力过猛。",
-  },
-  {
-    title: "饭后要不要抢着洗碗？很多人输在这里",
-    hook: "不是不帮忙，而是帮到什么程度最稳。",
-  },
-];
+function buildKnowledgeRecommendations(input: CopilotInput) {
+  const selected = [...knowledgeCards];
+  if (input.primaryStressors.includes("怕礼数拿捏不准")) {
+    selected.unshift({
+      title: "先观察，再决定表现强度",
+      bullets: ["一开始别抢节奏", "先看谁主导场面", "先接住善意，再表达自己"],
+    });
+  }
+  return selected.slice(0, 3).map((card) => `${card.title}：${card.bullets.join("；")}`);
+}
 
-export const generateContentPack = (
-  input: IndividualInput,
-  result: IndividualResult,
-  battlePlan: BattlePlan,
-): GeneratedContentPack => {
+function buildSimulationPrompts(input: CopilotInput) {
+  return [
+    "模拟对方父母问：你们打算什么时候结婚？",
+    "模拟饭桌上长辈一直夹菜、你已经吃不下了，怎么接更稳？",
+    input.primaryStressors.includes("怕被问收入/房车")
+      ? "模拟被问收入、房车与未来规划，练习三步回答法。"
+      : "模拟第一次冷场后的接话，练习把话题拉回共同信息。",
+  ];
+}
+
+export function generateCopilotResponse(input: CopilotInput): CopilotResponse {
   const style = resolveFamilyStyle(input.familyStyle);
-
-  const socialPosts: SocialContentItem[] = socialTemplates.map((template, index) => ({
-    channel: index === 0 ? "short-video" : index === 1 ? "social-post" : "search-snippet",
-    title: template.title,
-    hook: template.hook,
-    outline: [
-      `场景设定：${style.name} / ${input.stage}`,
-      `高危点：${result.highRiskMoments[index] ?? result.highRiskMoments[0]}`,
-      `解决方式：${battlePlan.sections[index]?.items[0] ?? battlePlan.reminders[0]}`,
-    ],
-    cta: "点开测评，拿到你的当天作战方案。",
-  }));
+  const { score, level } = decideRiskLevel(input);
+  const personaLabel = inferPersona(input, level);
+  const topRisks = buildRiskItems(input, style);
+  const alignment = buildAlignment(input, style);
+  const giftPlan = buildGiftPlan(input, style);
 
   return {
-    messageToUser: `${input.userName || "你"}当前最需要的是：少解释，多观察；少逞强，多配合。`,
-    socialPosts,
-    crmSequence: [
-      `D0：发送「${battlePlan.title}」摘要 + 结果画像`,
-      "D1：推送高危问题回答脚本",
-      "D3：推送礼物建议与节奏提醒",
-      "D7：如果已见完，触发复盘与下一次往来建议",
-    ],
+    heroTitle: `这次见面先别拼表现，先按 ${style.label} 场景稳住节奏`,
+    heroSummary: `你当前属于「${personaLabel}」，这次的关键不是更努力，而是把礼数、边界和情侣协同压到同一条线上。`,
+    riskLevel: level,
+    riskScore: score,
+    personaLabel,
+    topRisks,
+    battlePlan: buildBattlePlan(input, style),
+    alignmentSummary: alignment.summary,
+    alignmentActions: alignment.actions,
+    giftPlan,
+    contentPack: buildContentPack(input, style, personaLabel),
+    knowledgeRecommendations: buildKnowledgeRecommendations(input),
+    simulationPrompts: buildSimulationPrompts(input),
   };
-};
-
-export const buildSystemSections = (): SystemSection[] => [
-  {
-    title: "超级入口",
-    description:
-      "用户只需回答少量问题，系统自动判断应该进入个人准备、情侣协同还是当天作战方案。",
-    bullets: [
-      "支持结构化输入与自由文本补充",
-      "自动识别时间紧迫度、家庭风格、敏感话题和协同风险",
-      "一套入口触发所有后续能力",
-    ],
-  },
-  {
-    title: "能力底座",
-    description: "把内容、规则、评分、建议和社媒自动化全部挂在同一底座上。",
-    bullets: systemCapabilities,
-  },
-  {
-    title: "运营原则",
-    description: "不压缩能力，只压缩用户前台的复杂度。",
-    bullets: operatingPrinciples,
-  },
-];
+}

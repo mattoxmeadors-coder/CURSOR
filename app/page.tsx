@@ -106,7 +106,7 @@ export default function Home() {
         </div>
         <div className="family-grid">
           {familyStyles.map((style) => (
-            <article key={style.key} className="family-card">
+            <article key={style.id} className="family-card">
               <h3>{style.label}</h3>
               <p>{style.description}</p>
             </article>

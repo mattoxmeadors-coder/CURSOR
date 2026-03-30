@@ -29,7 +29,7 @@ Page({
   },
 
   onShow() {
-    wx.setNavigationBarTitle({ title: '见家长' })
+    wx.setNavigationBarTitle({ title: '见家长不翻车' })
   },
 
   _loadDailyCard() {

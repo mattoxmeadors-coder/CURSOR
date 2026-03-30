@@ -88,9 +88,9 @@
         <view class="paywall-btn" bindtap="unlockAll">
           ¥4.9 继续学
         </view>
-        <view class="paywall-wecom" bindtap="goWecom">
-          不想付费？加顾问，她来挑重点告诉我 →
-        </view>
+        <button class="paywall-wecom hb-cs-btn" open-type="contact">
+          不想付费？找顾问挑重点告诉我 →
+        </button>
       </view>
 
     </view>

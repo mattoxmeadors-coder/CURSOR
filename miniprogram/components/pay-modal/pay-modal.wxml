@@ -28,7 +28,7 @@
 
     <!-- 差价升级（情侣通关基础版→完整版） -->
     <view wx:if="{{showDiffUpgrade}}" class="pay-diff-upgrade" bindtap="diffUpgrade">
-      <view class="diff-text">已购基础版？补差价 ¥10 升完整版</view>
+      <view class="diff-text">基础版免费，直接升完整版只需 ¥4.9</view>
     </view>
 
     <view class="btn-primary pay-confirm" bindtap="onPay">

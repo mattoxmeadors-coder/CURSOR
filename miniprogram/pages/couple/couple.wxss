@@ -299,6 +299,15 @@
   padding: 12rpx 0 8rpx;
 }
 
+.couple-cs-btn {
+  background: transparent !important;
+  border: none !important;
+  margin: 0 !important;
+  line-height: 1.6 !important;
+}
+
+.couple-cs-btn::after { border: none !important; }
+
 /* ─── 幕间过场 ─── */
 .scene-transition {
   height: 100vh;

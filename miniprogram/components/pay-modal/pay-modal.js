@@ -43,8 +43,7 @@ Component({
     },
 
     diffUpgrade() {
-      // 基础版→完整版差价升级
-      this.triggerEvent('pay', { key: 'coupleFull', price: '4.9', isDiffUpgrade: true })
+      this.triggerEvent('pay', { key: 'coupleFull', price: '4.9' })
     }
   }
 })

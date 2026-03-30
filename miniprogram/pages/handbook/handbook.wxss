@@ -272,6 +272,16 @@
   color: var(--color-text-secondary);
 }
 
+.hb-cs-btn {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  line-height: 1.6 !important;
+}
+
+.hb-cs-btn::after { border: none !important; }
+
 /* 悬浮解锁按钮 */
 .float-unlock {
   position: fixed;

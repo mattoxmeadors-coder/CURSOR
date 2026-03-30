@@ -465,6 +465,16 @@
   font-size: 28rpx;
 }
 
+.hehun-cs-btn {
+  background: transparent !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  text-align: left !important;
+  line-height: inherit !important;
+}
+.hehun-cs-btn::after { border: none !important; }
+
 /* 顾问轻量入口 */
 .hehun-cs-hint {
   display: flex;

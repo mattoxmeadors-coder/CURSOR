@@ -31,8 +31,8 @@
         </view>
       </view>
 
-      <!-- 顾问丁入（常显示，不依赖翻牌） -->
-      <view class="cs-card-inline" bindtap="openCustomerService">
+      <!-- 顾问入口（常显示） — open-type=contact 正确接入微信客服 -->
+      <button class="cs-card-inline cs-btn-reset" open-type="contact" bindcontact="onContactTap">
         <view class="cs-card-left">
           <view class="cs-avatar">顾</view>
           <view class="cs-text">
@@ -41,7 +41,7 @@
           </view>
         </view>
         <view class="cs-arrow">›</view>
-      </view>
+      </button>
     </view>
 
     <!-- 屏2：三大盲区翻牌 -->
@@ -55,13 +55,13 @@
         <text class="no-blindspot-icon">🎯</text>
         <text class="no-blindspot-text">没有发现明显盲区，准备相当充分</text>
         <!-- 无盲区时也展示企微 -->
-        <view class="cs-gift-card" bindtap="openCustomerService">
+        <button class="cs-gift-card cs-btn-reset" open-type="contact" bindcontact="onContactTap">
           <text class="cs-gift-icon">🎁</text>
           <view class="cs-gift-text">
             <view class="cs-gift-title">你的备考质量超过80%的人</view>
             <view class="cs-gift-sub">顾问为你准备了一套礼物清单，点这里领取</view>
           </view>
-        </view>
+        </button>
       </view>
 
       <view wx:for="{{blindSpots}}" wx:key="index"
@@ -83,23 +83,25 @@
         <view class="wecom-hook-inner">
           <view class="wecom-title">顾问有一句话想告诉你</view>
           <view class="wecom-body">你的盲区是见家长当天最容易触发的那种——我给你准备了3件不踩雷的礼物方案，还有一句你最需要听的话。</view>
-          <view class="wecom-btn-primary" bindtap="openCustomerService">
+          <button class="wecom-btn-primary cs-btn-reset" open-type="contact" bindcontact="onContactTap">
             <text>点这里，一对一告诉我</text>
             <text class="wecom-btn-sub">打开后发「盲区」即可</text>
-          </view>
+          </button>
         </view>
       </view>
     </view>
 
-    <!-- 屏3：礼品推荐 + 企微 -->
+    <!-- 屏3：礼品推荐 + 客服 -->
     <view class="screen screen-gift">
       <view class="gift-card">
         <view class="gift-header">
-          <text class="gift-region">{{regionLabel}}的家庭</text>
-          <text class="gift-question">带什么礼物最不会踩雷？</text>
+          <text class="gift-region">{{giftTitle}}</text>
+          <text class="gift-question">{{giftQuestion}}</text>
         </view>
-        <view class="gift-body">顾问会根据你选的地区和家庭类型，推荐3件不踩雷的礼物——含理由和预算范围。</view>
-        <view class="gift-btn" bindtap="openCustomerService">看顾问给我选 →</view>
+        <view class="gift-body">{{giftBody}}</view>
+        <button class="gift-btn-contact" open-type="contact" bindcontact="onContactTap">
+          找顾问帮我选 →
+        </button>
       </view>
     </view>
 

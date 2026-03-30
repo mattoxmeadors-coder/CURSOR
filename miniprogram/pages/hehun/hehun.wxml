@@ -156,14 +156,14 @@
         <view class="last-word-text">{{report.lastWord}}</view>
       </view>
 
-      <!-- 顾问轻量入口 -->
-      <view class="hehun-cs-hint" bindtap="openCS">
+      <!-- 顾问轻量入口 — open-type=contact -->
+      <button class="hehun-cs-hint hehun-cs-btn" open-type="contact">
         <text class="hehun-cs-icon">💬</text>
         <view class="hehun-cs-text">
-          <text class="hehun-cs-title">顾问帮你把报告变成礼物方案</text>
-          <text class="hehun-cs-sub">发送报告截图 + 家庭信息，推荐专属礼单</text>
+          <text class="hehun-cs-title">找顾问把报告变成礼物方案</text>
+          <text class="hehun-cs-sub">把今天要去的家庭情况告诉顾问，推荐具体礼单</text>
         </view>
-      </view>
+      </button>
 
       <!-- 设置提醒 -->
       <view class="reminder-section">

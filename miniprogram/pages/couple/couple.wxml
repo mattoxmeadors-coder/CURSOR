@@ -82,10 +82,10 @@
     <view class="waiting-footer">TA一进来，游戏立刻开始</view>
     <view class="share-btn" bindtap="shareInvite">再次分享邀请 →</view>
 
-    <!-- 轻量顾问入口 -->
-    <view class="waiting-cs" bindtap="openCS">
-      <text>边等TA，顾问帮你看礼物单 →</text>
-    </view>
+    <!-- 轻量顾问入口 — open-type=contact -->
+    <button class="waiting-cs couple-cs-btn" open-type="contact">
+      边等TA，找顾问帮你看礼物单 →
+    </button>
   </view>
 
   <!-- ═══ 幕间过场（场景切换时显示） ═══ -->

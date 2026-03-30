@@ -11,6 +11,9 @@ Page({
     flippedCards: [],
     flippedCount: 0,
     regionLabel: '',
+    giftTitle: '',
+    giftQuestion: '',
+    giftBody: '',
     showPayModal: false,
     payProduct: null
   },
@@ -25,7 +28,24 @@ Page({
     const profile = wx.getStorageSync('userProfile') || {}
     const color = scoreColor(result.score)
     const label = scoreLabel(result.score)
-    const region = REGION_MAP[profile.region] || '对方父母'
+    const region = REGION_MAP[profile.region]
+    const gender = result.gender
+
+    // 礼品屏动态文案：有地区用地区，没有地区用性别给通用建议
+    let giftTitle, giftQuestion, giftBody
+    if (region) {
+      giftTitle = region + '的家庭'
+      giftQuestion = '带什么礼物最不会踩雷？'
+      giftBody = '顾问根据你的地区和家庭类型，推荐3件不踩雷的礼物，含理由和预算范围。'
+    } else if (gender === 'male') {
+      giftTitle = '第一次去女方家'
+      giftQuestion = '礼物怎么选才不显得没用心？'
+      giftBody = '父亲和母亲的礼物要分开选，搭配逻辑、预算区间、哪些绝对别带——告诉顾问你的具体情况，他来帮你定方案。'
+    } else {
+      giftTitle = '第一次去男方家'
+      giftQuestion = '带什么，她妈妈才真的觉得你用心了？'
+      giftBody = '礼物的上限是4样，其中必须有一样单独为他妈妈选的。告诉顾问你的情况，推荐具体方案。'
+    }
 
     this._pendingResult = { score: result.score, color }
 
@@ -33,10 +53,13 @@ Page({
       score: result.score,
       scoreColor: color,
       scoreLabel: label,
-      gender: result.gender,
+      gender,
       blindSpots: result.blindSpots || [],
       flippedCards: new Array((result.blindSpots || []).length).fill(false),
-      regionLabel: region
+      regionLabel: region || '',
+      giftTitle,
+      giftQuestion,
+      giftBody
     })
   },
 
@@ -157,6 +180,10 @@ Page({
         wx.showToast({ title: '已复制，打开对话后粘贴发送', icon: 'success' })
       }
     })
+  },
+
+  onContactTap() {
+    // open-type="contact" 触发后的回调，可做埋点
   },
 
   goWecom() {

@@ -48,42 +48,33 @@ Page({
     })
   },
 
-  // 用户点击某个选项（临时高亮，未确认）
+  // 用户点击选项 → 立即记录答案 + 立即显示解析（去掉中间确认步）
   selectOption(e) {
     if (this.data.showAnalysis) return
-    // data-idx 从 WXML 传来是字符串，必须转 Number，否则 === 比较永远失败
     const idx = Number(e.currentTarget.dataset.idx)
-    this.setData({ selectedIdx: idx })
-  },
-
-  // 确认答案
-  confirmAnswer() {
-    const { currentIndex, questions, selectedIdx, answers, zeroStreak, breakdownShown } = this.data
-    if (selectedIdx === null) {
-      wx.showToast({ title: '请先选择一个选项', icon: 'none' })
-      return
-    }
-
+    const { currentIndex, questions, answers, zeroStreak, breakdownShown } = this.data
     const currentQ = questions[currentIndex]
-    const selectedOpt = currentQ.options[selectedIdx]
-    const newAnswers = { ...answers, [currentQ.id]: selectedIdx }
-
-    // 统计情绪引爆点：连续0分
-    let newStreak = selectedOpt.score === 0 ? zeroStreak + 1 : 0
+    const selectedOpt = currentQ.options[idx]
+    const newAnswers = { ...answers, [currentQ.id]: idx }
+    const newStreak = selectedOpt.score === 0 ? zeroStreak + 1 : 0
 
     this.setData({
+      selectedIdx: idx,
       answers: newAnswers,
       showAnalysis: true,
       zeroStreak: newStreak
     })
 
-    // 检查是否触发情绪引爆（第12题之后，连续3个0分，只触发一次）
+    // 情绪引爆：第12题后连续3个0分，只触发一次
     if (newStreak >= 3 && !breakdownShown && currentIndex >= 11) {
       setTimeout(() => {
         this.setData({ showBreakdown: true, showAnalysis: false, breakdownShown: true })
-      }, 1200)
+      }, 1400)
     }
   },
+
+  // 已废弃：保留方法避免 WXML 残留绑定报错
+  confirmAnswer() {},
 
   // 下一题
   nextQuestion() {

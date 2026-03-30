@@ -223,9 +223,15 @@ Page({
   confirmSignals() {
     if (!this.data.signal1) {
       this.generateSignals()
+      return
     }
-    this.setData({ signalConfirmed: true })
-    setTimeout(() => this._nextGameQuestion(this.data.gameAnswers), 800)
+    // 记录暗号题答案后再跳下一题，避免传入空对象
+    const { gameQuestions, gameIndex, gameAnswers } = this.data
+    const q = gameQuestions[gameIndex]
+    const signalAnswer = `救我:${this.data.signal1.signal} / 走了:${this.data.signal2.signal}`
+    const newAnswers = { ...gameAnswers, [q.id]: signalAnswer }
+    this.setData({ signalConfirmed: true, gameAnswers: newAnswers })
+    setTimeout(() => this._nextGameQuestion(newAnswers), 600)
   },
 
   confirmGameAnswer() {

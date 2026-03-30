@@ -110,19 +110,15 @@
 
   <!-- 底部操作栏 -->
   <view class="quiz-footer" wx:if="{{!showKnowledgeCard && !showBreakdown}}">
-    <!-- 开放题：始终显示提交按钮，未输入时半透明 -->
+    <!-- 开放题：始终显示，未输入时半透明 -->
     <view wx:if="{{currentQ && currentQ.type === 'open'}}"
       class="btn-primary {{openAnswer.length === 0 ? 'btn-dim' : ''}}"
       bindtap="submitOpen">
       {{openAnswer.length === 0 ? '写下你的第一句话 →' : '提交并查看结果'}}
     </view>
-    <!-- 单选题已显示解析：下一题/查看结果 -->
+    <!-- 选了选项后立刻显示此按钮（解析已同步展示） -->
     <view wx:elif="{{showAnalysis}}" class="btn-primary" bindtap="nextQuestion">
       {{currentIndex + 1 < totalCount - 1 ? '下一题 →' : '查看我的结果 →'}}
-    </view>
-    <!-- 单选题已选未确认 -->
-    <view wx:elif="{{selectedIdx !== null}}" class="btn-primary" bindtap="confirmAnswer">
-      确认这个答案
     </view>
   </view>
 

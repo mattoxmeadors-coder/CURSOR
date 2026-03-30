@@ -1,5 +1,5 @@
-const { HANDBOOK_CARDS } = require('../../utils/handbook')
 const { genId } = require('../../utils/util')
+// HANDBOOK_CARDS 在 onLoad 后懒加载，避免冷启动超时
 
 // 情侣通关题库（从个人题库精选+专属）
 const COUPLE_QUESTIONS_BASIC = [
@@ -68,8 +68,8 @@ Page({
     pageState: 'landing', // landing / waiting / playing / waitingResult / elevator
     selectedVersion: 'full',
 
-    // 暖身内容
-    warmupCards: HANDBOOK_CARDS.slice(0, 5),
+    // 暖身内容（onLoad后填入）
+    warmupCards: [],
 
     // 游戏状态
     gameQuestions: [],
@@ -101,6 +101,11 @@ Page({
     if (options.showBuy) {
       this._showBuyModal()
     }
+    // 懒加载 handbook 暖身数据
+    wx.nextTick(() => {
+      const { HANDBOOK_CARDS } = require('../../utils/handbook')
+      this.setData({ warmupCards: HANDBOOK_CARDS.slice(0, 5) })
+    })
   },
 
   selectVersion(e) {

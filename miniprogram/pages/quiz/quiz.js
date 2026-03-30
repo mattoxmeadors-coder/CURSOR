@@ -1,5 +1,4 @@
-const { MALE_QUESTIONS, FEMALE_QUESTIONS, KNOWLEDGE_CARDS, calcScore } = require('../../utils/questions')
-
+// questions.js (45KB) 在 onLoad 时按需加载，减少冷启动包体积
 Page({
   data: {
     questions: [],
@@ -33,6 +32,11 @@ Page({
     const app = getApp()
     const profile = app.globalData.profile || wx.getStorageSync('userProfile') || {}
     const gender = profile.gender || 'male'
+
+    // 在 onLoad 时 require，此时页面已切换，不影响首页启动
+    const { MALE_QUESTIONS, FEMALE_QUESTIONS, KNOWLEDGE_CARDS, calcScore } = require('../../utils/questions')
+    this._KNOWLEDGE_CARDS = KNOWLEDGE_CARDS
+    this._calcScore = calcScore
     const questions = gender === 'male' ? MALE_QUESTIONS : FEMALE_QUESTIONS
 
     this.setData({
@@ -97,7 +101,7 @@ Page({
     const prevQ = questions[currentIndex]
     if (prevQ.knowledgeCardAfter !== null) {
       const cardKey = `${this.data.gender === 'male' ? 'male' : 'female'}_${prevQ.knowledgeCardAfter}`
-      const kcard = KNOWLEDGE_CARDS[cardKey]
+      const kcard = this._KNOWLEDGE_CARDS[cardKey]
       if (kcard) {
         this.setData({
           showKnowledgeCard: true,
@@ -153,7 +157,7 @@ Page({
   // 完成测评
   _finishQuiz() {
     const { answers, gender } = this.data
-    const result = calcScore(answers, gender)
+    const result = this._calcScore(answers, gender)
 
     // 保存结果
     const resultData = {

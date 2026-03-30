@@ -1,28 +1,24 @@
-const { HANDBOOK_CARDS } = require('../../utils/handbook')
-
+// 不在模块级同步 require 大型数据文件，改在 onLoad 后懒加载
 Page({
   data: {
-    // 性别选择遮罩
     showGenderPicker: false,
-
-    // 产品卡
     products: [
       { id: 'handbook', icon: '📖', name: '通关手册',     teaser: '100个你不知道的细节' },
       { id: 'couple',   icon: '💑', name: '情侣通关',     teaser: '找出你们真正没对上的地方' },
       { id: 'hehun',    icon: '✨', name: '生辰婚配分析', teaser: '见家长饭桌最自然的话题' },
       { id: 'full',     icon: '🎯', name: '全套备考',     teaser: '一次全解锁，最省钱' }
     ],
-
     dailyCard: {},
     dailyIndex: 1,
-
-    // 价格弹层
     showPriceHint: false,
     priceHintProduct: {}
   },
 
   onLoad() {
-    setTimeout(() => this._loadDailyCard(), 50)
+    // 首屏渲染完成后再加载大型数据
+    wx.nextTick(() => {
+      this._loadDailyCard()
+    })
   },
 
   onShow() {
@@ -30,6 +26,8 @@ Page({
   },
 
   _loadDailyCard() {
+    // 懒加载 handbook 数据（63KB），不阻塞启动
+    const { HANDBOOK_CARDS } = require('../../utils/handbook')
     const dayOfYear = Math.floor(
       (Date.now() - new Date(new Date().getFullYear(), 0, 0)) / 86400000
     )
@@ -37,15 +35,12 @@ Page({
     this.setData({ dailyCard: HANDBOOK_CARDS[idx], dailyIndex: idx + 1 })
   },
 
-  // ─── 开始测评 ───
   startQuiz() {
     const saved = wx.getStorageSync('userProfile')
     if (saved && saved.gender) {
-      // 已有性别，直接进
       getApp().globalData.profile = saved
       wx.navigateTo({ url: '/pages/quiz/quiz' })
     } else {
-      // 弹出性别选择
       this.setData({ showGenderPicker: true })
     }
   },
@@ -54,7 +49,6 @@ Page({
     this.setData({ showGenderPicker: false })
   },
 
-  // 选完性别，立刻进测评
   pickGender(e) {
     const gender = e.currentTarget.dataset.val
     const profile = { gender, region: '', occasion: '', people: ['parents_only'] }
@@ -64,7 +58,6 @@ Page({
     wx.navigateTo({ url: '/pages/quiz/quiz' })
   },
 
-  // ─── 产品卡 ───
   onProductTap(e) {
     const id = e.currentTarget.dataset.id
     const priceMap = {

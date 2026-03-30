@@ -1,5 +1,4 @@
-const { scoreColor } = require('../../utils/util')
-const { formatDate } = require('../../utils/util')
+const { scoreColor, formatDate } = require('../../utils/util')
 
 Page({
   data: {

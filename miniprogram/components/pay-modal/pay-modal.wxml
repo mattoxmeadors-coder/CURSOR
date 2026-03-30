@@ -21,7 +21,7 @@
     <!-- 全套备考升级提示 -->
     <view wx:if="{{showUpgrade}}" class="pay-upgrade" bindtap="buyFullPackage">
       <view class="upgrade-text">
-        🎯 推荐：全套备考 ¥29.9 = 通关手册+生辰婚配+情侣完整版，省¥10
+        🎯 全套备考 ¥12.9 = 手册+婚配+情侣完整版，分开买¥16.7，省¥3.8
       </view>
       <view class="upgrade-cta">升级全套 →</view>
     </view>

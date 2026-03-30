@@ -123,6 +123,15 @@
   margin-top: 8rpx;
 }
 
+.free-price { color: #5ABF8A; }
+
+.couple-price-hint {
+  text-align: center;
+  font-size: 22rpx;
+  color: var(--color-text-tertiary);
+  margin-top: 20rpx;
+}
+
 .mt40 { margin-top: 40rpx; }
 .mt48 { margin-top: 48rpx; }
 

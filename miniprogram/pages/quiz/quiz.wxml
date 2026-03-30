@@ -42,7 +42,7 @@
       <view class="breakdown-btns">
         <view class="btn-primary breakdown-buy" bindtap="goBuyCouple">
           <text>现在找出来</text>
-          <text class="breakdown-price">¥9.9</text>
+          <text class="breakdown-price">免费发起</text>
         </view>
         <view class="btn-ghost" bindtap="dismissBreakdown">先做完个人测评</view>
       </view>

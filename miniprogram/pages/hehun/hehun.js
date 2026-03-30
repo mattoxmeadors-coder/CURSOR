@@ -44,8 +44,33 @@ Page({
     this.setData({ taBirthday: e.detail.value })
   },
 
+  // 简版免费报告
+  generateFreeReport() {
+    const { myBirthday, taBirthday } = this.data
+    if (!myBirthday || !taBirthday) {
+      wx.showToast({ title: '请先填写双方生辰', icon: 'none' }); return
+    }
+    const score = 60 + Math.floor(Math.random() * 35)
+    const summaries = [
+      '五行相生，感情基础稳固，相处有天然默契',
+      '五行互补，各有所长，用心经营会越来越好',
+      '个性互补，一动一静，是很好的组合',
+      '感情线稳，有一起走远的基础'
+    ]
+    const summary = summaries[Math.floor(Math.random() * summaries.length)]
+    wx.showModal({
+      title: `婚配指数：${score}分`,
+      content: `${summary}\n\n解锁完整报告（¥6.9）可查看：\n四柱八字 · 五行分析 · 四维契合度\n三大优势 · 两个挑战 · 饭桌话题锦囊`,
+      confirmText: '解锁完整版',
+      cancelText: '暂不',
+      success: res => {
+        if (res.confirm) this._showBuyModal('hehun')
+      }
+    })
+  },
+
   generateReport() {
-    const { myBirthday, taBirthday, myGender, taGender } = this.data
+    const { myBirthday, taBirthday } = this.data
     if (!myBirthday || !taBirthday) {
       wx.showToast({ title: '请填写双方生辰', icon: 'none' })
       return
@@ -165,12 +190,12 @@ TA：金水较旺，性格沉稳内敛，执行力强。
       showPayModal: true,
       payProduct: {
         key: key === 'fullPackage' ? 'fullPackage' : 'hehun',
-        name: key === 'fullPackage' ? '全套备考' : '生辰婚配分析',
+        name: key === 'fullPackage' ? '全套备考' : '生辰婚配分析·完整版',
         desc: key === 'fullPackage'
-          ? '含情侣通关完整版+生辰婚配+通关手册，分开买¥39.7，全套¥29.9'
-          : '基于传统民俗文化生成婚配分析，9个维度完整报告',
-        price: key === 'fullPackage' ? '29.9' : '9.9',
-        originalPrice: key === 'fullPackage' ? '39.7' : null
+          ? '情侣完整版+完整手册+完整婚配报告\n分开买¥16.7，全套¥12.9'
+          : '9个维度完整报告+饭桌话题锦囊+当天提醒',
+        price: key === 'fullPackage' ? '12.9' : '6.9',
+        originalPrice: key === 'fullPackage' ? '16.7' : null
       }
     })
   },

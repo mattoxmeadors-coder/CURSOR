@@ -120,26 +120,13 @@ Page({
           key: 'coupleFull',
           name: '情侣通关·完整版',
           desc: '42题双人异步通关，全程电梯揭晓体验',
-          price: '19.9',
+          price: '4.9',
           originalPrice: null
         }
       })
       return
     }
-
-    if (version === 'basic' && !app.isPurchased('coupleBasic') && !app.isPurchased('coupleFull') && !app.isPurchased('fullPackage')) {
-      this.setData({
-        showPayModal: true,
-        payProduct: {
-          key: 'coupleBasic',
-          name: '情侣通关·基础版',
-          desc: '25题双人异步通关',
-          price: '9.9',
-          originalPrice: null
-        }
-      })
-      return
-    }
+    // 基础版免费，直接进入
 
     // 付款完成，创建会话
     const sessionId = genId()

@@ -68,8 +68,8 @@
         <!-- 锁定状态展开 -->
         <view wx:if="{{expandedId === item.id && !item.isFree && !isUnlocked}}" class="hb-locked-body animate-fade-up">
           <view class="hb-locked-preview">{{item.content.substr(0, 20)}}……</view>
-          <view class="hb-locked-tip">解锁全部80条，一次性 ¥9.9</view>
-          <view class="btn-primary hb-unlock-btn" bindtap="unlockAll">¥9.9 解锁全部</view>
+          <view class="hb-locked-tip">解锁全部80条，一次性 ¥4.9</view>
+          <view class="btn-primary hb-unlock-btn" bindtap="unlockAll">¥4.9 解锁全部</view>
         </view>
 
       </view>
@@ -86,7 +86,7 @@
           · 地域专题（山东/东北/潮汕各5题）
         </view>
         <view class="paywall-btn" bindtap="unlockAll">
-          ¥9.9 继续学
+          ¥4.9 继续学
         </view>
         <view class="paywall-wecom" bindtap="goWecom">
           加顾问，她来告诉我 →
@@ -100,7 +100,7 @@
   <!-- 悬浮解锁按钮（浏览付费内容时出现） -->
   <view wx:if="{{!isUnlocked}}" class="float-unlock" bindtap="unlockAll">
     <text>解锁剩余80条</text>
-    <text class="float-price">¥9.9</text>
+    <text class="float-price">¥4.9</text>
   </view>
 
   <!-- 付费弹窗 -->

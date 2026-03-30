@@ -152,9 +152,24 @@
   gap: 20rpx;
 }
 
-.price-notice {
-  text-align: center;
-  font-size: 26rpx;
+.free-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 32rpx;
+  background: rgba(90,191,138,0.06);
+  border: 1rpx solid rgba(90,191,138,0.25);
+  border-radius: 24rpx;
+}
+
+.free-entry-label {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #5ABF8A;
+}
+
+.free-entry-sub {
+  font-size: 24rpx;
   color: var(--color-text-secondary);
 }
 

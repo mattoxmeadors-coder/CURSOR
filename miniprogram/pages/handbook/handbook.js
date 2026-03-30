@@ -70,8 +70,8 @@ Page({
       payProduct: {
         key: 'handbook',
         name: '见家长通关手册',
-        desc: '100道知识卡，前20条免费，全部解锁',
-        price: '9.9',
+        desc: '100道知识卡，前20条免费，¥4.9解锁全部80条',
+        price: '4.9',
         originalPrice: null
       }
     })

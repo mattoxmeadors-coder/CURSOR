@@ -18,15 +18,15 @@ App({
   },
 
   onLaunch() {
-    // 初始化云开发
-    if (wx.cloud) {
-      wx.cloud.init({
-        env: this.globalData.ENV_ID,
-        traceUser: true
-      })
-    }
+    // 先做本地数据，云开发延迟到真正需要时再初始化（加快首屏速度）
     this._loadPurchasedStatus()
-    this._checkUpdate()
+    // 非阻塞：下一个 tick 再初始化云开发
+    setTimeout(() => {
+      if (wx.cloud) {
+        wx.cloud.init({ env: this.globalData.ENV_ID, traceUser: false })
+      }
+      this._checkUpdate()
+    }, 0)
   },
 
   _loadPurchasedStatus() {

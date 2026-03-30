@@ -31,14 +31,14 @@
           bindtap="selectVersion" data-v="basic">
           <view class="price-opt-name">基础版</view>
           <view class="price-opt-count">25题</view>
-          <view class="price-opt-price">¥9.9</view>
-        </view>
-        <view class="couple-price-option {{selectedVersion === 'full' ? 'selected' : ''}}"
-          bindtap="selectVersion" data-v="full">
-          <view class="price-opt-badge">推荐</view>
-          <view class="price-opt-name">完整版</view>
-          <view class="price-opt-count">42题</view>
-          <view class="price-opt-price">¥19.9</view>
+        <view class="price-opt-price free-price">免费</view>
+      </view>
+      <view class="couple-price-option {{selectedVersion === 'full' ? 'selected' : ''}}"
+        bindtap="selectVersion" data-v="full">
+        <view class="price-opt-badge">推荐</view>
+        <view class="price-opt-name">完整版</view>
+        <view class="price-opt-count">42题</view>
+        <view class="price-opt-price">¥4.9</view>
         </view>
       </view>
 
@@ -46,6 +46,7 @@
         发起通关，邀请TA →
       </view>
       <view class="btn-ghost" bindtap="joinCouple">我收到了邀请，加入</view>
+      <view class="couple-price-hint">基础版免费发起 · 完整版 ¥4.9</view>
     </view>
   </view>
 

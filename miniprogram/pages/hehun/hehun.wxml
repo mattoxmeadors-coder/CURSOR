@@ -61,8 +61,11 @@
 
       <!-- 提交 -->
       <view class="submit-area">
-        <view class="price-notice">¥9.9 生成完整报告</view>
-        <view class="btn-primary" bindtap="generateReport">生成婚配分析</view>
+        <view class="free-entry" bindtap="generateFreeReport">
+          <text class="free-entry-label">简版免费看</text>
+          <text class="free-entry-sub">婚配指数 + 一句话概述</text>
+        </view>
+        <view class="btn-primary" bindtap="generateReport">¥6.9 生成完整报告（9个维度）</view>
         <view class="disclaimer">本报告基于传统民俗文化，仅供参考</view>
       </view>
     </view>

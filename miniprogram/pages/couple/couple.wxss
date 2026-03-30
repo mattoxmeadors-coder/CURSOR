@@ -1,282 +1,365 @@
-/* 情侣通关样式 */
+/* 情侣通关 · 剧本杀版样式 */
 .couple-page {
   min-height: 100vh;
   background: var(--color-bg);
-  padding: calc(40rpx + env(safe-area-inset-top)) 40rpx calc(40rpx + env(safe-area-inset-bottom));
 }
 
-/* Landing */
+/* ─── 落地页 ─── */
 .landing {
-  display: flex;
-  flex-direction: column;
-  min-height: calc(100vh - 120rpx);
+  padding: calc(64rpx + env(safe-area-inset-top)) 40rpx calc(40rpx + env(safe-area-inset-bottom));
+  position: relative;
+  overflow: hidden;
 }
 
-.landing-hero {
-  text-align: center;
-  padding: 60rpx 0 48rpx;
+.landing-bg-text {
+  position: absolute;
+  top: 60rpx;
+  right: -20rpx;
+  font-size: 160rpx;
+  font-weight: 900;
+  color: rgba(201,169,110,0.04);
+  letter-spacing: -8rpx;
+  user-select: none;
+  pointer-events: none;
 }
 
-.landing-badge {
-  font-size: 96rpx;
-  margin-bottom: 24rpx;
+.landing-eyebrow {
+  font-size: 22rpx;
+  color: var(--color-gold);
+  letter-spacing: 4rpx;
+  margin-bottom: 16rpx;
 }
 
 .landing-title {
   font-size: 56rpx;
   font-weight: 800;
   color: var(--color-text-primary);
+  line-height: 1.2;
   margin-bottom: 20rpx;
 }
 
-.landing-subtitle {
-  font-size: 28rpx;
+.landing-sub {
+  font-size: 26rpx;
   color: var(--color-text-secondary);
   line-height: 1.8;
   white-space: pre-line;
+  margin-bottom: 48rpx;
 }
 
-.landing-features {
-  display: flex;
-  flex-direction: column;
-  gap: 20rpx;
-  margin: 40rpx 0;
-}
-
-.feature-item {
+/* 场景预览 */
+.scene-preview {
   display: flex;
   align-items: center;
-  gap: 20rpx;
-  padding: 24rpx 32rpx;
+  gap: 8rpx;
+  margin-bottom: 48rpx;
+  overflow-x: auto;
+  padding-bottom: 8rpx;
+}
+
+.scene-item {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
   background: var(--color-surface);
-  border-radius: var(--color-radius-md);
+  border: 1rpx solid var(--color-border);
+  border-radius: 20rpx;
+  padding: 20rpx 16rpx;
+  min-width: 100rpx;
 }
 
-.feature-icon {
-  font-size: 40rpx;
+.scene-item.active {
+  background: var(--color-gold-dim);
+  border-color: rgba(201,169,110,0.4);
 }
 
-.feature-text {
-  font-size: 28rpx;
-  color: var(--color-text-primary);
-}
-
-.landing-actions {
-  margin-top: auto;
-  padding-top: 40rpx;
-}
+.scene-num { font-size: 20rpx; color: var(--color-gold); font-weight: 700; }
+.scene-name { font-size: 20rpx; color: var(--color-text-primary); font-weight: 500; }
+.scene-dot  { font-size: 18rpx; color: var(--color-text-tertiary); }
+.scene-arrow { font-size: 24rpx; color: var(--color-text-tertiary); flex-shrink: 0; }
 
 /* 版本选择 */
-.couple-price-row {
-  display: flex;
-  gap: 20rpx;
-  margin-bottom: 32rpx;
-}
+.version-row { display: flex; gap: 20rpx; margin-bottom: 32rpx; }
 
-.couple-price-option {
+.version-card {
   flex: 1;
   background: var(--color-surface);
   border: 2rpx solid var(--color-border);
-  border-radius: var(--color-radius-lg);
+  border-radius: 28rpx;
   padding: 32rpx 24rpx;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 8rpx;
+  gap: 10rpx;
   position: relative;
   transition: all 0.2s;
 }
 
-.couple-price-option.selected {
+.version-card.selected {
   border-color: var(--color-gold);
   background: var(--color-gold-dim);
 }
 
-.price-opt-badge {
-  position: absolute;
-  top: -16rpx;
-  left: 50%;
-  transform: translateX(-50%);
-  background: var(--color-gold);
-  color: #0D0D0D;
+.full-card { background: linear-gradient(135deg, #1A1610, #201A0E); }
+.full-card.selected { border-color: var(--color-gold); }
+
+.version-tag {
+  display: inline-block;
   font-size: 18rpx;
   font-weight: 700;
-  padding: 4rpx 16rpx;
-  border-radius: 20rpx;
+  padding: 3rpx 14rpx;
+  border-radius: 16rpx;
+  width: fit-content;
 }
 
-.price-opt-name {
-  font-size: 28rpx;
-  font-weight: 600;
-  color: var(--color-text-primary);
+.version-tag.free { background: rgba(90,191,138,0.15); color: #5ABF8A; }
+.version-tag.hot  { background: rgba(201,169,110,0.2); color: var(--color-gold); }
+
+.version-name  { font-size: 28rpx; font-weight: 600; color: var(--color-text-primary); }
+.version-count { font-size: 22rpx; color: var(--color-text-secondary); }
+.version-price { font-size: 32rpx; font-weight: 700; color: var(--color-gold); margin-top: 8rpx; }
+
+/* 开始按钮 */
+.start-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #C9A96E, #E8C98A);
+  border-radius: 48rpx;
+  padding: 28rpx 0 24rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 8rpx 32rpx rgba(201,169,110,0.35);
 }
 
-.price-opt-count {
-  font-size: 24rpx;
-  color: var(--color-text-secondary);
-}
+.start-btn:active { opacity: 0.85; transform: scale(0.98); }
 
-.price-opt-price {
-  font-size: 36rpx;
-  font-weight: 700;
-  color: var(--color-gold);
-  margin-top: 8rpx;
-}
+.start-btn-text { font-size: 34rpx; font-weight: 700; color: #0D0D0D; }
+.start-btn-sub  { font-size: 22rpx; color: rgba(0,0,0,0.5); }
 
-.free-price { color: #5ABF8A; }
-
-.couple-price-hint {
+.join-btn {
   text-align: center;
-  font-size: 22rpx;
-  color: var(--color-text-tertiary);
-  margin-top: 20rpx;
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  padding: 16rpx;
 }
 
-.mt40 { margin-top: 40rpx; }
-.mt48 { margin-top: 48rpx; }
-
-/* 等待状态 */
+/* ─── 等待 ─── */
 .waiting {
+  padding: calc(80rpx + env(safe-area-inset-top)) 48rpx 80rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding-top: 60rpx;
 }
 
-.waiting-icon {
-  font-size: 80rpx;
+@keyframes pulse-ring {
+  0%   { transform: scale(1); opacity: 0.8; }
+  70%  { transform: scale(1.3); opacity: 0; }
+  100% { transform: scale(1.3); opacity: 0; }
+}
+
+.waiting-pulse {
+  width: 80rpx; height: 80rpx;
+  border-radius: 50%;
+  background: var(--color-gold);
   margin-bottom: 32rpx;
+  animation: pulse-ring 1.8s ease-out infinite;
 }
 
-.waiting-title {
-  font-size: 44rpx;
-  font-weight: 700;
-  color: var(--color-text-primary);
-  margin-bottom: 16rpx;
-}
+.waiting-title { font-size: 44rpx; font-weight: 700; color: var(--color-text-primary); margin-bottom: 12rpx; }
+.waiting-sub   { font-size: 26rpx; color: var(--color-text-secondary); white-space: pre-line; line-height: 1.7; margin-bottom: 40rpx; }
 
-.waiting-subtitle {
-  font-size: 28rpx;
-  color: var(--color-text-secondary);
-  margin-bottom: 48rpx;
-}
-
-.waiting-warmup {
-  width: 100%;
-  background: var(--color-surface);
-  border-radius: var(--color-radius-lg);
-  padding: 40rpx;
-  margin-bottom: 32rpx;
-}
-
-.warmup-title {
-  font-size: 26rpx;
-  color: var(--color-gold);
-  margin-bottom: 24rpx;
-  font-weight: 500;
-}
+.warmup-list { width: 100%; display: flex; flex-direction: column; gap: 16rpx; margin-bottom: 40rpx; }
 
 .warmup-card {
   display: flex;
   align-items: flex-start;
   gap: 20rpx;
-  margin-bottom: 16rpx;
+  background: var(--color-surface);
+  border-radius: 20rpx;
+  padding: 24rpx;
+  text-align: left;
 }
 
 .warmup-num {
-  width: 36rpx;
-  height: 36rpx;
+  width: 36rpx; height: 36rpx;
   border-radius: 50%;
   background: var(--color-gold-dim);
   color: var(--color-gold);
   font-size: 20rpx;
-  font-weight: 600;
+  font-weight: 700;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 
-.warmup-text {
+.warmup-title { font-size: 26rpx; color: var(--color-text-primary); margin-bottom: 6rpx; }
+.warmup-punch { font-size: 22rpx; color: var(--color-gold); font-style: italic; }
+
+.waiting-footer { font-size: 22rpx; color: var(--color-text-tertiary); margin-bottom: 24rpx; }
+
+.share-btn {
+  font-size: 26rpx;
+  color: var(--color-gold);
+  padding: 16rpx;
+}
+
+/* ─── 幕间过场 ─── */
+.scene-transition {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 64rpx;
+  text-align: center;
+  background: #0A0A0A;
+  animation: fadeInUp 0.5s ease;
+}
+
+.transition-stage {
+  font-size: 22rpx;
+  color: var(--color-gold);
+  letter-spacing: 4rpx;
+  margin-bottom: 24rpx;
+}
+
+.transition-title {
+  font-size: 52rpx;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+  margin-bottom: 20rpx;
+}
+
+.transition-desc {
   font-size: 26rpx;
   color: var(--color-text-secondary);
-  line-height: 1.5;
+  line-height: 1.8;
+  margin-bottom: 48rpx;
 }
 
-.waiting-note {
-  font-size: 24rpx;
-  color: var(--color-text-tertiary);
+.transition-bar {
+  width: 200rpx;
+  height: 4rpx;
+  background: var(--color-border);
+  border-radius: 2rpx;
+  overflow: hidden;
 }
 
-/* 游戏中 */
+.transition-fill {
+  height: 100%;
+  background: var(--color-gold);
+  border-radius: 2rpx;
+  transition: width 2s linear;
+}
+
+/* ─── 答题中 ─── */
 .playing {
-  padding-top: 20rpx;
+  padding: calc(24rpx + env(safe-area-inset-top)) 40rpx calc(160rpx + env(safe-area-inset-bottom));
 }
 
-.game-header {
+.play-header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  gap: 16rpx;
   margin-bottom: 32rpx;
 }
 
-.game-progress {
-  font-size: 24rpx;
-  color: var(--color-text-tertiary);
+.play-stage-pill {
+  background: var(--color-gold-dim);
+  color: var(--color-gold);
+  font-size: 20rpx;
+  padding: 6rpx 20rpx;
+  border-radius: 32rpx;
+  flex-shrink: 0;
 }
 
-.game-timer {
-  font-size: 28rpx;
-  font-weight: 700;
-  color: var(--color-text-secondary);
+.play-progress-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.play-progress-bar {
+  flex: 1;
+  height: 4rpx;
+  background: var(--color-border);
+  border-radius: 2rpx;
+  overflow: hidden;
+}
+
+.play-progress-fill {
+  height: 100%;
+  background: var(--color-gold);
+  border-radius: 2rpx;
+  transition: width 0.3s ease;
+}
+
+.play-progress-text { font-size: 22rpx; color: var(--color-text-tertiary); white-space: nowrap; }
+
+.play-timer {
   background: var(--color-surface);
-  padding: 8rpx 20rpx;
-  border-radius: 32rpx;
   border: 1rpx solid var(--color-border);
+  border-radius: 20rpx;
+  padding: 8rpx 16rpx;
+  display: flex;
+  align-items: baseline;
+  gap: 4rpx;
+  flex-shrink: 0;
   transition: all 0.3s;
 }
 
-.game-timer.warning {
-  color: var(--color-red);
-  border-color: rgba(224, 90, 90, 0.4);
-  background: rgba(224, 90, 90, 0.1);
+.play-timer.timer-warn {
+  background: rgba(224,90,90,0.1);
+  border-color: rgba(224,90,90,0.4);
 }
 
-.game-stage {
-  font-size: 22rpx;
-  color: var(--color-gold);
-  margin-bottom: 16rpx;
-  font-weight: 500;
-  letter-spacing: 1rpx;
+.timer-num { font-size: 28rpx; font-weight: 700; color: var(--color-text-primary); }
+.timer-unit { font-size: 18rpx; color: var(--color-text-tertiary); }
+.play-timer.timer-warn .timer-num { color: var(--color-red); }
+
+/* 场景氛围 */
+.scene-context {
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  background: var(--color-surface);
+  border-radius: var(--color-radius-md);
+  padding: 16rpx 24rpx;
+  margin-bottom: 24rpx;
+  border-left: 3rpx solid rgba(201,169,110,0.4);
 }
 
-.game-question {
+.scene-context-icon { font-size: 28rpx; }
+.scene-context-text { font-size: 24rpx; color: var(--color-text-secondary); font-style: italic; line-height: 1.5; }
+
+.play-question {
   font-size: 38rpx;
   font-weight: 700;
   color: var(--color-text-primary);
   line-height: 1.5;
-  margin-bottom: 20rpx;
+  margin-bottom: 16rpx;
   white-space: pre-line;
 }
 
-.game-hint {
-  font-size: 26rpx;
+.play-hint {
+  font-size: 24rpx;
   color: var(--color-text-secondary);
+  margin-bottom: 36rpx;
   padding: 16rpx 20rpx;
   background: var(--color-surface);
   border-radius: var(--color-radius-md);
-  margin-bottom: 36rpx;
-  border-left: 3rpx solid rgba(201,169,110,0.4);
+  border-left: 3rpx solid rgba(201,169,110,0.3);
 }
 
-.game-options {
-  display: flex;
-  flex-direction: column;
-  gap: 16rpx;
-}
+.play-options { display: flex; flex-direction: column; gap: 16rpx; }
 
-.game-option {
+.play-option {
   display: flex;
   align-items: flex-start;
   gap: 20rpx;
@@ -288,16 +371,16 @@
   animation: fadeInUp 0.3s ease both;
 }
 
-.game-option.selected {
+.play-option.selected {
   border-color: var(--color-gold);
   background: var(--color-gold-dim);
 }
 
-.game-opt-marker {
-  width: 44rpx;
-  height: 44rpx;
+.play-opt-label {
+  width: 44rpx; height: 44rpx;
   border-radius: 50%;
   background: var(--color-surface-3);
+  border: 2rpx solid var(--color-border);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -307,125 +390,142 @@
   flex-shrink: 0;
 }
 
-.game-option.selected .game-opt-marker {
+.play-option.selected .play-opt-label {
   background: var(--color-gold);
+  border-color: var(--color-gold);
   color: #0D0D0D;
 }
 
-.game-opt-text {
-  font-size: 28rpx;
+.play-opt-text { font-size: 28rpx; color: var(--color-text-primary); line-height: 1.6; flex: 1; }
+
+/* 开放题 */
+.play-open { margin-top: 8rpx; }
+
+.open-input {
+  width: 100%;
+  min-height: 180rpx;
+  background: var(--color-surface);
+  border: 2rpx solid var(--color-border);
+  border-radius: var(--color-radius-lg);
+  padding: 32rpx;
+  font-size: 30rpx;
   color: var(--color-text-primary);
-  line-height: 1.6;
-  flex: 1;
+  line-height: 1.7;
+  box-sizing: border-box;
 }
 
-.game-open {
-  margin-top: 8rpx;
-}
+.open-char-count { text-align: right; font-size: 22rpx; color: var(--color-text-tertiary); margin-top: 8rpx; }
 
-.game-footer {
+/* 底部确认 */
+.play-footer {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: 0; left: 0; right: 0;
   padding: 24rpx 40rpx calc(32rpx + env(safe-area-inset-bottom));
   background: linear-gradient(to top, var(--color-bg) 80%, transparent);
 }
 
-/* 等待结果 */
+.play-confirm-btn {
+  width: 100%;
+  height: 96rpx;
+  border-radius: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.play-confirm-btn.active {
+  background: linear-gradient(135deg, #C9A96E, #E8C98A);
+  color: #0D0D0D;
+  box-shadow: 0 8rpx 32rpx rgba(201,169,110,0.3);
+}
+
+.play-confirm-btn.dim {
+  background: var(--color-surface);
+  color: var(--color-text-tertiary);
+  border: 1rpx solid var(--color-border);
+}
+
+/* ─── 等待结果 ─── */
 .waiting-result {
+  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: calc(100vh - 120rpx);
-  text-align: center;
   gap: 32rpx;
+  text-align: center;
 }
 
-.wr-sand {
-  width: 80rpx;
-  height: 80rpx;
-  border: 6rpx solid var(--color-gold);
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.wr-ring {
+  width: 80rpx; height: 80rpx;
+  border: 6rpx solid var(--color-border);
+  border-top-color: var(--color-gold);
   border-radius: 50%;
-  border-top-color: transparent;
   animation: spin 1s linear infinite;
 }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+.wr-title { font-size: 40rpx; font-weight: 600; color: var(--color-text-primary); }
+.wr-sub   { font-size: 26rpx; color: var(--color-text-secondary); white-space: pre-line; line-height: 1.7; }
 
-.wr-text {
-  font-size: 40rpx;
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
-.wr-subtext {
-  font-size: 26rpx;
-  color: var(--color-text-secondary);
-}
-
-/* 电梯揭晓 */
+/* ─── 电梯揭晓 ─── */
 .elevator {
-  min-height: calc(100vh - 120rpx);
+  min-height: 100vh;
+  padding: calc(60rpx + env(safe-area-inset-top)) 40rpx calc(60rpx + env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 40rpx;
+  background: #070707;
 }
 
-.elev-intro {
-  font-size: 30rpx;
-  color: var(--color-text-secondary);
-  line-height: 2;
+.elev-scene-desc {
+  font-size: 28rpx;
+  color: rgba(255,255,255,0.4);
   text-align: center;
+  line-height: 2;
   margin-bottom: 60rpx;
 }
 
 .elev-screen {
   width: 100%;
-  background: #0A0A0A;
-  border-radius: var(--color-radius-xl);
+  background: #0F0F0F;
+  border: 1rpx solid #222;
+  border-radius: 32rpx;
   padding: 48rpx 32rpx;
   display: flex;
-  gap: 32rpx;
+  gap: 24rpx;
   margin-bottom: 48rpx;
 }
 
-.elev-side {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20rpx;
-}
+.elev-side { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 16rpx; }
+.elev-you  { font-size: 20rpx; color: rgba(255,255,255,0.3); letter-spacing: 2rpx; }
 
-.elev-label {
-  font-size: 22rpx;
-  color: var(--color-text-tertiary);
-  letter-spacing: 2rpx;
-}
-
-.elev-words {
-  font-size: 30rpx;
-  color: var(--color-text-primary);
-  font-weight: 500;
+.elev-text {
+  font-size: 28rpx;
+  color: rgba(255,255,255,0.2);
   text-align: center;
   line-height: 1.6;
+  transition: color 0.8s ease;
+  min-height: 60rpx;
 }
 
-.elev-divider {
-  width: 1rpx;
-  background: var(--color-border);
-  align-self: stretch;
-}
+.elev-text.typed { color: var(--color-text-primary); }
 
-.elev-reveal {
-  font-size: 32rpx;
+.elev-divider { width: 1rpx; background: #222; align-self: stretch; }
+
+.elev-verdict {
+  font-size: 30rpx;
   color: var(--color-gold);
   font-weight: 600;
   text-align: center;
-  letter-spacing: 2rpx;
+  letter-spacing: 3rpx;
+  margin-bottom: 48rpx;
+}
+
+.elev-result-btn {
+  width: 100%;
 }

@@ -1,147 +1,196 @@
-<!-- 情侣通关页 -->
+<!-- 情侣通关 · 剧本杀版 -->
 <view class="couple-page">
 
-  <!-- 未开始状态 -->
-  <view wx:if="{{pageState === 'landing'}}" class="landing animate-fade-up">
+  <!-- ═══ 落地页 ═══ -->
+  <view wx:if="{{pageState === 'landing'}}" class="landing">
+    <view class="landing-bg-text">不翻车</view>
 
     <view class="landing-hero">
-      <view class="landing-badge">💑</view>
-      <view class="landing-title">情侣通关</view>
-      <view class="landing-subtitle">你答你的，TA答TA的\n最后一起揭晓你们没对上的地方</view>
+      <view class="landing-eyebrow">情侣通关</view>
+      <view class="landing-title">你们真的是一队吗</view>
+      <view class="landing-sub">各自作答，不能看对方\n最后同时揭晓——你们到底差在哪</view>
     </view>
 
-    <view class="landing-features">
-      <view class="feature-item">
-        <text class="feature-icon">🎯</text>
-        <text class="feature-text">42道真实见家长场景题</text>
+    <view class="scene-preview">
+      <view class="scene-item">
+        <text class="scene-num">01</text>
+        <text class="scene-name">出租车里</text>
+        <text class="scene-dot">暗号</text>
       </view>
-      <view class="feature-item">
-        <text class="feature-icon">🔒</text>
-        <text class="feature-text">防偷看设计，背对背独立作答</text>
+      <view class="scene-arrow">→</view>
+      <view class="scene-item">
+        <text class="scene-num">02</text>
+        <text class="scene-name">进门那一刻</text>
+        <text class="scene-dot">配合</text>
       </view>
-      <view class="feature-item">
-        <text class="feature-icon">⚡</text>
-        <text class="feature-text">电梯揭晓，双方同时看到彼此的答案</text>
+      <view class="scene-arrow">→</view>
+      <view class="scene-item">
+        <text class="scene-num">03</text>
+        <text class="scene-name">饭桌上</text>
+        <text class="scene-dot">危机</text>
+      </view>
+      <view class="scene-arrow">→</view>
+      <view class="scene-item active">
+        <text class="scene-num">⚡</text>
+        <text class="scene-name">电梯揭晓</text>
+        <text class="scene-dot">真相</text>
       </view>
     </view>
 
-    <view class="landing-actions">
-      <view class="couple-price-row">
-        <view class="couple-price-option {{selectedVersion === 'basic' ? 'selected' : ''}}"
-          bindtap="selectVersion" data-v="basic">
-          <view class="price-opt-name">基础版</view>
-          <view class="price-opt-count">25题</view>
-        <view class="price-opt-price free-price">免费</view>
+    <view class="version-row">
+      <view class="version-card {{selectedVersion === 'basic' ? 'selected' : ''}}"
+        bindtap="selectVersion" data-v="basic">
+        <view class="version-tag free">免费</view>
+        <view class="version-name">基础版</view>
+        <view class="version-count">25道场景题</view>
       </view>
-      <view class="couple-price-option {{selectedVersion === 'full' ? 'selected' : ''}}"
+      <view class="version-card full-card {{selectedVersion === 'full' ? 'selected' : ''}}"
         bindtap="selectVersion" data-v="full">
-        <view class="price-opt-badge">推荐</view>
-        <view class="price-opt-name">完整版</view>
-        <view class="price-opt-count">42题</view>
-        <view class="price-opt-price">¥4.9</view>
-        </view>
+        <view class="version-tag hot">热门</view>
+        <view class="version-name">完整版</view>
+        <view class="version-count">42道 · 含饭后危机关</view>
+        <view class="version-price">¥4.9</view>
       </view>
-
-      <view class="btn-primary mt40" bindtap="startCouple">
-        发起通关，邀请TA →
-      </view>
-      <view class="btn-ghost" bindtap="joinCouple">我收到了邀请，加入</view>
-      <view class="couple-price-hint">基础版免费发起 · 完整版 ¥4.9</view>
     </view>
+
+    <view class="start-btn" bindtap="startCouple">
+      <text class="start-btn-text">发起通关</text>
+      <text class="start-btn-sub">生成邀请，发给TA</text>
+    </view>
+    <view class="join-btn" bindtap="joinCouple">我收到了邀请，加入</view>
   </view>
 
-  <!-- 等待TA加入 -->
-  <view wx:if="{{pageState === 'waiting'}}" class="waiting animate-fade-up">
-    <view class="waiting-icon">⏳</view>
+  <!-- ═══ 等待 TA 加入 ═══ -->
+  <view wx:if="{{pageState === 'waiting'}}" class="waiting">
+    <view class="waiting-pulse"></view>
     <view class="waiting-title">邀请已发出</view>
-    <view class="waiting-subtitle">TA还没进来——先来热个身</view>
+    <view class="waiting-sub">TA还没进来\n先来预热一下</view>
 
-    <view class="waiting-warmup">
-      <view class="warmup-title">📖 通关手册 · 前5条精华</view>
+    <view class="warmup-list">
       <view wx:for="{{warmupCards}}" wx:key="id" class="warmup-card">
         <view class="warmup-num">{{index + 1}}</view>
-        <view class="warmup-text">{{item.title}}</view>
+        <view class="warmup-body">
+          <view class="warmup-title">{{item.title}}</view>
+          <view class="warmup-punch">{{item.punchline}}</view>
+        </view>
       </view>
     </view>
 
-    <view class="waiting-note">TA一进来，游戏立刻开始</view>
-
-    <view class="btn-secondary mt40" bindtap="shareInvite">分享邀请给TA</view>
+    <view class="waiting-footer">TA一进来，游戏立刻开始</view>
+    <view class="share-btn" bindtap="shareInvite">再次分享邀请 →</view>
   </view>
 
-  <!-- 游戏中 -->
+  <!-- ═══ 幕间过场（场景切换时显示） ═══ -->
+  <view wx:if="{{pageState === 'scene_transition'}}" class="scene-transition">
+    <view class="transition-stage">{{transitionStage}}</view>
+    <view class="transition-title">{{transitionTitle}}</view>
+    <view class="transition-desc">{{transitionDesc}}</view>
+    <view class="transition-bar">
+      <view class="transition-fill" style="width:{{transitionPct}}%"></view>
+    </view>
+  </view>
+
+  <!-- ═══ 答题中 ═══ -->
   <view wx:if="{{pageState === 'playing'}}" class="playing">
-    <view class="game-header">
-      <view class="game-progress">{{gameIndex + 1}} / {{gameTotalCount}}</view>
-      <view class="game-timer {{timerWarning ? 'warning' : ''}}">{{timerCount}}s</view>
+
+    <!-- 顶部氛围条 -->
+    <view class="play-header">
+      <view class="play-stage-pill">{{currentGameQ.stage}}</view>
+      <view class="play-progress-wrap">
+        <view class="play-progress-bar">
+          <view class="play-progress-fill" style="width:{{gameProgressPct}}%"></view>
+        </view>
+        <text class="play-progress-text">{{gameIndex + 1}}/{{gameTotalCount}}</text>
+      </view>
+      <view class="play-timer {{timerWarning ? 'timer-warn' : ''}}">
+        <text class="timer-num">{{timerCount}}</text>
+        <text class="timer-unit">s</text>
+      </view>
     </view>
 
-    <view class="game-stage">{{currentGameQ.stage}}</view>
-    <view class="game-question animate-fade-up">{{currentGameQ.text}}</view>
-    <view class="game-hint" wx:if="{{currentGameQ.hint}}">· {{currentGameQ.hint}}</view>
+    <!-- 场景氛围提示 -->
+    <view class="scene-context" wx:if="{{currentGameQ.sceneContext}}">
+      <text class="scene-context-icon">🎬</text>
+      <text class="scene-context-text">{{currentGameQ.sceneContext}}</text>
+    </view>
 
-    <view class="game-options" wx:if="{{currentGameQ.type !== 'open'}}">
+    <!-- 题目 -->
+    <view class="play-question">{{currentGameQ.text}}</view>
+    <view class="play-hint" wx:if="{{currentGameQ.hint}}">· {{currentGameQ.hint}}</view>
+
+    <!-- 选项 -->
+    <view wx:if="{{currentGameQ.type !== 'open'}}" class="play-options">
       <view
         wx:for="{{currentGameQ.options}}"
         wx:key="index"
-        class="game-option {{gameSelectedIdx === index ? 'selected' : ''}}"
+        class="play-option {{gameSelectedIdx === index ? 'selected' : ''}}"
         bindtap="selectGameOption"
         data-idx="{{index}}"
         style="animation-delay:{{index * 60}}ms"
       >
-        <text class="game-opt-marker">{{optionLabels[index]}}</text>
-        <text class="game-opt-text">{{item.label}}</text>
+        <view class="play-opt-label">{{optionLabels[index]}}</view>
+        <view class="play-opt-text">{{item.label}}</view>
       </view>
     </view>
 
-    <view wx:if="{{currentGameQ.type === 'open'}}" class="game-open">
+    <!-- 开放题 -->
+    <view wx:if="{{currentGameQ.type === 'open'}}" class="play-open">
       <textarea
         class="open-input"
-        placeholder="你脑子里第一句话……"
+        placeholder="写下你真实的那句话……"
         placeholder-style="color:#5A5550"
-        maxlength="80"
+        maxlength="60"
         bindinput="onGameOpenInput"
         value="{{gameOpenAnswer}}"
         auto-height
       />
+      <view class="open-char-count">{{gameOpenAnswer.length}}/60</view>
     </view>
 
-    <view class="game-footer">
-      <view class="btn-primary"
-        bindtap="{{currentGameQ.type === 'open' ? 'submitGameOpen' : 'confirmGameAnswer'}}"
-        style="opacity:{{gameSelectedIdx !== null || gameOpenAnswer ? 1 : 0.4}}">
-        {{gameIndex + 1 < gameTotalCount - 1 ? '下一题' : '提交并等待TA'}}
+    <!-- 底部按钮 -->
+    <view class="play-footer">
+      <view
+        class="play-confirm-btn {{(gameSelectedIdx !== null || gameOpenAnswer.length > 0) ? 'active' : 'dim'}}"
+        bindtap="confirmGameAnswer"
+      >
+        {{gameIndex + 1 < gameTotalCount - 1 ? '锁定答案' : '提交，等待TA'}}
       </view>
     </view>
   </view>
 
-  <!-- 等待TA提交 -->
-  <view wx:if="{{pageState === 'waitingResult'}}" class="waiting-result animate-fade-up">
-    <view class="wr-sand"></view>
-    <view class="wr-text">TA在想……</view>
-    <view class="wr-subtext">等TA提交后，你们将同时看到彼此的答案</view>
+  <!-- ═══ 等待对方提交 ═══ -->
+  <view wx:if="{{pageState === 'waitingResult'}}" class="waiting-result">
+    <view class="wr-ring"></view>
+    <view class="wr-title">等待TA提交</view>
+    <view class="wr-sub">你们的答案被封存了\nTA提交后同时揭晓</view>
   </view>
 
-  <!-- 电梯揭晓 -->
-  <view wx:if="{{pageState === 'elevator'}}" class="elevator animate-fade-up">
-    <view class="elev-intro">
+  <!-- ═══ 电梯揭晓 ═══ -->
+  <view wx:if="{{pageState === 'elevator'}}" class="elevator">
+    <view class="elev-scene-desc">
       今晚，你们走出那扇门。<br/>
-      电梯里只剩你们两个。<br/>
-      <text class="text-gold">灯亮了。</text>
+      电梯里只剩你们两个，灯亮了。
     </view>
+
     <view class="elev-screen">
-      <view class="elev-side elev-left">
-        <view class="elev-label">你说</view>
-        <view class="elev-words">{{elevatorA}}</view>
+      <view class="elev-side">
+        <view class="elev-you">你说</view>
+        <view class="elev-text {{elevatorAReady ? 'typed' : ''}}">{{elevatorADisplay}}</view>
       </view>
       <view class="elev-divider"></view>
-      <view class="elev-side elev-right">
-        <view class="elev-label">TA说</view>
-        <view class="elev-words">{{elevatorB}}</view>
+      <view class="elev-side">
+        <view class="elev-you">TA说</view>
+        <view class="elev-text {{elevatorBReady ? 'typed' : ''}}">{{elevatorBDisplay}}</view>
       </view>
     </view>
-    <view class="elev-reveal animate-fade-up">这才是你们真实的样子。</view>
-    <view class="btn-primary mt48" bindtap="goResultPage">查看完整结果 →</view>
+
+    <view class="elev-verdict animate-fade-up" wx:if="{{elevatorBReady}}">
+      这才是你们真实的样子。
+    </view>
+
+    <view class="btn-primary elev-result-btn" bindtap="goResultPage" wx:if="{{elevatorBReady}}">
+      查看你们的默契报告 →
+    </view>
   </view>
 
   <!-- 付费弹窗 -->
@@ -151,6 +200,4 @@
     bindclose="onPayClose"
     bindpay="onPaySuccess"
   />
-
-  <view class="safe-bottom"></view>
 </view>

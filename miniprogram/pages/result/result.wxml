@@ -62,44 +62,26 @@
 
       </view>
 
-      <!-- 翻完3张后企微钩子 -->
+      <!-- 翻完3张后引流钩子 -->
       <view wx:if="{{allFlipped}}" class="wecom-hook animate-fade-up">
         <view class="wecom-hook-inner">
-          <view class="wecom-title">顾问看了你的测评</view>
-          <view class="wecom-body">「你有一个盲区，是见家长当天最容易触发的那种。我有一句话想告诉你，但这里写不下。」</view>
-          <view class="wecom-btn" bindtap="goWecom">点这里听完整的话 →</view>
-        </view>
-      </view>
-    </view>
-
-    <!-- 屏3：默契值分享卡（情侣通关结果时显示） -->
-    <view class="screen screen-share" wx:if="{{coupleResult}}">
-      <view class="section-header">
-        <text class="section-tag">传播资产</text>
-        <text class="section-title">你们的默契值</text>
-      </view>
-
-      <view class="share-card-preview">
-        <canvas type="2d" id="shareCanvas" class="share-canvas-preview" />
-        <view class="share-card-overlay" bindtap="saveShareCard">
-          <text class="share-hint">长按保存</text>
-        </view>
-      </view>
-
-      <!-- 今晚必聊清单 -->
-      <view wx:if="{{diffQuestions.length > 0}}" class="tonight-wrap">
-        <view class="tonight-intro">
-          你们今晚有 <text class="text-gold">{{diffQuestions.length}}</text> 道题没说清楚。
-          把手机放下，面对面聊一聊。
-        </view>
-        <view class="tonight-list">
-          <view wx:for="{{diffQuestions}}" wx:key="id" class="tonight-item">
-            <view class="tonight-q">{{item.text}}</view>
-            <view class="tonight-starter">这样开口：{{item.starter}}</view>
+          <view class="wecom-hook-badge">🎁 限时专属服务</view>
+          <view class="wecom-title">你的盲区，我想单独说一句</view>
+          <view class="wecom-body">顾问看了你的测评——你有一个盲区是见家长当天最容易触发的那种。我有一句话想告诉你，但这里写不下。</view>
+          <view class="wecom-actions">
+            <view class="wecom-btn-primary" bindtap="openCustomerService">
+              <text>联系我，听那句话</text>
+              <text class="wecom-btn-sub">点击打开对话</text>
+            </view>
+            <view class="wecom-btn-secondary" bindtap="copyServiceHint">
+              复制备注内容
+            </view>
           </view>
+          <view class="wecom-hint">打开对话后，发送「盲区」两个字即可</view>
         </view>
       </view>
     </view>
+
 
     <!-- 屏4：礼品推荐 -->
     <view class="screen screen-gift">

@@ -3,12 +3,12 @@
 
   <!-- 顶部品牌区 -->
   <view class="hero">
-    <view class="hero-tag">见家长 · 备考工具</view>
+    <view class="hero-tag">见家长不翻车 · 备考工具</view>
     <view class="hero-title">
-      <text>这场面试</text>
-      <text class="hero-title-gold">你准备好了吗</text>
+      <text>你真的</text>
+      <text class="hero-title-gold">准备好了吗</text>
     </view>
-    <view class="hero-subtitle">从礼物到酒桌，从称呼到离场时机\n中国家庭见家长的每一个细节</view>
+    <view class="hero-subtitle">从礼物到酒桌，从进门到离场\n每一个翻车细节，今天提前测出来</view>
   </view>
 
   <!-- 核心入口：个人测评（免费） -->
@@ -17,10 +17,10 @@
       <view class="tag tag-green">免费</view>
       <text class="main-card-subtitle">2分钟 · 25题</text>
     </view>
-    <view class="main-card-title">个人准备度测评</view>
-    <view class="main-card-desc">测出你今天真正的盲区\n男女分轨，精准到你的具体情况</view>
+    <view class="main-card-title">翻车指数测评</view>
+    <view class="main-card-desc">25道真实场景题，测出你最容易翻车的那个环节\n男女分轨，精准到你的具体情况</view>
     <view class="main-card-arrow">
-      <text>开始测评</text>
+      <text>测一测我会翻车吗</text>
       <text class="arrow-icon">→</text>
     </view>
   </view>

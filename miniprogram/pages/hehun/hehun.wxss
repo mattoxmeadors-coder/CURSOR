@@ -113,6 +113,20 @@
   border-color: rgba(201,169,110,0.3);
 }
 
+.picker-right {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+}
+
+.picker-reset {
+  font-size: 22rpx;
+  color: var(--color-text-secondary);
+  background: var(--color-surface-3);
+  border-radius: 16rpx;
+  padding: 4rpx 16rpx;
+}
+
 .picker-arrow {
   font-size: 36rpx;
   color: var(--color-text-tertiary);
@@ -449,6 +463,14 @@
 .set-reminder-btn {
   height: 80rpx;
   font-size: 28rpx;
+}
+
+.re-fill-btn {
+  text-align: center;
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  padding: 24rpx;
+  text-decoration: underline;
 }
 
 /* 免责声明 */

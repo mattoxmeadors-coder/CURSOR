@@ -24,7 +24,10 @@
           bindchange="onMyBirthdayChange">
           <view class="date-picker {{myBirthday ? 'filled' : ''}}">
             <text>{{myBirthday || '选择出生日期'}}</text>
-            <text class="picker-arrow">›</text>
+            <view class="picker-right">
+              <text wx:if="{{myBirthday}}" class="picker-reset" catchtap="resetMyBirthday">重选</text>
+              <text class="picker-arrow">›</text>
+            </view>
           </view>
         </picker>
         <view class="gender-row-form">
@@ -48,7 +51,10 @@
           bindchange="onTaBirthdayChange">
           <view class="date-picker {{taBirthday ? 'filled' : ''}}">
             <text>{{taBirthday || '选择TA的出生日期'}}</text>
-            <text class="picker-arrow">›</text>
+            <view class="picker-right">
+              <text wx:if="{{taBirthday}}" class="picker-reset" catchtap="resetTaBirthday">重选</text>
+              <text class="picker-arrow">›</text>
+            </view>
           </view>
         </picker>
         <view class="gender-row-form">
@@ -161,6 +167,11 @@
           </view>
         </picker>
         <view class="btn-secondary set-reminder-btn" bindtap="setReminder">设置提醒</view>
+      </view>
+
+      <!-- 重新填写入口 -->
+      <view class="re-fill-btn" bindtap="resetForm">
+        填错了？重新填写生辰
       </view>
 
       <!-- 免责声明 -->

@@ -40,8 +40,16 @@ Page({
     this.setData({ myBirthday: e.detail.value })
   },
 
+  resetMyBirthday() {
+    this.setData({ myBirthday: '' })
+  },
+
   onTaBirthdayChange(e) {
     this.setData({ taBirthday: e.detail.value })
+  },
+
+  resetTaBirthday() {
+    this.setData({ taBirthday: '' })
   },
 
   // 简版免费报告
@@ -168,6 +176,20 @@ TA：金水较旺，性格沉稳内敛，执行力强。
       nearYears: '2025年、2026年是两人关系发展的好时机，适合推进重要节点。',
       lastWord: `你们是互补型的一对。\n不需要变成同一种人，\n只需要在对方最软的地方，站稳。`
     }
+  },
+
+  resetForm() {
+    wx.removeStorageSync('hehunReport')
+    this.setData({
+      pageState: 'input',
+      myBirthday: '',
+      taBirthday: '',
+      myCalType: 'solar',
+      taCalType: 'solar',
+      myGender: 'male',
+      taGender: 'female',
+      report: null
+    })
   },
 
   onReminderDateChange(e) {

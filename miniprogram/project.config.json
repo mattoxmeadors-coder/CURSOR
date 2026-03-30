@@ -41,8 +41,8 @@
     "tabSize": 2
   },
   "appid": "touristappid",
-  "projectname": "见家长",
-  "description": "见家长备考小程序",
+  "projectname": "见家长不翻车",
+  "description": "见家长不翻车·备考工具",
   "miniprogramRoot": "./",
   "srcMiniprogramRoot": "./"
 }

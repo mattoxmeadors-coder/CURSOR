@@ -65,33 +65,36 @@ const COUPLE_QUESTIONS_BASIC = [
 
 Page({
   data: {
-    pageState: 'landing', // landing / waiting / playing / waitingResult / elevator
+    pageState: 'landing',
     selectedVersion: 'full',
-
-    // 暖身内容（onLoad后填入）
     warmupCards: [],
 
-    // 游戏状态
     gameQuestions: [],
     gameIndex: 0,
     gameTotalCount: 0,
+    gameProgressPct: 0,
     currentGameQ: null,
     gameSelectedIdx: null,
     gameOpenAnswer: '',
     gameAnswers: {},
     optionLabels: ['A', 'B', 'C', 'D'],
 
-    // 倒计时
     timerCount: 30,
     timerWarning: false,
 
-    // 电梯揭晓
+    // 幕间过场
+    transitionStage: '',
+    transitionTitle: '',
+    transitionDesc: '',
+    transitionPct: 0,
+
+    // 电梯揭晓（逐字打印）
     elevatorA: '',
     elevatorB: '',
-
-    // 会话
-    sessionId: '',
-    role: 'A', // A or B
+    elevatorADisplay: '',
+    elevatorBDisplay: '',
+    elevatorAReady: false,
+    elevatorBReady: false,
 
     showPayModal: false,
     payProduct: null
@@ -172,12 +175,13 @@ Page({
       gameQuestions: questions,
       gameTotalCount: questions.length,
       currentGameQ: questions[0],
-      gameIndex: 0
+      gameIndex: 0,
+      gameProgressPct: Math.round(1 / questions.length * 100)
     })
   },
 
   selectGameOption(e) {
-    this.setData({ gameSelectedIdx: e.currentTarget.dataset.idx })
+    this.setData({ gameSelectedIdx: Number(e.currentTarget.dataset.idx) })
   },
 
   onGameOpenInput(e) {
@@ -185,30 +189,18 @@ Page({
   },
 
   confirmGameAnswer() {
-    const { gameSelectedIdx, gameIndex, gameQuestions, gameAnswers } = this.data
-    if (gameSelectedIdx === null) return
-
+    const { gameSelectedIdx, gameOpenAnswer, gameIndex, gameQuestions, gameAnswers } = this.data
     const q = gameQuestions[gameIndex]
-    const newAnswers = { ...gameAnswers, [q.id]: gameSelectedIdx }
-    this._nextGameQuestion(newAnswers)
-  },
+    if (q.type !== 'open' && gameSelectedIdx === null) return
+    if (q.type === 'open' && !gameOpenAnswer) return
 
-  submitGameOpen() {
-    const { gameOpenAnswer, gameIndex, gameQuestions, gameAnswers } = this.data
-    const q = gameQuestions[gameIndex]
-    const newAnswers = { ...gameAnswers, [q.id]: gameOpenAnswer }
+    const val = q.type === 'open' ? gameOpenAnswer : gameSelectedIdx
+    const newAnswers = { ...gameAnswers, [q.id]: val }
 
-    // 最后一题（电梯题）
     if (q.id === 'c25') {
-      this.setData({
-        gameAnswers: newAnswers,
-        elevatorA: gameOpenAnswer,
-        pageState: 'elevator',
-        elevatorB: '我有点激动，说不出话来……' // B方答案（从云端拉取）
-      })
+      this._startElevator(newAnswers, gameOpenAnswer)
       return
     }
-
     this._nextGameQuestion(newAnswers)
   },
 
@@ -217,23 +209,105 @@ Page({
     const nextIndex = gameIndex + 1
 
     if (nextIndex >= gameQuestions.length) {
-      // 完成，等待对方
       this.setData({ gameAnswers: newAnswers, pageState: 'waitingResult' })
-      setTimeout(() => {
-        this.setData({ pageState: 'elevator', elevatorA: '还好吧？', elevatorB: '我腿有点抖' })
-      }, 3000)
+      setTimeout(() => this._startElevator(newAnswers, '还好吧？'), 3000)
+      return
+    }
+
+    const nextQ = gameQuestions[nextIndex]
+    const pct = Math.round((nextIndex + 1) / gameQuestions.length * 100)
+
+    // 检查是否进入新幕，需要幕间过场
+    const prevStage = gameQuestions[gameIndex].stage
+    const nextStage = nextQ.stage
+    if (prevStage !== nextStage && nextStage !== '序幕·出租车里') {
+      this._showTransition(nextStage, newAnswers, nextIndex)
       return
     }
 
     this.setData({
       gameAnswers: newAnswers,
       gameIndex: nextIndex,
-      currentGameQ: gameQuestions[nextIndex],
+      currentGameQ: nextQ,
       gameSelectedIdx: null,
-      gameOpenAnswer: ''
+      gameOpenAnswer: '',
+      gameProgressPct: pct
+    })
+    this._startTimer()
+  },
+
+  // 幕间过场
+  _showTransition(stage, answers, nextIndex) {
+    const stageMap = {
+      '进门关':  { title: '门打开了', desc: '第一印象，只有一次机会' },
+      '落座关':  { title: '落座，气氛有些微妙', desc: '你们分开坐了，各自应对' },
+      '饭桌关':  { title: '饭菜上桌', desc: '最难的一关来了' },
+      '饭后关':  { title: '饭吃完了', desc: '还没结束，余震来了' },
+      '电梯揭晓':{ title: '电梯门关上', desc: '只剩你们两个' }
+    }
+    const info = stageMap[stage] || { title: stage, desc: '' }
+
+    this.setData({
+      pageState: 'scene_transition',
+      transitionStage: stage,
+      transitionTitle: info.title,
+      transitionDesc: info.desc,
+      transitionPct: 0,
+      gameAnswers: answers
     })
 
-    this._startTimer()
+    setTimeout(() => this.setData({ transitionPct: 100 }), 100)
+    setTimeout(() => {
+      const { gameQuestions } = this.data
+      const pct = Math.round((nextIndex + 1) / gameQuestions.length * 100)
+      this.setData({
+        pageState: 'playing',
+        gameIndex: nextIndex,
+        currentGameQ: gameQuestions[nextIndex],
+        gameSelectedIdx: null,
+        gameOpenAnswer: '',
+        gameProgressPct: pct
+      })
+      this._startTimer()
+    }, 2400)
+  },
+
+  // 电梯揭晓 + 逐字打印
+  _startElevator(answers, myText) {
+    const taText = '我腿有点抖……你呢'
+    this.setData({
+      gameAnswers: answers,
+      pageState: 'elevator',
+      elevatorA: myText,
+      elevatorB: taText,
+      elevatorADisplay: '',
+      elevatorBDisplay: '',
+      elevatorAReady: false,
+      elevatorBReady: false
+    })
+
+    // A方逐字打印
+    let ai = 0
+    const printA = setInterval(() => {
+      ai++
+      this.setData({ elevatorADisplay: myText.slice(0, ai) })
+      if (ai >= myText.length) {
+        clearInterval(printA)
+        this.setData({ elevatorAReady: true })
+        // A打完后延迟500ms打B
+        let bi = 0
+        setTimeout(() => {
+          const printB = setInterval(() => {
+            bi++
+            this.setData({ elevatorBDisplay: taText.slice(0, bi) })
+            if (bi >= taText.length) {
+              clearInterval(printB)
+              this.setData({ elevatorBReady: true })
+            }
+          }, 60)
+        }, 500)
+      }
+    }, 60)
   },
 
   _startTimer() {

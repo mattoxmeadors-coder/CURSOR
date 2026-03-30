@@ -74,7 +74,14 @@ Page({
   },
 
   goWecom() {
-    wx.showModal({ title: '联系顾问', content: '复制微信号 jjz_advisor，加入私域获取个性化礼品推荐', confirmText: '知道了', showCancel: false })
+    wx.openCustomerServiceChat({
+      extInfo: { url: 'https://work.weixin.qq.com/kfid/your-kf-id' },
+      corpId: 'your-corp-id',
+      success() {},
+      fail() {
+        wx.showModal({ title: '联系顾问', content: '搜索公众号「见家长不翻车」→ 发送「礼物」，顾问推荐不踩雷礼品', confirmText: '好的', showCancel: false })
+      }
+    })
   },
 
   onPayClose() {

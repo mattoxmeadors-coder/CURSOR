@@ -11,8 +11,6 @@ Page({
     flippedCards: [],
     allFlipped: false,
     regionLabel: '',
-    coupleResult: false,
-    diffQuestions: [],
     showPayModal: false,
     payProduct: null
   },
@@ -134,13 +132,35 @@ Page({
     wx.showToast({ title: '长按图片保存', icon: 'none' })
   },
 
-  goWecom() {
-    wx.showModal({
-      title: '加入私域顾问',
-      content: '请复制微信号 jjz_advisor，添加顾问获取个性化建议',
-      confirmText: '知道了',
-      showCancel: false
+  // 合规引流：打开客服会话（微信审核允许，不直接展示微信号）
+  openCustomerService() {
+    wx.openCustomerServiceChat({
+      extInfo: { url: 'https://work.weixin.qq.com/kfid/your-kf-id' },
+      corpId: 'your-corp-id',
+      success() {},
+      fail() {
+        // 降级：引导用户搜索公众号
+        wx.showModal({
+          title: '联系顾问',
+          content: '搜索公众号「见家长不翻车」→ 发送「盲区」，顾问会在1小时内回复你',
+          confirmText: '知道了',
+          showCancel: false
+        })
+      }
     })
+  },
+
+  copyServiceHint() {
+    wx.setClipboardData({
+      data: '盲区',
+      success() {
+        wx.showToast({ title: '已复制，打开对话后粘贴发送', icon: 'success' })
+      }
+    })
+  },
+
+  goWecom() {
+    this.openCustomerService()
   },
 
   goCouple() {

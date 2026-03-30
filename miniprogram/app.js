@@ -27,7 +27,7 @@ App({
     try {
       wx.cloud.init({ env: envId, traceUser: false })
     } catch (e) {
-      console.warn('云开发初始化失败:', e)
+      // 云开发初始化失败，生辰婚配将使用本地模式
     }
   },
 

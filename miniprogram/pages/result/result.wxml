@@ -1,6 +1,6 @@
 <!-- 测评结果页 -->
 <view class="result-page">
-  <scroll-view scroll-y class="result-scroll" enhanced>
+  <scroll-view scroll-y class="result-scroll">
 
     <!-- 屏1：分数冲击 -->
     <view class="screen screen-score">

@@ -1,6 +1,6 @@
 {
   "compileType": "miniprogram",
-  "libVersion": "3.4.4",
+  "libVersion": "3.3.0",
   "packOptions": {
     "ignore": [],
     "include": []
@@ -11,15 +11,15 @@
     "enhance": true,
     "postcss": true,
     "preloadBackgroundData": false,
-    "minified": true,
+    "minified": false,
     "newFeature": false,
     "autoAudits": false,
-    "uploadWithSourceMap": true,
+    "uploadWithSourceMap": false,
     "compileHotReLoad": false,
     "lazyloadPlaceholderEnable": false,
-    "useMultiFrameRuntime": true,
+    "useMultiFrameRuntime": false,
     "useApiHook": true,
-    "useApiHostProcess": true,
+    "useApiHostProcess": false,
     "babelSetting": {
       "ignore": [],
       "disablePlugins": [],
@@ -30,7 +30,7 @@
     "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
-    "minifyWXSS": true,
+    "minifyWXSS": false,
     "minifyWXML": false,
     "showShadowRootInWxmlPanel": true,
     "skylineRenderEnable": false
@@ -40,10 +40,9 @@
     "tabIndent": "insertSpaces",
     "tabSize": 2
   },
-  "appid": "your-appid-here",
+  "appid": "touristappid",
   "projectname": "见家长",
   "description": "见家长备考小程序",
   "miniprogramRoot": "./",
-  "cloudbaseRoot": "cloud/",
   "srcMiniprogramRoot": "./"
 }

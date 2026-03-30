@@ -21,7 +21,7 @@
   </view>
 
   <!-- 卡片列表 -->
-  <scroll-view scroll-y class="hb-scroll" enhanced>
+  <scroll-view scroll-y class="hb-scroll">
     <view class="hb-list">
 
       <!-- 前20条免费预热提示 -->

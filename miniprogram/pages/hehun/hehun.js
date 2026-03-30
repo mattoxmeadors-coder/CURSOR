@@ -89,20 +89,28 @@ Page({
     this.setData({ pageState: 'loading' })
     const { myBirthday, myCalType, myGender, taBirthday, taCalType, taGender } = this.data
 
+    // 如果没有配置云开发，直接走本地降级
+    const app = getApp()
+    const hasCloud = wx.cloud && app.globalData.ENV_ID && app.globalData.ENV_ID !== 'your-env-id'
+
+    if (!hasCloud) {
+      const mockReport = this._generateMockReport()
+      wx.setStorageSync('hehunReport', mockReport)
+      setTimeout(() => {
+        this.setData({ report: mockReport, pageState: 'report' })
+      }, 1500) // 模拟加载感
+      return
+    }
+
     wx.cloud.callFunction({
       name: 'heHun',
-      data: {
-        myBirthday, myCalType, myGender,
-        taBirthday, taCalType, taGender
-      },
+      data: { myBirthday, myCalType, myGender, taBirthday, taCalType, taGender },
       success: res => {
         const report = res.result
         wx.setStorageSync('hehunReport', report)
         this.setData({ report, pageState: 'report' })
       },
-      fail: err => {
-        console.error('云函数调用失败', err)
-        // 降级：使用本地模拟报告
+      fail: () => {
         const mockReport = this._generateMockReport()
         wx.setStorageSync('hehunReport', mockReport)
         this.setData({ report: mockReport, pageState: 'report' })

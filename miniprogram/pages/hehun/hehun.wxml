@@ -1,6 +1,6 @@
 <!-- 生辰婚配分析页 -->
 <view class="hehun-page">
-  <scroll-view scroll-y class="hehun-scroll" enhanced>
+  <scroll-view scroll-y class="hehun-scroll">
 
     <!-- 输入状态 -->
     <view wx:if="{{pageState === 'input'}}" class="input-section animate-fade-up">

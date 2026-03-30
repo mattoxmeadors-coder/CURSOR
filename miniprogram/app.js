@@ -20,13 +20,18 @@ App({
   onLaunch() {
     // 先做本地数据，云开发延迟到真正需要时再初始化（加快首屏速度）
     this._loadPurchasedStatus()
-    // 非阻塞：下一个 tick 再初始化云开发
+    // 非阻塞：延迟初始化云开发，且只在有真实envId时才初始化
     setTimeout(() => {
-      if (wx.cloud) {
-        wx.cloud.init({ env: this.globalData.ENV_ID, traceUser: false })
+      const envId = this.globalData.ENV_ID
+      if (wx.cloud && envId && envId !== 'your-env-id') {
+        try {
+          wx.cloud.init({ env: envId, traceUser: false })
+        } catch (e) {
+          console.warn('云开发初始化失败，生辰婚配功能将使用本地模式', e)
+        }
       }
       this._checkUpdate()
-    }, 0)
+    }, 100)
   },
 
   _loadPurchasedStatus() {

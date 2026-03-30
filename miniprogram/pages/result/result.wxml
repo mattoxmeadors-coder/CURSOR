@@ -1,4 +1,4 @@
-<!-- 测评结果页 -->
+<!-- 测评结果页 · 见家长不翻车 -->
 <view class="result-page">
   <scroll-view scroll-y class="result-scroll">
 
@@ -14,7 +14,6 @@
       <view class="score-question">你今天，准备好了吗？</view>
       <view class="score-label" style="color:{{scoreColor}}">{{scoreLabel}}</view>
 
-      <!-- 快速摘要 -->
       <view class="summary-row">
         <view class="summary-item">
           <text class="summary-num">{{blindSpots.length}}</text>
@@ -23,7 +22,7 @@
         <view class="summary-divider"></view>
         <view class="summary-item">
           <text class="summary-num">{{score}}</text>
-          <text class="summary-desc">分满分100</text>
+          <text class="summary-desc">满分100</text>
         </view>
         <view class="summary-divider"></view>
         <view class="summary-item">
@@ -31,71 +30,80 @@
           <text class="summary-desc">专属路径</text>
         </view>
       </view>
+
+      <!-- 顾问丁入（常显示，不依赖翻牌） -->
+      <view class="cs-card-inline" bindtap="openCustomerService">
+        <view class="cs-card-left">
+          <view class="cs-avatar">顾</view>
+          <view class="cs-text">
+            <view class="cs-name">顾问 · 小不</view>
+            <view class="cs-msg">看了你的测评，有一句话想告诉你 →</view>
+          </view>
+        </view>
+        <view class="cs-arrow">›</view>
+      </view>
     </view>
 
     <!-- 屏2：三大盲区翻牌 -->
     <view class="screen screen-blindspots">
       <view class="section-header">
         <text class="section-tag">你的盲区</text>
-        <text class="section-title">三件你可能没想到的事</text>
+        <text class="section-title">这几件事可能会翻车</text>
       </view>
 
       <view wx:if="{{blindSpots.length === 0}}" class="no-blindspot">
         <text class="no-blindspot-icon">🎯</text>
         <text class="no-blindspot-text">没有发现明显盲区，准备相当充分</text>
+        <!-- 无盲区时也展示企微 -->
+        <view class="cs-gift-card" bindtap="openCustomerService">
+          <text class="cs-gift-icon">🎁</text>
+          <view class="cs-gift-text">
+            <view class="cs-gift-title">你的备考质量超过80%的人</view>
+            <view class="cs-gift-sub">顾问为你准备了一套礼物清单，点这里领取</view>
+          </view>
+        </view>
       </view>
 
       <view wx:for="{{blindSpots}}" wx:key="index"
         class="blindspot-card {{flippedCards[index] ? 'flipped' : ''}}"
         bindtap="flipCard" data-idx="{{index}}">
-
         <view class="card-front">
           <view class="card-front-icon">?</view>
           <view class="card-front-text">{{item.stage}} · 盲区 {{index + 1}}</view>
           <view class="card-front-hint">点击翻开</view>
         </view>
-
         <view class="card-back">
           <view class="card-back-q">{{item.question}}…</view>
           <view class="card-back-analysis">{{item.analysis}}</view>
         </view>
-
       </view>
 
-      <!-- 翻完3张后引流钩子 -->
-      <view wx:if="{{allFlipped}}" class="wecom-hook animate-fade-up">
+      <!-- 翻牌企微（翻了至少一张才出现，降低门槛） -->
+      <view wx:if="{{flippedCount > 0}}" class="wecom-hook animate-fade-up">
         <view class="wecom-hook-inner">
-          <view class="wecom-hook-badge">🎁 限时专属服务</view>
-          <view class="wecom-title">你的盲区，我想单独说一句</view>
-          <view class="wecom-body">顾问看了你的测评——你有一个盲区是见家长当天最容易触发的那种。我有一句话想告诉你，但这里写不下。</view>
-          <view class="wecom-actions">
-            <view class="wecom-btn-primary" bindtap="openCustomerService">
-              <text>联系我，听那句话</text>
-              <text class="wecom-btn-sub">点击打开对话</text>
-            </view>
-            <view class="wecom-btn-secondary" bindtap="copyServiceHint">
-              复制备注内容
-            </view>
+          <view class="wecom-title">顾问有一句话想告诉你</view>
+          <view class="wecom-body">你的盲区是见家长当天最容易触发的那种——我给你准备了3件不踩雷的礼物方案，还有一句你最需要听的话。</view>
+          <view class="wecom-btn-primary" bindtap="openCustomerService">
+            <text>点这里，一对一告诉我</text>
+            <text class="wecom-btn-sub">打开后发「盲区」即可</text>
           </view>
-          <view class="wecom-hint">打开对话后，发送「盲区」两个字即可</view>
         </view>
       </view>
     </view>
 
-
-    <!-- 屏4：礼品推荐 -->
+    <!-- 屏3：礼品推荐 + 企微 -->
     <view class="screen screen-gift">
       <view class="gift-card">
         <view class="gift-header">
           <text class="gift-region">{{regionLabel}}的家庭</text>
           <text class="gift-question">带什么礼物最不会踩雷？</text>
         </view>
-        <view class="gift-body">顾问会根据你的测评画像，推荐3件不会踩雷的礼物——包括理由和预算范围。</view>
-        <view class="gift-btn" bindtap="goWecom">看顾问分析 →</view>
+        <view class="gift-body">顾问会根据你选的地区和家庭类型，推荐3件不踩雷的礼物——含理由和预算范围。</view>
+        <view class="gift-btn" bindtap="openCustomerService">看顾问给我选 →</view>
       </view>
     </view>
 
-    <!-- 屏5：情侣通关入口（交叉引流） -->
+    <!-- 屏4：情侣通关入口 -->
     <view class="screen screen-couple">
       <view class="couple-invite">
         <view class="couple-invite-title">找出你们两个没对上的地方</view>
@@ -105,7 +113,6 @@
       </view>
     </view>
 
-    <!-- 重做按钮 -->
     <view class="redo-area">
       <view class="btn-ghost" bindtap="redoQuiz">重新测评</view>
     </view>
@@ -113,7 +120,6 @@
     <view class="safe-bottom"></view>
   </scroll-view>
 
-  <!-- 付费弹窗 -->
   <pay-modal
     show="{{showPayModal}}"
     product="{{payProduct}}"

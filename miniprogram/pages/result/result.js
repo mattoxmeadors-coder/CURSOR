@@ -9,7 +9,7 @@ Page({
     gender: 'male',
     blindSpots: [],
     flippedCards: [],
-    allFlipped: false,
+    flippedCount: 0,
     regionLabel: '',
     showPayModal: false,
     payProduct: null
@@ -124,8 +124,8 @@ Page({
     const idx = e.currentTarget.dataset.idx
     const flippedCards = [...this.data.flippedCards]
     flippedCards[idx] = true
-    const allFlipped = flippedCards.every(v => v)
-    this.setData({ flippedCards, allFlipped })
+    const flippedCount = flippedCards.filter(v => v).length
+    this.setData({ flippedCards, flippedCount })
   },
 
   saveShareCard() {

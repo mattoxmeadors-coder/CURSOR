@@ -62,7 +62,10 @@
 
   <!-- ═══ 等待 TA 加入 ═══ -->
   <view wx:if="{{pageState === 'waiting'}}" class="waiting">
-    <view class="waiting-pulse"></view>
+    <view class="heartbeat-wrap">
+      <text class="heartbeat-icon">💗</text>
+      <view class="heartbeat-ring"></view>
+    </view>
     <view class="waiting-title">邀请已发出</view>
     <view class="waiting-sub">TA还没进来\n先来预热一下</view>
 
@@ -78,6 +81,11 @@
 
     <view class="waiting-footer">TA一进来，游戏立刻开始</view>
     <view class="share-btn" bindtap="shareInvite">再次分享邀请 →</view>
+
+    <!-- 轻量顾问入口 -->
+    <view class="waiting-cs" bindtap="openCS">
+      <text>边等TA，顾问帮你看礼物单 →</text>
+    </view>
   </view>
 
   <!-- ═══ 幕间过场（场景切换时显示） ═══ -->
@@ -118,8 +126,33 @@
     <view class="play-question">{{currentGameQ.text}}</view>
     <view class="play-hint" wx:if="{{currentGameQ.hint}}">· {{currentGameQ.hint}}</view>
 
-    <!-- 选项 -->
-    <view wx:if="{{currentGameQ.type !== 'open'}}" class="play-options">
+    <!-- 暗号生成题 -->
+    <view wx:if="{{currentGameQ.type === 'signal_gen'}}" class="signal-wrap">
+      <view wx:if="{{!signal1}}" class="signal-empty" bindtap="generateSignals">
+        <view class="signal-gen-btn">
+          <text class="signal-gen-icon">🎲</text>
+          <text class="signal-gen-text">生成你们的专属暗号</text>
+        </view>
+        <view class="signal-gen-sub">随机分配两个暗号，各自记住</view>
+      </view>
+
+      <view wx:if="{{signal1}}" class="signal-cards">
+        <view class="signal-card">
+          <view class="signal-num">暗号 1</view>
+          <view class="signal-action">{{signal1.signal}}</view>
+          <view class="signal-meaning">= {{signal1.meaning}}</view>
+        </view>
+        <view class="signal-card">
+          <view class="signal-num">暗号 2</view>
+          <view class="signal-action">{{signal2.signal}}</view>
+          <view class="signal-meaning">= {{signal2.meaning}}</view>
+        </view>
+        <view class="signal-reshuffle" bindtap="reshuffleSignals">🔀 换一组</view>
+      </view>
+    </view>
+
+    <!-- 普通单选题 -->
+    <view wx:elif="{{currentGameQ.type !== 'open'}}" class="play-options">
       <view
         wx:for="{{currentGameQ.options}}"
         wx:key="index"
@@ -134,7 +167,7 @@
     </view>
 
     <!-- 开放题 -->
-    <view wx:if="{{currentGameQ.type === 'open'}}" class="play-open">
+    <view wx:elif="{{currentGameQ.type === 'open'}}" class="play-open">
       <textarea
         class="open-input"
         placeholder="写下你真实的那句话……"
@@ -149,7 +182,14 @@
 
     <!-- 底部按钮 -->
     <view class="play-footer">
-      <view
+      <!-- 暗号题专属按钮 -->
+      <view wx:if="{{currentGameQ.type === 'signal_gen'}}"
+        class="play-confirm-btn {{signal1 ? 'active' : 'dim'}}"
+        bindtap="confirmSignals">
+        {{signalConfirmed ? '✓ 暗号已记住' : '记住了，开始通关'}}
+      </view>
+      <!-- 普通按钮 -->
+      <view wx:else
         class="play-confirm-btn {{(gameSelectedIdx !== null || gameOpenAnswer.length > 0) ? 'active' : 'dim'}}"
         bindtap="confirmGameAnswer"
       >

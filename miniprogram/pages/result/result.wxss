@@ -253,6 +253,57 @@
   border-left: 3rpx solid var(--color-gold);
 }
 
+/* 顾问内联卡（分数页常显示） */
+.cs-card-inline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-surface);
+  border: 1rpx solid var(--color-border);
+  border-radius: 24rpx;
+  padding: 28rpx 32rpx;
+  margin-top: 40rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cs-card-left { display: flex; align-items: center; gap: 20rpx; }
+
+.cs-avatar {
+  width: 72rpx; height: 72rpx;
+  border-radius: 50%;
+  background: var(--color-gold);
+  color: #0D0D0D;
+  font-size: 26rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cs-name  { font-size: 24rpx; color: var(--color-text-secondary); margin-bottom: 6rpx; }
+.cs-msg   { font-size: 26rpx; color: var(--color-text-primary); }
+.cs-arrow { font-size: 40rpx; color: var(--color-gold); }
+
+/* 无盲区礼物卡 */
+.cs-gift-card {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  background: var(--color-gold-dim);
+  border: 1rpx solid rgba(201,169,110,0.25);
+  border-radius: 24rpx;
+  padding: 28rpx 32rpx;
+  margin-top: 24rpx;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.cs-gift-icon   { font-size: 48rpx; flex-shrink: 0; }
+.cs-gift-title  { font-size: 28rpx; color: var(--color-text-primary); font-weight: 500; margin-bottom: 6rpx; }
+.cs-gift-sub    { font-size: 24rpx; color: var(--color-text-secondary); }
+
 .wecom-hook-badge {
   display: inline-block;
   font-size: 20rpx;

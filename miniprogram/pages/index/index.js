@@ -11,7 +11,14 @@ Page({
     dailyCard: {},
     dailyIndex: 1,
     showPriceHint: false,
-    priceHintProduct: {}
+    priceHintProduct: {},
+
+    reviews: [
+      { id: 1, avatar: '🙋', name: '小红·北京', text: '第一题就问到我没想到的点，当时出了一身冷汗。答完之后心里有底多了。', tag: '做完当天顺利见完' },
+      { id: 2, avatar: '👦', name: '阿杰·成都', text: '和女朋友一起做了情侣通关，发现我们婚期答案差了整整两年……', tag: '情侣通关用户' },
+      { id: 3, avatar: '🌸', name: '晴晴·上海', text: '他妈妈单独叫我进房间那题，我当时没想好怎么回答，看了解析才知道。还好提前测了。', tag: '女生路径用户' },
+      { id: 4, avatar: '💪', name: '大壮·广州', text: '通关手册里「壶嘴对着你是送客信号」这条，现场真的遇到了，默默转开了。', tag: '通关手册用户' }
+    ]
   },
 
   onLoad() {

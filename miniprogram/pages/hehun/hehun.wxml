@@ -156,6 +156,15 @@
         <view class="last-word-text">{{report.lastWord}}</view>
       </view>
 
+      <!-- 顾问轻量入口 -->
+      <view class="hehun-cs-hint" bindtap="openCS">
+        <text class="hehun-cs-icon">💬</text>
+        <view class="hehun-cs-text">
+          <text class="hehun-cs-title">顾问帮你把报告变成礼物方案</text>
+          <text class="hehun-cs-sub">发送报告截图 + 家庭信息，推荐专属礼单</text>
+        </view>
+      </view>
+
       <!-- 设置提醒 -->
       <view class="reminder-section">
         <view class="reminder-title">见家长当天提醒</view>
@@ -167,6 +176,16 @@
           </view>
         </picker>
         <view class="btn-secondary set-reminder-btn" bindtap="setReminder">设置提醒</view>
+      </view>
+
+      <!-- 简版升级提示 -->
+      <view wx:if="{{report._isFree}}" class="upgrade-banner" bindtap="generateReport">
+        <view class="upgrade-icon">✨</view>
+        <view class="upgrade-text">
+          <view class="upgrade-title">升级 AI 精准版 · ¥6.9</view>
+          <view class="upgrade-sub">接入DeepSeek大模型，更精准的四柱分析+专属饭桌话术</view>
+        </view>
+        <view class="upgrade-arrow">›</view>
       </view>
 
       <!-- 重新填写入口 -->

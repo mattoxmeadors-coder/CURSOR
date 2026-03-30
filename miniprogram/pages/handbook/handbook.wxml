@@ -89,7 +89,7 @@
           ¥4.9 继续学
         </view>
         <view class="paywall-wecom" bindtap="goWecom">
-          加顾问，她来告诉我 →
+          不想付费？加顾问，她来挑重点告诉我 →
         </view>
       </view>
 

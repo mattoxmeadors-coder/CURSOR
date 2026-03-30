@@ -83,8 +83,15 @@
   border-color: rgba(201, 169, 110, 0.4);
 }
 
-.hb-card.locked {
-  opacity: 0.7;
+.hb-card.locked .hb-card-title {
+  /* 标题文字模糊，只显示轮廓，无法阅读 */
+  color: transparent;
+  text-shadow: 0 0 12rpx rgba(240,237,232,0.85);
+  user-select: none;
+}
+
+.hb-card.locked .hb-card-cat {
+  opacity: 0.5;
 }
 
 .hb-card-head {

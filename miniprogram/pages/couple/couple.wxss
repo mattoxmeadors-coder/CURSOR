@@ -145,6 +145,92 @@
   padding: 16rpx;
 }
 
+/* ─── 暗号生成器 ─── */
+.signal-wrap { padding-top: 16rpx; }
+
+.signal-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+  padding: 20rpx 0;
+}
+
+.signal-gen-btn {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  background: var(--color-gold-dim);
+  border: 2rpx solid rgba(201,169,110,0.3);
+  border-radius: 48rpx;
+  padding: 28rpx 48rpx;
+}
+
+.signal-gen-btn:active { opacity: 0.8; transform: scale(0.97); }
+.signal-gen-icon { font-size: 48rpx; }
+.signal-gen-text { font-size: 30rpx; font-weight: 600; color: var(--color-gold); }
+.signal-gen-sub  { font-size: 24rpx; color: var(--color-text-tertiary); }
+
+.signal-cards { display: flex; flex-direction: column; gap: 20rpx; }
+
+.signal-card {
+  background: var(--color-surface);
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--color-radius-lg);
+  padding: 36rpx 40rpx;
+}
+
+.signal-num     { font-size: 22rpx; color: var(--color-text-tertiary); margin-bottom: 8rpx; letter-spacing: 2rpx; }
+.signal-action  { font-size: 36rpx; font-weight: 700; color: var(--color-text-primary); margin-bottom: 8rpx; }
+.signal-meaning { font-size: 26rpx; color: var(--color-gold); }
+
+.signal-reshuffle {
+  text-align: center;
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  padding: 16rpx;
+}
+
+/* ─── 心跳动画 ─── */
+.heartbeat-wrap {
+  position: relative;
+  width: 100rpx;
+  height: 100rpx;
+  margin-bottom: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@keyframes heartbeat {
+  0%   { transform: scale(1); }
+  14%  { transform: scale(1.3); }
+  28%  { transform: scale(1); }
+  42%  { transform: scale(1.2); }
+  70%  { transform: scale(1); }
+  100% { transform: scale(1); }
+}
+
+.heartbeat-icon {
+  font-size: 64rpx;
+  animation: heartbeat 1.4s ease infinite;
+  position: relative;
+  z-index: 1;
+}
+
+@keyframes heart-ring {
+  0%   { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+.heartbeat-ring {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-radius: 50%;
+  border: 2rpx solid rgba(201,169,110,0.4);
+  animation: heart-ring 1.4s ease-out infinite;
+}
+
 /* ─── 等待 ─── */
 .waiting {
   padding: calc(80rpx + env(safe-area-inset-top)) 48rpx 80rpx;
@@ -205,6 +291,12 @@
   font-size: 26rpx;
   color: var(--color-gold);
   padding: 16rpx;
+}
+
+.waiting-cs {
+  font-size: 24rpx;
+  color: var(--color-text-tertiary);
+  padding: 12rpx 0 8rpx;
 }
 
 /* ─── 幕间过场 ─── */

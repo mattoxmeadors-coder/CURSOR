@@ -1,11 +1,25 @@
 const { genId } = require('../../utils/util')
 // HANDBOOK_CARDS 在 onLoad 后懒加载，避免冷启动超时
 
+// 暗号候选库
+const SIGNAL_POOL = [
+  { signal: '摸右耳', meaning: '快帮我转移话题' },
+  { signal: '摸左耳', meaning: '可以提走了' },
+  { signal: '喝一口茶', meaning: '气氛不对，小心' },
+  { signal: '说「挺好的」', meaning: '状态不错，正常进行' },
+  { signal: '摸摸脖子', meaning: '快来救我' },
+  { signal: '眨两下眼', meaning: '该你接话了' },
+  { signal: '咳嗽一声', meaning: '话题不能继续了' },
+  { signal: '放下筷子', meaning: '我们可以走了' }
+]
+
 // 情侣通关题库（从个人题库精选+专属）
 const COUPLE_QUESTIONS_BASIC = [
-  // 序幕
-  { id: 'c1', stage: '序幕·出租车里', text: '出发前，你们约好暗号了吗？', hint: '这是整顿饭最重要的协议',
-    options: [{ label: '约好了，练过一遍了' }, { label: '说过，但没正式练' }, { label: '没约，靠默契' }, { label: '没想到这件事' }], type: 'single' },
+  // 序幕 — 暗号设置（游戏的第一步就是两人一起生成暗号）
+  { id: 'c1', stage: '序幕·出租车里',
+    text: '出发前，你们约好暗号了吗？\n\n一个「救我」暗号，一个「走了」暗号——\n就两个，今天会用上的。',
+    hint: '点下面的按钮，随机生成你们专属的暗号',
+    type: 'signal_gen', options: [] },
   { id: 'c2', stage: '序幕·出租车里', text: '如果今天一切顺利，你希望结束后第一句说什么？', hint: '写下来，等一下看看TA写的是什么', type: 'open', options: [] },
 
   // 进门关
@@ -95,6 +109,11 @@ Page({
     elevatorBDisplay: '',
     elevatorAReady: false,
     elevatorBReady: false,
+
+    // 暗号
+    signal1: null,
+    signal2: null,
+    signalConfirmed: false,
 
     showPayModal: false,
     payProduct: null
@@ -186,6 +205,27 @@ Page({
 
   onGameOpenInput(e) {
     this.setData({ gameOpenAnswer: e.detail.value })
+  },
+
+  generateSignals() {
+    const pool = [...SIGNAL_POOL]
+    const i1 = Math.floor(Math.random() * pool.length)
+    const s1 = pool.splice(i1, 1)[0]
+    const i2 = Math.floor(Math.random() * pool.length)
+    const s2 = pool[i2]
+    this.setData({ signal1: s1, signal2: s2, signalConfirmed: false })
+  },
+
+  reshuffleSignals() {
+    this.generateSignals()
+  },
+
+  confirmSignals() {
+    if (!this.data.signal1) {
+      this.generateSignals()
+    }
+    this.setData({ signalConfirmed: true })
+    setTimeout(() => this._nextGameQuestion(this.data.gameAnswers), 800)
   },
 
   confirmGameAnswer() {
@@ -339,6 +379,16 @@ Page({
 
   goResultPage() {
     wx.navigateTo({ url: '/pages/result/result?mode=couple' })
+  },
+
+  openCS() {
+    wx.openCustomerServiceChat({
+      extInfo: { url: 'https://work.weixin.qq.com/kfid/your-kf-id' },
+      corpId: 'your-corp-id',
+      fail() {
+        wx.showModal({ title: '联系顾问', content: '搜索公众号「见家长不翻车」→ 发送「礼物」', confirmText: '好的', showCancel: false })
+      }
+    })
   },
 
   _showBuyModal() {

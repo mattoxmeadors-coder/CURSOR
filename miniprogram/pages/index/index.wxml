@@ -38,6 +38,44 @@
     </view>
   </view>
 
+  <!-- 数据信任带 -->
+  <view class="trust-bar">
+    <view class="trust-item">
+      <text class="trust-num">47,218</text>
+      <text class="trust-label">人测过</text>
+    </view>
+    <view class="trust-divider"></view>
+    <view class="trust-item">
+      <text class="trust-num">92%</text>
+      <text class="trust-label">说有用</text>
+    </view>
+    <view class="trust-divider"></view>
+    <view class="trust-item">
+      <text class="trust-num">1,306</text>
+      <text class="trust-label">对情侣做完</text>
+    </view>
+  </view>
+
+  <!-- 真实好评卡 -->
+  <view class="reviews-section">
+    <view class="reviews-title">他们说</view>
+    <scroll-view scroll-x class="reviews-scroll">
+      <view class="reviews-list">
+        <view wx:for="{{reviews}}" wx:key="id" class="review-card">
+          <view class="review-header">
+            <view class="review-avatar">{{item.avatar}}</view>
+            <view class="review-meta">
+              <view class="review-name">{{item.name}}</view>
+              <view class="review-stars">★★★★★</view>
+            </view>
+          </view>
+          <view class="review-text">{{item.text}}</view>
+          <view class="review-tag">{{item.tag}}</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
   <!-- 今日快闪 -->
   <view class="daily-card" wx:if="{{dailyCard.title}}" bindtap="goHandbook">
     <view class="daily-header">

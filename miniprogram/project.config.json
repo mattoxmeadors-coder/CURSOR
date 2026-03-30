@@ -43,7 +43,7 @@
   "appid": "your-appid-here",
   "projectname": "见家长",
   "description": "见家长备考小程序",
-  "miniprogramRoot": "miniprogram/",
-  "cloudbaseRoot": "./",
-  "srcMiniprogramRoot": "miniprogram/"
+  "miniprogramRoot": "./",
+  "cloudbaseRoot": "cloud/",
+  "srcMiniprogramRoot": "./"
 }

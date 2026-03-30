@@ -53,9 +53,40 @@
   <view class="safe-bottom"></view>
 </view>
 
-<!-- ─── 产品价格说明弹层 ─── -->
-<view class="mask {{showPriceHint ? 'show' : ''}}" catchtap="closePriceHint">
-  <view class="bottom-sheet {{showPriceHint ? 'show' : ''}}" catchtap="">
+<!-- ═══════════════════════════════════════════
+     性别选择全屏遮罩（唯一前置步骤，一屏搞定）
+     ═══════════════════════════════════════════ -->
+<view wx:if="{{showGenderPicker}}" class="gender-overlay">
+
+  <view class="gender-overlay-close" bindtap="closeGenderPicker">✕</view>
+
+  <view class="gender-overlay-content">
+    <view class="gender-overlay-title">你是</view>
+    <view class="gender-overlay-sub">题库根据性别完全不同，先确认这一步</view>
+
+    <view class="gender-big-row">
+      <view class="gender-big-btn" bindtap="pickGender" data-val="male">
+        <view class="gender-big-emoji">👨</view>
+        <view class="gender-big-label">男生</view>
+        <view class="gender-big-desc">证明我有资格带走她</view>
+      </view>
+      <view class="gender-big-btn" bindtap="pickGender" data-val="female">
+        <view class="gender-big-emoji">👩</view>
+        <view class="gender-big-label">女生</view>
+        <view class="gender-big-desc">让他们真心接纳我</view>
+      </view>
+    </view>
+
+    <view class="gender-overlay-hint">选完直接进题，不需要填其他信息</view>
+  </view>
+
+</view>
+
+<!-- ═══════════════════════════════════════════
+     产品价格说明弹层
+     ═══════════════════════════════════════════ -->
+<view wx:if="{{showPriceHint}}" class="price-mask" bindtap="closePriceHint">
+  <view class="price-sheet" catchtap="noop">
     <view class="sheet-handle"></view>
     <view class="sheet-icon">{{priceHintProduct.icon}}</view>
     <view class="sheet-name">{{priceHintProduct.name}}</view>
@@ -78,94 +109,6 @@
       </view>
     </view>
 
-    <view class="btn-ghost sheet-cancel" bindtap="closePriceHint">取消</view>
-  </view>
-</view>
-
-<!-- ─── 4步身份选择弹层 ─── -->
-<view class="mask {{showProfile ? 'show' : ''}}" catchtap="closeProfile">
-  <view class="profile-sheet {{showProfile ? 'show' : ''}}" catchtap="">
-
-    <!-- 进度条 -->
-    <view class="steps-bar">
-      <view wx:for="{{[1,2,3,4]}}" wx:key="*this"
-        class="step-dot {{profileStep >= item ? 'active' : ''}}">
-      </view>
-    </view>
-    <view class="step-hint">{{profileStep}} / 4</view>
-
-    <!-- 步骤1：性别 -->
-    <block wx:if="{{profileStep === 1}}">
-      <view class="step-title">你的性别</view>
-      <view class="step-subtitle">决定整个题库路径</view>
-      <view class="gender-row">
-        <view class="gender-btn {{profile.gender === 'male' ? 'selected' : ''}}"
-          bindtap="selectGender" data-val="male">
-          <text class="gender-icon">👨</text>
-          <text class="gender-label">男生</text>
-        </view>
-        <view class="gender-btn {{profile.gender === 'female' ? 'selected' : ''}}"
-          bindtap="selectGender" data-val="female">
-          <text class="gender-icon">👩</text>
-          <text class="gender-label">女生</text>
-        </view>
-      </view>
-    </block>
-
-    <!-- 步骤2：地区 -->
-    <block wx:if="{{profileStep === 2}}">
-      <view class="step-title">对方父母所在地区</view>
-      <view class="step-subtitle">按习俗强度分类</view>
-      <scroll-view scroll-y style="flex:1;max-height:420rpx;">
-        <view wx:for="{{regions}}" wx:key="value"
-          class="region-item {{profile.region === item.value ? 'selected' : ''}}"
-          bindtap="selectRegion" data-val="{{item.value}}">
-          <text class="region-name">{{item.label}}</text>
-          <text class="region-tag">{{item.tag}}</text>
-        </view>
-      </scroll-view>
-    </block>
-
-    <!-- 步骤3：见面性质 -->
-    <block wx:if="{{profileStep === 3}}">
-      <view class="step-title">这次见面的性质</view>
-      <view class="step-subtitle">场景不同，题库侧重不同</view>
-      <view class="occasion-list">
-        <view wx:for="{{occasions}}" wx:key="value"
-          class="occasion-item {{profile.occasion === item.value ? 'selected' : ''}}"
-          bindtap="selectOccasion" data-val="{{item.value}}">
-          <view class="occasion-name">{{item.label}}</view>
-          <view class="occasion-desc">{{item.desc}}</view>
-        </view>
-      </view>
-    </block>
-
-    <!-- 步骤4：到场人员 -->
-    <block wx:if="{{profileStep === 4}}">
-      <view class="step-title">当天家里有哪些人</view>
-      <view class="step-subtitle">多选，影响题库提示</view>
-      <scroll-view scroll-y style="flex:1;max-height:420rpx;">
-        <view wx:for="{{peopleOptions}}" wx:key="value"
-          class="people-item {{peopleSelected[item.value] ? 'selected' : ''}}"
-          bindtap="togglePeople" data-val="{{item.value}}">
-          <view class="people-check {{peopleSelected[item.value] ? 'checked' : ''}}">
-            <text wx:if="{{peopleSelected[item.value]}}">✓</text>
-          </view>
-          <view class="people-info">
-            <text class="people-label">{{item.label}}</text>
-            <text class="people-warn" wx:if="{{item.warn}}">⚠️ {{item.warn}}</text>
-          </view>
-        </view>
-      </scroll-view>
-    </block>
-
-    <!-- 底部按钮 -->
-    <view class="step-actions">
-      <view class="btn-secondary step-back" wx:if="{{profileStep > 1}}" bindtap="prevStep">上一步</view>
-      <view class="btn-primary step-next" bindtap="nextStep">
-        {{profileStep === 4 ? '开始测评' : '下一步'}}
-      </view>
-    </view>
-
+    <view class="sheet-cancel" bindtap="closePriceHint">取消</view>
   </view>
 </view>

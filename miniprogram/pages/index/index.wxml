@@ -39,14 +39,20 @@
   </view>
 
   <!-- 今日快闪 -->
-  <view class="daily-card" wx:if="{{dailyCard.title}}">
+  <view class="daily-card" wx:if="{{dailyCard.title}}" bindtap="goHandbook">
     <view class="daily-header">
       <text class="daily-label">📍 今日快闪</text>
       <text class="daily-index">第{{dailyIndex}}条</text>
     </view>
     <view class="daily-title">{{dailyCard.title}}</view>
     <view class="daily-punchline">{{dailyCard.punchline}}</view>
-    <view class="daily-cta" bindtap="goHandbook">查看手册全部100条 →</view>
+    <view class="daily-cta">查看手册全部100条 →</view>
+  </view>
+  <!-- 骨架：快闪加载中 -->
+  <view class="daily-card daily-skeleton" wx:else>
+    <view class="skeleton-line w60"></view>
+    <view class="skeleton-line w100 tall"></view>
+    <view class="skeleton-line w80"></view>
   </view>
 
   <view class="footer"><text class="footer-text">部分功能付费 · 内容仅供参考</text></view>

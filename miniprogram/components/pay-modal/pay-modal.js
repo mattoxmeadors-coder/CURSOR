@@ -39,14 +39,12 @@ Component({
 
     buyFullPackage() {
       this.triggerEvent('close')
-      // 让父页面处理全套购买
-      this.triggerEvent('pay', { key: 'fullPackage', price: '29.9' })
+      this.triggerEvent('pay', { key: 'fullPackage', price: '12.9' })
     },
 
     diffUpgrade() {
-      const { product } = this.properties
-      // 差价升级
-      this.triggerEvent('pay', { key: 'coupleFull', price: '10', isDiffUpgrade: true })
+      // 基础版→完整版差价升级
+      this.triggerEvent('pay', { key: 'coupleFull', price: '4.9', isDiffUpgrade: true })
     }
   }
 })

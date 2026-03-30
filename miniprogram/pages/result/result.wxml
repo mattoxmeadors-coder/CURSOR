@@ -105,8 +105,8 @@
     <view class="screen screen-gift">
       <view class="gift-card">
         <view class="gift-header">
-          <text class="gift-region">{{regionLabel}} 家庭</text>
-          <text class="gift-question">这类家庭，什么礼物最稳？</text>
+          <text class="gift-region">{{regionLabel}}的家庭</text>
+          <text class="gift-question">带什么礼物最不会踩雷？</text>
         </view>
         <view class="gift-body">顾问会根据你的测评画像，推荐3件不会踩雷的礼物——包括理由和预算范围。</view>
         <view class="gift-btn" bindtap="goWecom">看顾问分析 →</view>

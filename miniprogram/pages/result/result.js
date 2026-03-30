@@ -1,5 +1,4 @@
 const { scoreColor, scoreLabel, REGION_MAP } = require('../../utils/util')
-const { currentYear } = require('../../utils/util')
 
 Page({
   data: {
@@ -28,7 +27,7 @@ Page({
     const profile = wx.getStorageSync('userProfile') || {}
     const color = scoreColor(result.score)
     const label = scoreLabel(result.score)
-    const region = REGION_MAP[profile.region] || '所在'
+    const region = REGION_MAP[profile.region] || '对方父母'
 
     this._pendingResult = { score: result.score, color }
 
@@ -129,6 +128,10 @@ Page({
     flippedCards[idx] = true
     const allFlipped = flippedCards.every(v => v)
     this.setData({ flippedCards, allFlipped })
+  },
+
+  saveShareCard() {
+    wx.showToast({ title: '长按图片保存', icon: 'none' })
   },
 
   goWecom() {

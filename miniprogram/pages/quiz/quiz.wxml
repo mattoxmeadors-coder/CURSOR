@@ -69,15 +69,15 @@
           class="option-item {{selectedIdx === index ? 'selected' : ''}} {{showAnalysis && selectedIdx === index ? 'revealed' : ''}}"
           bindtap="selectOption"
           data-idx="{{index}}"
-          style="animation-delay: {{index * 80}}ms"
+          style="animation-delay:{{index * 80}}ms"
         >
           <view class="option-marker">{{optionLabels[index]}}</view>
           <view class="option-text">{{item.label}}</view>
           <!-- 评分小点（选了后显示） -->
           <view wx:if="{{showAnalysis && selectedIdx === index}}" class="option-score">
             <view class="score-dots">
-              <view wx:for="{{[1,2,3,4,5]}}" wx:key="*this"
-                class="score-dot {{currentQ.options[selectedIdx].score >= item ? 'lit' : ''}}">
+              <view wx:for="{{[1,2,3,4,5]}}" wx:key="*this" wx:for-item="dot"
+                class="score-dot {{currentQ.options[selectedIdx].score >= dot ? 'lit' : ''}}">
               </view>
             </view>
           </view>
@@ -109,19 +109,20 @@
   </view>
 
   <!-- 底部操作栏 -->
-  <view class="quiz-footer">
-    <view wx:if="{{!showKnowledgeCard && !showBreakdown}}">
-      <view wx:if="{{currentQ && currentQ.type === 'open'}}">
-        <view class="btn-primary" bindtap="submitOpen">
-          提交并查看结果
-        </view>
-      </view>
-      <view wx:elif="{{showAnalysis}}" class="btn-primary" bindtap="nextQuestion">
-        {{currentIndex + 1 < totalCount - 1 ? '下一题' : '查看结果'}}
-      </view>
-      <view wx:elif="{{selectedIdx !== null}}" class="btn-primary btn-confirm" bindtap="confirmAnswer">
-        确认这个答案
-      </view>
+  <view class="quiz-footer" wx:if="{{!showKnowledgeCard && !showBreakdown}}">
+    <!-- 开放题：始终显示提交按钮，未输入时半透明 -->
+    <view wx:if="{{currentQ && currentQ.type === 'open'}}"
+      class="btn-primary {{openAnswer.length === 0 ? 'btn-dim' : ''}}"
+      bindtap="submitOpen">
+      {{openAnswer.length === 0 ? '写下你的第一句话 →' : '提交并查看结果'}}
+    </view>
+    <!-- 单选题已显示解析：下一题/查看结果 -->
+    <view wx:elif="{{showAnalysis}}" class="btn-primary" bindtap="nextQuestion">
+      {{currentIndex + 1 < totalCount - 1 ? '下一题 →' : '查看我的结果 →'}}
+    </view>
+    <!-- 单选题已选未确认 -->
+    <view wx:elif="{{selectedIdx !== null}}" class="btn-primary" bindtap="confirmAnswer">
+      确认这个答案
     </view>
   </view>
 

@@ -47,7 +47,8 @@ Page({
   // 用户点击某个选项（临时高亮，未确认）
   selectOption(e) {
     if (this.data.showAnalysis) return
-    const idx = e.currentTarget.dataset.idx
+    // data-idx 从 WXML 传来是字符串，必须转 Number，否则 === 比较永远失败
+    const idx = Number(e.currentTarget.dataset.idx)
     this.setData({ selectedIdx: idx })
   },
 

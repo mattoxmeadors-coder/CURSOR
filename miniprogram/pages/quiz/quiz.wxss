@@ -326,6 +326,6 @@
   background: linear-gradient(to top, var(--color-bg) 80%, transparent);
 }
 
-.btn-confirm {
-  animation: fadeInUp 0.3s ease;
+.btn-dim {
+  opacity: 0.45;
 }

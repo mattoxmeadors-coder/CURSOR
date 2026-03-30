@@ -1,4 +1,3 @@
-const { MALE_QUESTIONS, FEMALE_QUESTIONS } = require('../../utils/questions')
 const { HANDBOOK_CARDS } = require('../../utils/handbook')
 const { genId } = require('../../utils/util')
 
@@ -85,7 +84,6 @@ Page({
     // 倒计时
     timerCount: 30,
     timerWarning: false,
-    timerTimer: null,
 
     // 电梯揭晓
     elevatorA: '',
@@ -234,18 +232,18 @@ Page({
   },
 
   _startTimer() {
-    clearInterval(this.data.timerTimer)
+    // 用实例属性而非 data 存定时器，避免不必要的 setData 渲染
+    clearInterval(this._timer)
     let count = 30
     this.setData({ timerCount: count, timerWarning: false })
-    const timer = setInterval(() => {
+    this._timer = setInterval(() => {
       count--
       this.setData({ timerCount: count, timerWarning: count <= 10 })
       if (count <= 0) {
-        clearInterval(timer)
+        clearInterval(this._timer)
         this._timeoutSkip()
       }
     }, 1000)
-    this.setData({ timerTimer: timer })
   },
 
   _timeoutSkip() {
@@ -268,10 +266,10 @@ Page({
     this.setData({
       showPayModal: true,
       payProduct: {
-        key: 'coupleBasic',
-        name: '情侣通关·基础版',
-        desc: '25题，找出你们真正没对上的地方',
-        price: '9.9',
+        key: 'coupleFull',
+        name: '情侣通关·完整版',
+        desc: '42题，找出你们真正没对上的地方，电梯揭晓',
+        price: '4.9',
         originalPrice: null
       }
     })
@@ -292,6 +290,6 @@ Page({
   },
 
   onUnload() {
-    clearInterval(this.data.timerTimer)
+    clearInterval(this._timer)
   }
 })

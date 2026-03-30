@@ -27,7 +27,7 @@
       <!-- 前20条免费预热提示 -->
       <view class="hb-free-hint">
         <text class="text-gold">前20条免费</text>
-        <text class="text-secondary text-sm"> · 剩余80条 ¥9.9 解锁</text>
+        <text class="text-secondary text-sm"> · 剩余80条 ¥4.9 解锁</text>
       </view>
 
       <view

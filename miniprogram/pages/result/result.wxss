@@ -1,0 +1,396 @@
+/* 结果页样式 */
+.result-page {
+  height: 100vh;
+  background: var(--color-bg);
+}
+
+.result-scroll {
+  height: 100vh;
+}
+
+.screen {
+  padding: 60rpx 40rpx;
+}
+
+/* ─── 屏1：分数 ─── */
+.screen-score {
+  padding-top: calc(60rpx + env(safe-area-inset-top));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.score-ring-wrap {
+  position: relative;
+  width: 280rpx;
+  height: 280rpx;
+  margin-bottom: 48rpx;
+}
+
+.score-canvas {
+  width: 280rpx;
+  height: 280rpx;
+}
+
+.score-center {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.score-number {
+  font-size: 88rpx;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.score-unit {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  margin-top: 4rpx;
+}
+
+.score-question {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 16rpx;
+}
+
+.score-label {
+  font-size: 28rpx;
+  margin-bottom: 60rpx;
+  text-align: center;
+  padding: 0 40rpx;
+}
+
+.summary-row {
+  display: flex;
+  align-items: center;
+  background: var(--color-surface);
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--color-radius-xl);
+  padding: 36rpx 0;
+  width: 100%;
+}
+
+.summary-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.summary-num {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.summary-desc {
+  font-size: 22rpx;
+  color: var(--color-text-tertiary);
+}
+
+.summary-divider {
+  width: 1rpx;
+  height: 48rpx;
+  background: var(--color-border);
+}
+
+/* ─── 屏2：盲区 ─── */
+.section-header {
+  margin-bottom: 40rpx;
+}
+
+.section-tag {
+  display: block;
+  font-size: 22rpx;
+  color: var(--color-gold);
+  letter-spacing: 2rpx;
+  margin-bottom: 12rpx;
+}
+
+.section-title {
+  display: block;
+  font-size: 44rpx;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.no-blindspot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20rpx;
+  padding: 60rpx 0;
+}
+
+.no-blindspot-icon {
+  font-size: 80rpx;
+}
+
+.no-blindspot-text {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+}
+
+/* 翻牌卡片 */
+.blindspot-card {
+  height: 200rpx;
+  margin-bottom: 24rpx;
+  perspective: 1000rpx;
+  cursor: pointer;
+}
+
+.card-front, .card-back {
+  position: absolute;
+  width: 100%;
+  height: 200rpx;
+  border-radius: var(--color-radius-lg);
+  backface-visibility: hidden;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 32rpx 40rpx;
+  box-sizing: border-box;
+}
+
+.card-front {
+  background: var(--color-surface);
+  border: 1rpx solid var(--color-border);
+  align-items: center;
+  transform: rotateY(0deg);
+}
+
+.card-back {
+  background: linear-gradient(135deg, #1A1610, #201A0E);
+  border: 1rpx solid rgba(201,169,110,0.25);
+  transform: rotateY(180deg);
+  overflow: hidden;
+}
+
+.blindspot-card.flipped .card-front {
+  transform: rotateY(-180deg);
+}
+
+.blindspot-card.flipped .card-back {
+  transform: rotateY(0deg);
+}
+
+.card-front-icon {
+  font-size: 48rpx;
+  font-weight: 800;
+  color: var(--color-text-tertiary);
+  margin-bottom: 12rpx;
+}
+
+.card-front-text {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  margin-bottom: 8rpx;
+}
+
+.card-front-hint {
+  font-size: 22rpx;
+  color: var(--color-text-tertiary);
+}
+
+.card-back-q {
+  font-size: 24rpx;
+  color: var(--color-gold);
+  margin-bottom: 12rpx;
+  font-weight: 500;
+}
+
+.card-back-analysis {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+/* 企微钩子 */
+.wecom-hook {
+  margin-top: 32rpx;
+}
+
+.wecom-hook-inner {
+  background: var(--color-surface);
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--color-radius-lg);
+  padding: 40rpx;
+}
+
+.wecom-title {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  margin-bottom: 16rpx;
+}
+
+.wecom-body {
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+  line-height: 1.7;
+  font-style: italic;
+  margin-bottom: 32rpx;
+  padding: 24rpx;
+  background: var(--color-surface-2);
+  border-radius: var(--color-radius-md);
+  border-left: 3rpx solid var(--color-gold);
+}
+
+.wecom-btn {
+  font-size: 28rpx;
+  color: var(--color-gold);
+  font-weight: 500;
+  text-align: right;
+}
+
+/* ─── 屏3：分享卡 ─── */
+.share-card-preview {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3/4;
+  border-radius: var(--color-radius-lg);
+  overflow: hidden;
+  margin-bottom: 32rpx;
+}
+
+.share-canvas-preview {
+  width: 100%;
+  height: 100%;
+}
+
+.share-card-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20rpx;
+  background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+  text-align: center;
+}
+
+.share-hint {
+  font-size: 24rpx;
+  color: rgba(255,255,255,0.7);
+}
+
+/* 今晚必聊清单 */
+.tonight-intro {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  margin-bottom: 32rpx;
+}
+
+.tonight-item {
+  padding: 32rpx;
+  background: var(--color-surface);
+  border-radius: var(--color-radius-md);
+  margin-bottom: 16rpx;
+}
+
+.tonight-q {
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+  font-weight: 500;
+  margin-bottom: 12rpx;
+}
+
+.tonight-starter {
+  font-size: 24rpx;
+  color: var(--color-gold);
+}
+
+/* ─── 屏4：礼品 ─── */
+.gift-card {
+  background: var(--color-surface);
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--color-radius-xl);
+  padding: 48rpx 40rpx;
+}
+
+.gift-header {
+  margin-bottom: 24rpx;
+}
+
+.gift-region {
+  display: inline-block;
+  padding: 6rpx 20rpx;
+  background: var(--color-gold-dim);
+  color: var(--color-gold);
+  border-radius: 32rpx;
+  font-size: 22rpx;
+  margin-bottom: 16rpx;
+}
+
+.gift-question {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.gift-body {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  margin-bottom: 32rpx;
+}
+
+.gift-btn {
+  font-size: 28rpx;
+  color: var(--color-gold);
+  font-weight: 500;
+  text-align: right;
+}
+
+/* ─── 屏5：情侣通关 ─── */
+.couple-invite {
+  background: linear-gradient(135deg, #1A1610, #201A0E);
+  border: 1rpx solid rgba(201,169,110,0.2);
+  border-radius: var(--color-radius-xl);
+  padding: 60rpx 40rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.couple-invite-title {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.couple-invite-desc {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+.couple-price-hint {
+  font-size: 22rpx;
+  color: var(--color-text-tertiary);
+  text-align: center;
+}
+
+.redo-area {
+  display: flex;
+  justify-content: center;
+  padding: 20rpx 0 40rpx;
+}

@@ -1,0 +1,9 @@
+<!-- 知识卡组件 -->
+<view class="kcard">
+  <view class="kcard-tag">📍 {{card.tag}}</view>
+  <view class="kcard-title">{{card.title}}</view>
+  <view class="kcard-content">{{card.content}}</view>
+  <view class="kcard-divider"></view>
+  <view class="kcard-punchline">{{card.punchline}}</view>
+  <view class="btn-primary kcard-next" bindtap="onNext">下一题 →</view>
+</view>

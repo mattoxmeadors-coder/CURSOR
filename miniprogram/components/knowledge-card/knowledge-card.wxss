@@ -1,0 +1,53 @@
+/* 知识卡组件样式 */
+.kcard {
+  background: linear-gradient(135deg, #1A1610, #201A0E);
+  border: 1rpx solid rgba(201,169,110,0.25);
+  border-radius: 32rpx;
+  padding: 48rpx 40rpx 40rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.kcard-tag {
+  font-size: 22rpx;
+  color: #C9A96E;
+  letter-spacing: 2rpx;
+  font-weight: 500;
+}
+
+.kcard-title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #F0EDE8;
+  line-height: 1.4;
+}
+
+.kcard-content {
+  font-size: 28rpx;
+  color: #9A948A;
+  line-height: 1.9;
+  white-space: pre-line;
+}
+
+.kcard-divider {
+  height: 1rpx;
+  background: linear-gradient(90deg, #C9A96E, transparent);
+  opacity: 0.4;
+}
+
+.kcard-punchline {
+  font-size: 27rpx;
+  color: #C9A96E;
+  font-style: italic;
+  line-height: 1.6;
+  padding: 20rpx 24rpx;
+  background: rgba(201,169,110,0.06);
+  border-radius: 16rpx;
+  border-left: 4rpx solid #C9A96E;
+}
+
+.kcard-next {
+  margin-top: 8rpx;
+  font-size: 28rpx;
+}

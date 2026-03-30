@@ -1,0 +1,113 @@
+<!-- 通关手册页 -->
+<view class="hb-page">
+
+  <!-- 顶部 -->
+  <view class="hb-header">
+    <view class="hb-title">见家长通关手册</view>
+    <view class="hb-subtitle">100个你可能不知道的细节</view>
+
+    <!-- 分类筛选 -->
+    <scroll-view scroll-x class="cat-scroll">
+      <view class="cat-list">
+        <view
+          wx:for="{{categories}}"
+          wx:key="*this"
+          class="cat-chip {{activeCategory === item ? 'active' : ''}}"
+          bindtap="filterCategory"
+          data-cat="{{item}}"
+        >{{item}}</view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 卡片列表 -->
+  <scroll-view scroll-y class="hb-scroll" enhanced>
+    <view class="hb-list">
+
+      <!-- 前20条免费预热提示 -->
+      <view class="hb-free-hint">
+        <text class="text-gold">前20条免费</text>
+        <text class="text-secondary text-sm"> · 剩余80条 ¥9.9 解锁</text>
+      </view>
+
+      <view
+        wx:for="{{filteredCards}}"
+        wx:key="id"
+        class="hb-card {{expandedId === item.id ? 'expanded' : ''}} {{!item.isFree && !isUnlocked ? 'locked' : ''}}"
+        bindtap="toggleCard"
+        data-id="{{item.id}}"
+        data-free="{{item.isFree}}"
+      >
+        <!-- 卡片头 -->
+        <view class="hb-card-head">
+          <view class="hb-card-num">{{item.id < 10 ? '0' + item.id : item.id}}</view>
+          <view class="hb-card-main">
+            <view class="hb-card-cat">{{item.category}}</view>
+            <view class="hb-card-title">{{item.title}}</view>
+          </view>
+          <view class="hb-card-badge" wx:if="{{item.isFree}}">
+            <text class="badge-free">免费</text>
+          </view>
+          <view class="hb-card-badge" wx:elif="{{!isUnlocked}}">
+            <text class="badge-lock">🔒</text>
+          </view>
+          <view class="hb-card-arrow">
+            <text class="{{expandedId === item.id ? 'arrow-up' : 'arrow-down'}}">›</text>
+          </view>
+        </view>
+
+        <!-- 展开内容 -->
+        <view wx:if="{{expandedId === item.id && (item.isFree || isUnlocked)}}" class="hb-card-body animate-fade-up">
+          <view class="hb-answer">{{item.content}}</view>
+          <view class="hb-divider-gold"></view>
+          <view class="hb-reason-label">为什么</view>
+          <view class="hb-reason">{{item.reason}}</view>
+          <view class="hb-punchline">「{{item.punchline}}」</view>
+        </view>
+
+        <!-- 锁定状态展开 -->
+        <view wx:if="{{expandedId === item.id && !item.isFree && !isUnlocked}}" class="hb-locked-body animate-fade-up">
+          <view class="hb-locked-preview">{{item.content.substr(0, 20)}}……</view>
+          <view class="hb-locked-tip">解锁全部80条，一次性 ¥9.9</view>
+          <view class="btn-primary hb-unlock-btn" bindtap="unlockAll">¥9.9 解锁全部</view>
+        </view>
+
+      </view>
+
+      <!-- 第20条后付费引导 -->
+      <view wx:if="{{showPaywall && !isUnlocked}}" class="paywall-screen animate-fade-up">
+        <view class="paywall-text">
+          你刚才看的20条，
+          是整个手册里<text class="text-gold">信息密度最高的</text>20条。
+
+          剩下80条，讲的是：
+          · 对话话术（被问婚期、被问收入，完整话术）
+          · 危机处理（礼物被退、父母拌嘴、帮倒忙）
+          · 地域专题（山东/东北/潮汕各5题）
+        </view>
+        <view class="paywall-btn" bindtap="unlockAll">
+          ¥9.9 继续学
+        </view>
+        <view class="paywall-wecom" bindtap="goWecom">
+          加顾问，她来告诉我 →
+        </view>
+      </view>
+
+    </view>
+    <view class="safe-bottom"></view>
+  </scroll-view>
+
+  <!-- 悬浮解锁按钮（浏览付费内容时出现） -->
+  <view wx:if="{{!isUnlocked}}" class="float-unlock" bindtap="unlockAll">
+    <text>解锁剩余80条</text>
+    <text class="float-price">¥9.9</text>
+  </view>
+
+  <!-- 付费弹窗 -->
+  <pay-modal
+    show="{{showPayModal}}"
+    product="{{payProduct}}"
+    bindclose="onPayClose"
+    bindpay="onPaySuccess"
+  />
+</view>

@@ -1,0 +1,185 @@
+/* ===== 全局设计系统 ===== */
+
+/* 颜色 token */
+page {
+  --color-bg: #0D0D0D;
+  --color-surface: #161616;
+  --color-surface-2: #1E1E1E;
+  --color-surface-3: #252525;
+  --color-border: #2A2A2A;
+  --color-gold: #C9A96E;
+  --color-gold-light: #E8C98A;
+  --color-gold-dim: rgba(201, 169, 110, 0.15);
+  --color-text-primary: #F0EDE8;
+  --color-text-secondary: #9A948A;
+  --color-text-tertiary: #5A5550;
+  --color-red: #E05A5A;
+  --color-green: #5ABF8A;
+  --color-orange: #E08A5A;
+  --color-radius-sm: 12rpx;
+  --color-radius-md: 20rpx;
+  --color-radius-lg: 32rpx;
+  --color-radius-xl: 48rpx;
+  background-color: var(--color-bg);
+  color: var(--color-text-primary);
+  font-family: -apple-system, 'PingFang SC', 'Helvetica Neue', sans-serif;
+  font-size: 28rpx;
+  line-height: 1.6;
+}
+
+/* 通用布局 */
+.page-container {
+  min-height: 100vh;
+  background: var(--color-bg);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+.safe-bottom {
+  height: calc(32rpx + env(safe-area-inset-bottom));
+}
+
+/* 黄金分割线 */
+.divider {
+  height: 1rpx;
+  background: var(--color-border);
+  margin: 32rpx 0;
+}
+
+.divider-gold {
+  height: 1rpx;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+  margin: 32rpx 0;
+}
+
+/* 卡片通用 */
+.card {
+  background: var(--color-surface);
+  border-radius: var(--color-radius-lg);
+  padding: 40rpx;
+  margin: 0 32rpx 24rpx;
+}
+
+.card-bordered {
+  border: 1rpx solid var(--color-border);
+}
+
+/* 按钮 */
+.btn-primary {
+  width: 100%;
+  height: 96rpx;
+  background: linear-gradient(135deg, #C9A96E, #E8C98A);
+  border-radius: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #0D0D0D;
+  letter-spacing: 2rpx;
+  box-shadow: 0 8rpx 32rpx rgba(201, 169, 110, 0.3);
+}
+
+.btn-primary:active {
+  opacity: 0.85;
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  width: 100%;
+  height: 96rpx;
+  background: transparent;
+  border: 1rpx solid var(--color-gold);
+  border-radius: 48rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 30rpx;
+  color: var(--color-gold);
+  letter-spacing: 1rpx;
+}
+
+.btn-secondary:active {
+  background: var(--color-gold-dim);
+}
+
+.btn-ghost {
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+}
+
+/* 文字样式 */
+.text-gold {
+  color: var(--color-gold);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-sm {
+  font-size: 24rpx;
+}
+
+.text-lg {
+  font-size: 36rpx;
+}
+
+.text-xl {
+  font-size: 44rpx;
+}
+
+.text-bold {
+  font-weight: 600;
+}
+
+.text-center {
+  text-align: center;
+}
+
+/* 标签 */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4rpx 16rpx;
+  border-radius: 24rpx;
+  font-size: 22rpx;
+  font-weight: 500;
+}
+
+.tag-gold {
+  background: var(--color-gold-dim);
+  color: var(--color-gold);
+  border: 1rpx solid rgba(201, 169, 110, 0.3);
+}
+
+/* 进入动画 */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(24rpx);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-up {
+  animation: fadeInUp 0.4s ease forwards;
+}
+
+/* 渐变背景遮罩 */
+.gradient-mask-bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 200rpx;
+  background: linear-gradient(to top, var(--color-bg), transparent);
+  pointer-events: none;
+  z-index: 10;
+}

@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "通关手册",
+  "navigationBarBackgroundColor": "#0D0D0D",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#0D0D0D",
+  "usingComponents": {
+    "pay-modal": "../../components/pay-modal/pay-modal"
+  }
+}

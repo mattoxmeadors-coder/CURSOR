@@ -1,0 +1,155 @@
+<!-- 情侣通关页 -->
+<view class="couple-page">
+
+  <!-- 未开始状态 -->
+  <view wx:if="{{pageState === 'landing'}}" class="landing animate-fade-up">
+
+    <view class="landing-hero">
+      <view class="landing-badge">💑</view>
+      <view class="landing-title">情侣通关</view>
+      <view class="landing-subtitle">你答你的，TA答TA的\n最后一起揭晓你们没对上的地方</view>
+    </view>
+
+    <view class="landing-features">
+      <view class="feature-item">
+        <text class="feature-icon">🎯</text>
+        <text class="feature-text">42道真实见家长场景题</text>
+      </view>
+      <view class="feature-item">
+        <text class="feature-icon">🔒</text>
+        <text class="feature-text">防偷看设计，背对背独立作答</text>
+      </view>
+      <view class="feature-item">
+        <text class="feature-icon">⚡</text>
+        <text class="feature-text">电梯揭晓，双方同时看到彼此的答案</text>
+      </view>
+    </view>
+
+    <view class="landing-actions">
+      <view class="couple-price-row">
+        <view class="couple-price-option {{selectedVersion === 'basic' ? 'selected' : ''}}"
+          bindtap="selectVersion" data-v="basic">
+          <view class="price-opt-name">基础版</view>
+          <view class="price-opt-count">25题</view>
+          <view class="price-opt-price">¥9.9</view>
+        </view>
+        <view class="couple-price-option {{selectedVersion === 'full' ? 'selected' : ''}}"
+          bindtap="selectVersion" data-v="full">
+          <view class="price-opt-badge">推荐</view>
+          <view class="price-opt-name">完整版</view>
+          <view class="price-opt-count">42题</view>
+          <view class="price-opt-price">¥19.9</view>
+        </view>
+      </view>
+
+      <view class="btn-primary mt40" bindtap="startCouple">
+        发起通关，邀请TA →
+      </view>
+      <view class="btn-ghost" bindtap="joinCouple">我收到了邀请，加入</view>
+    </view>
+  </view>
+
+  <!-- 等待TA加入 -->
+  <view wx:if="{{pageState === 'waiting'}}" class="waiting animate-fade-up">
+    <view class="waiting-icon">⏳</view>
+    <view class="waiting-title">邀请已发出</view>
+    <view class="waiting-subtitle">TA还没进来——先来热个身</view>
+
+    <view class="waiting-warmup">
+      <view class="warmup-title">📖 通关手册 · 前5条精华</view>
+      <view wx:for="{{warmupCards}}" wx:key="id" class="warmup-card">
+        <view class="warmup-num">{{index + 1}}</view>
+        <view class="warmup-text">{{item.title}}</view>
+      </view>
+    </view>
+
+    <view class="waiting-note">TA一进来，游戏立刻开始</view>
+
+    <view class="btn-secondary mt40" bindtap="shareInvite">分享邀请给TA</view>
+  </view>
+
+  <!-- 游戏中 -->
+  <view wx:if="{{pageState === 'playing'}}" class="playing">
+    <view class="game-header">
+      <view class="game-progress">{{gameIndex + 1}} / {{gameTotalCount}}</view>
+      <view class="game-timer {{timerWarning ? 'warning' : ''}}">{{timerCount}}s</view>
+    </view>
+
+    <view class="game-stage">{{currentGameQ.stage}}</view>
+    <view class="game-question animate-fade-up">{{currentGameQ.text}}</view>
+    <view class="game-hint" wx:if="{{currentGameQ.hint}}">· {{currentGameQ.hint}}</view>
+
+    <view class="game-options" wx:if="{{currentGameQ.type !== 'open'}}">
+      <view
+        wx:for="{{currentGameQ.options}}"
+        wx:key="index"
+        class="game-option {{gameSelectedIdx === index ? 'selected' : ''}}"
+        bindtap="selectGameOption"
+        data-idx="{{index}}"
+        style="animation-delay:{{index * 60}}ms"
+      >
+        <text class="game-opt-marker">{{optionLabels[index]}}</text>
+        <text class="game-opt-text">{{item.label}}</text>
+      </view>
+    </view>
+
+    <view wx:if="{{currentGameQ.type === 'open'}}" class="game-open">
+      <textarea
+        class="open-input"
+        placeholder="你脑子里第一句话……"
+        placeholder-style="color:#5A5550"
+        maxlength="80"
+        bindinput="onGameOpenInput"
+        value="{{gameOpenAnswer}}"
+        auto-height
+      />
+    </view>
+
+    <view class="game-footer">
+      <view class="btn-primary"
+        bindtap="{{currentGameQ.type === 'open' ? 'submitGameOpen' : 'confirmGameAnswer'}}"
+        style="opacity:{{gameSelectedIdx !== null || gameOpenAnswer ? 1 : 0.4}}">
+        {{gameIndex + 1 < gameTotalCount - 1 ? '下一题' : '提交并等待TA'}}
+      </view>
+    </view>
+  </view>
+
+  <!-- 等待TA提交 -->
+  <view wx:if="{{pageState === 'waitingResult'}}" class="waiting-result animate-fade-up">
+    <view class="wr-sand"></view>
+    <view class="wr-text">TA在想……</view>
+    <view class="wr-subtext">等TA提交后，你们将同时看到彼此的答案</view>
+  </view>
+
+  <!-- 电梯揭晓 -->
+  <view wx:if="{{pageState === 'elevator'}}" class="elevator animate-fade-up">
+    <view class="elev-intro">
+      今晚，你们走出那扇门。<br/>
+      电梯里只剩你们两个。<br/>
+      <text class="text-gold">灯亮了。</text>
+    </view>
+    <view class="elev-screen">
+      <view class="elev-side elev-left">
+        <view class="elev-label">你说</view>
+        <view class="elev-words">{{elevatorA}}</view>
+      </view>
+      <view class="elev-divider"></view>
+      <view class="elev-side elev-right">
+        <view class="elev-label">TA说</view>
+        <view class="elev-words">{{elevatorB}}</view>
+      </view>
+    </view>
+    <view class="elev-reveal animate-fade-up">这才是你们真实的样子。</view>
+    <view class="btn-primary mt48" bindtap="goResultPage">查看完整结果 →</view>
+  </view>
+
+  <!-- 付费弹窗 -->
+  <pay-modal
+    show="{{showPayModal}}"
+    product="{{payProduct}}"
+    bindclose="onPayClose"
+    bindpay="onPaySuccess"
+  />
+
+  <view class="safe-bottom"></view>
+</view>

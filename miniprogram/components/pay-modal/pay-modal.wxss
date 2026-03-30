@@ -1,0 +1,128 @@
+/* 付费弹窗组件样式 */
+.pay-mask {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0);
+  z-index: 999;
+  pointer-events: none;
+  transition: background 0.3s;
+}
+
+.pay-mask.show {
+  background: rgba(0,0,0,0.75);
+  pointer-events: all;
+}
+
+.pay-sheet {
+  position: absolute;
+  bottom: -100%;
+  left: 0; right: 0;
+  background: #161616;
+  border-radius: 40rpx 40rpx 0 0;
+  padding: 20rpx 48rpx calc(48rpx + env(safe-area-inset-bottom));
+  transition: bottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.pay-sheet.show {
+  bottom: 0;
+}
+
+.pay-handle {
+  width: 72rpx;
+  height: 8rpx;
+  background: #3A3A3A;
+  border-radius: 4rpx;
+  margin: 0 auto 40rpx;
+}
+
+.pay-product {
+  margin-bottom: 32rpx;
+}
+
+.pay-product-name {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #F0EDE8;
+  margin-bottom: 12rpx;
+}
+
+.pay-product-desc {
+  font-size: 26rpx;
+  color: #9A948A;
+  line-height: 1.6;
+}
+
+.pay-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 16rpx;
+  margin-bottom: 32rpx;
+}
+
+.pay-price {
+  font-size: 64rpx;
+  font-weight: 800;
+  color: #C9A96E;
+}
+
+.pay-original {
+  font-size: 26rpx;
+  color: #5A5550;
+  text-decoration: line-through;
+}
+
+.pay-upgrade {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(201, 169, 110, 0.1);
+  border: 1rpx solid rgba(201, 169, 110, 0.25);
+  border-radius: 20rpx;
+  padding: 24rpx 28rpx;
+  margin-bottom: 20rpx;
+}
+
+.upgrade-text {
+  font-size: 24rpx;
+  color: #C9A96E;
+  flex: 1;
+  line-height: 1.5;
+}
+
+.upgrade-cta {
+  font-size: 24rpx;
+  color: #C9A96E;
+  font-weight: 600;
+  flex-shrink: 0;
+  margin-left: 16rpx;
+}
+
+.pay-diff-upgrade {
+  padding: 20rpx 28rpx;
+  background: rgba(201,169,110,0.06);
+  border-radius: 16rpx;
+  margin-bottom: 16rpx;
+}
+
+.diff-text {
+  font-size: 24rpx;
+  color: #9A948A;
+}
+
+.pay-confirm {
+  margin-bottom: 16rpx;
+}
+
+.pay-cancel {
+  color: #5A5550;
+  font-size: 26rpx;
+  height: 72rpx;
+}
+
+.pay-disclaimer {
+  text-align: center;
+  font-size: 20rpx;
+  color: #3A3A3A;
+  margin-top: 12rpx;
+  line-height: 1.7;
+}

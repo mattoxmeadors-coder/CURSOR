@@ -1,0 +1,448 @@
+/* 生辰婚配分析样式 */
+.hehun-page {
+  height: 100vh;
+  background: var(--color-bg);
+}
+
+.hehun-scroll {
+  height: 100vh;
+}
+
+/* 输入区 */
+.input-section {
+  padding: calc(48rpx + env(safe-area-inset-top)) 40rpx calc(48rpx + env(safe-area-inset-bottom));
+}
+
+.hehun-header {
+  margin-bottom: 48rpx;
+}
+
+.hehun-tag {
+  display: inline-flex;
+  padding: 8rpx 20rpx;
+  background: var(--color-gold-dim);
+  border: 1rpx solid rgba(201,169,110,0.3);
+  border-radius: 32rpx;
+  font-size: 22rpx;
+  color: var(--color-gold);
+  margin-bottom: 24rpx;
+}
+
+.hehun-title {
+  font-size: 48rpx;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: 16rpx;
+}
+
+.hehun-subtitle {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  white-space: pre-line;
+}
+
+/* 表单区 */
+.form-section {
+  background: var(--color-surface);
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--color-radius-xl);
+  padding: 40rpx;
+  margin-bottom: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.form-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 4rpx;
+}
+
+.calendar-type-row {
+  display: flex;
+  gap: 16rpx;
+}
+
+.cal-btn {
+  flex: 1;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26rpx;
+  background: var(--color-surface-2);
+  border: 2rpx solid var(--color-border);
+  border-radius: var(--color-radius-md);
+  color: var(--color-text-secondary);
+  transition: all 0.2s;
+}
+
+.cal-btn.active {
+  background: var(--color-gold-dim);
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+.cal-hint {
+  font-size: 22rpx;
+  color: var(--color-orange);
+  line-height: 1.5;
+  padding: 12rpx 20rpx;
+  background: rgba(224, 138, 90, 0.08);
+  border-radius: var(--color-radius-md);
+}
+
+.date-picker {
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24rpx;
+  background: var(--color-surface-2);
+  border: 2rpx solid var(--color-border);
+  border-radius: var(--color-radius-md);
+  font-size: 28rpx;
+  color: var(--color-text-tertiary);
+}
+
+.date-picker.filled {
+  color: var(--color-text-primary);
+  border-color: rgba(201,169,110,0.3);
+}
+
+.picker-arrow {
+  font-size: 36rpx;
+  color: var(--color-text-tertiary);
+}
+
+.gender-row-form {
+  display: flex;
+  gap: 16rpx;
+}
+
+.gen-btn {
+  flex: 1;
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  font-weight: 500;
+  background: var(--color-surface-2);
+  border: 2rpx solid var(--color-border);
+  border-radius: var(--color-radius-md);
+  color: var(--color-text-secondary);
+  transition: all 0.2s;
+}
+
+.gen-btn.active {
+  background: var(--color-gold-dim);
+  border-color: var(--color-gold);
+  color: var(--color-gold);
+}
+
+/* 提交区 */
+.submit-area {
+  margin-top: 16rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.price-notice {
+  text-align: center;
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+}
+
+.disclaimer {
+  text-align: center;
+  font-size: 22rpx;
+  color: var(--color-text-tertiary);
+}
+
+/* 加载 */
+.loading-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  gap: 32rpx;
+}
+
+.loading-spin {
+  width: 80rpx;
+  height: 80rpx;
+  border: 6rpx solid var(--color-border);
+  border-top-color: var(--color-gold);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.loading-text {
+  font-size: 32rpx;
+  color: var(--color-text-primary);
+}
+
+.loading-sub {
+  font-size: 24rpx;
+  color: var(--color-text-tertiary);
+}
+
+/* 报告 */
+.report-section {
+  padding: calc(48rpx + env(safe-area-inset-top)) 40rpx 60rpx;
+}
+
+.report-header {
+  text-align: center;
+  margin-bottom: 48rpx;
+  padding: 60rpx 40rpx;
+  background: linear-gradient(135deg, #1A1610, #201A0E);
+  border: 1rpx solid rgba(201,169,110,0.2);
+  border-radius: var(--color-radius-xl);
+}
+
+.report-score-wrap {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 8rpx;
+  margin-bottom: 20rpx;
+}
+
+.report-score {
+  font-size: 96rpx;
+  font-weight: 800;
+  color: var(--color-gold);
+}
+
+.report-score-unit {
+  font-size: 32rpx;
+  color: var(--color-gold-light);
+}
+
+.report-summary {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+.report-card {
+  background: var(--color-surface);
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--color-radius-xl);
+  padding: 40rpx;
+  margin-bottom: 24rpx;
+}
+
+.report-card-gold {
+  background: linear-gradient(135deg, #1A1610, #201A0E);
+  border-color: rgba(201,169,110,0.25);
+}
+
+.rc-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-gold);
+  letter-spacing: 2rpx;
+  margin-bottom: 28rpx;
+}
+
+/* 四柱八字 */
+.bazi-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16rpx;
+}
+
+.bazi-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--color-surface-2);
+  border-radius: var(--color-radius-md);
+  padding: 24rpx 8rpx;
+  gap: 8rpx;
+}
+
+.bazi-pillar {
+  font-size: 20rpx;
+  color: var(--color-text-tertiary);
+  letter-spacing: 1rpx;
+}
+
+.bazi-gan {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--color-gold);
+}
+
+.bazi-zhi {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+/* 五行 */
+.wuxing-content {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+  white-space: pre-line;
+}
+
+/* 四维 */
+.dimension-item {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.dim-name {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  width: 80rpx;
+  flex-shrink: 0;
+}
+
+.dim-bar-wrap {
+  flex: 1;
+  height: 8rpx;
+  background: var(--color-border);
+  border-radius: 4rpx;
+  overflow: hidden;
+}
+
+.dim-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-gold), var(--color-gold-light));
+  border-radius: 4rpx;
+  transition: width 1s ease;
+}
+
+.dim-score {
+  font-size: 26rpx;
+  color: var(--color-gold);
+  font-weight: 600;
+  width: 48rpx;
+  text-align: right;
+}
+
+/* 优势 */
+.adv-item {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 20rpx;
+}
+
+.adv-num {
+  font-size: 28rpx;
+  font-weight: 800;
+  color: var(--color-gold);
+  width: 44rpx;
+  flex-shrink: 0;
+}
+
+.adv-text {
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+  line-height: 1.6;
+}
+
+/* 挑战 */
+.challenge-item {
+  background: var(--color-surface-2);
+  border-radius: var(--color-radius-md);
+  padding: 28rpx;
+  margin-bottom: 16rpx;
+}
+
+.challenge-title {
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+  font-weight: 500;
+  margin-bottom: 12rpx;
+}
+
+.challenge-suggest {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.6;
+}
+
+/* 饭桌话题 */
+.topic-intro {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  margin-bottom: 16rpx;
+}
+
+.topic-text {
+  font-size: 28rpx;
+  color: var(--color-gold-light);
+  line-height: 1.8;
+  font-style: italic;
+  padding: 24rpx;
+  background: rgba(201,169,110,0.08);
+  border-radius: var(--color-radius-md);
+  border-left: 4rpx solid var(--color-gold);
+}
+
+/* 最后一句话 */
+.report-last-word {
+  margin: 24rpx 0;
+  padding: 48rpx 40rpx;
+  text-align: center;
+}
+
+.last-word-text {
+  font-size: 32rpx;
+  color: var(--color-text-primary);
+  line-height: 1.8;
+  font-style: italic;
+}
+
+/* 提醒 */
+.reminder-section {
+  background: var(--color-surface);
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--color-radius-xl);
+  padding: 40rpx;
+  margin-bottom: 24rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+}
+
+.reminder-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.reminder-desc {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+}
+
+.set-reminder-btn {
+  height: 80rpx;
+  font-size: 28rpx;
+}
+
+/* 免责声明 */
+.disclaimer-box {
+  text-align: center;
+  font-size: 22rpx;
+  color: var(--color-text-tertiary);
+  padding: 24rpx;
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--color-radius-md);
+  line-height: 1.6;
+}

@@ -1,0 +1,502 @@
+/* 首页样式 */
+
+/* 英雄区 */
+.hero {
+  padding: 80rpx 48rpx 48rpx;
+}
+
+.hero-tag {
+  display: inline-flex;
+  padding: 8rpx 20rpx;
+  background: var(--color-gold-dim);
+  border: 1rpx solid rgba(201, 169, 110, 0.3);
+  border-radius: 32rpx;
+  font-size: 22rpx;
+  color: var(--color-gold);
+  letter-spacing: 2rpx;
+  margin-bottom: 32rpx;
+}
+
+.hero-title {
+  font-size: 56rpx;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-text-primary);
+  margin-bottom: 20rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-title-gold {
+  color: var(--color-gold);
+}
+
+.hero-subtitle {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+  white-space: pre-line;
+}
+
+/* 主卡片：个人测评 */
+.main-card {
+  margin: 0 32rpx 32rpx;
+  background: linear-gradient(135deg, #1A1610 0%, #201A0E 100%);
+  border: 1rpx solid rgba(201, 169, 110, 0.25);
+  border-radius: var(--color-radius-xl);
+  padding: 48rpx;
+  position: relative;
+  overflow: hidden;
+}
+
+.main-card::before {
+  content: '';
+  position: absolute;
+  top: -60rpx;
+  right: -60rpx;
+  width: 200rpx;
+  height: 200rpx;
+  background: radial-gradient(circle, rgba(201, 169, 110, 0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.main-card-label {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  margin-bottom: 24rpx;
+}
+
+.tag-green {
+  background: rgba(90, 191, 138, 0.15);
+  color: #5ABF8A;
+  border: 1rpx solid rgba(90, 191, 138, 0.3);
+}
+
+.main-card-subtitle {
+  font-size: 24rpx;
+  color: var(--color-text-tertiary);
+}
+
+.main-card-title {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 16rpx;
+}
+
+.main-card-desc {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.7;
+  white-space: pre-line;
+  margin-bottom: 40rpx;
+}
+
+.main-card-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-gold);
+  border-radius: 40rpx;
+  padding: 24rpx 40rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #0D0D0D;
+}
+
+.arrow-icon {
+  font-size: 32rpx;
+}
+
+/* 分区标题 */
+.section-title {
+  padding: 0 48rpx 24rpx;
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  font-weight: 500;
+  letter-spacing: 2rpx;
+}
+
+/* 产品网格 */
+.product-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20rpx;
+  margin: 0 32rpx 40rpx;
+}
+
+.product-card {
+  background: var(--color-surface);
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--color-radius-lg);
+  padding: 36rpx 28rpx;
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.product-card:active {
+  background: var(--color-surface-2);
+}
+
+.product-card-highlight {
+  background: linear-gradient(135deg, #1A1610, #201A0E);
+  border-color: rgba(201, 169, 110, 0.3);
+}
+
+.product-icon {
+  font-size: 48rpx;
+  margin-bottom: 8rpx;
+}
+
+.product-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.product-desc {
+  font-size: 22rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.product-price {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-gold);
+  margin-top: auto;
+  padding-top: 12rpx;
+}
+
+.price-original {
+  font-size: 22rpx;
+  color: var(--color-text-tertiary);
+  text-decoration: line-through;
+  font-weight: 400;
+  margin-left: 8rpx;
+}
+
+/* 今日快闪 */
+.daily-card {
+  margin: 0 32rpx 40rpx;
+  background: var(--color-surface);
+  border: 1rpx solid var(--color-border);
+  border-radius: var(--color-radius-lg);
+  padding: 40rpx;
+}
+
+.daily-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24rpx;
+}
+
+.daily-label {
+  font-size: 24rpx;
+  color: var(--color-gold);
+  font-weight: 500;
+}
+
+.daily-index {
+  font-size: 22rpx;
+  color: var(--color-text-tertiary);
+}
+
+.daily-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1.5;
+  margin-bottom: 16rpx;
+}
+
+.daily-punchline {
+  font-size: 24rpx;
+  color: var(--color-gold);
+  line-height: 1.6;
+  padding: 20rpx;
+  background: var(--color-gold-dim);
+  border-radius: var(--color-radius-md);
+  border-left: 4rpx solid var(--color-gold);
+  margin-bottom: 24rpx;
+}
+
+.daily-cta {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+  text-align: right;
+}
+
+/* 底部 */
+.footer {
+  text-align: center;
+  padding: 24rpx 0 16rpx;
+}
+
+.footer-text {
+  font-size: 22rpx;
+  color: var(--color-text-tertiary);
+}
+
+/* ─── 4步身份选择弹层 ─── */
+.profile-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0);
+  z-index: 100;
+  pointer-events: none;
+  transition: background 0.3s;
+}
+
+.profile-mask.show {
+  background: rgba(0,0,0,0.75);
+  pointer-events: all;
+}
+
+.profile-sheet {
+  position: absolute;
+  bottom: -100%;
+  left: 0;
+  right: 0;
+  background: var(--color-surface);
+  border-radius: 40rpx 40rpx 0 0;
+  padding: 40rpx 40rpx calc(40rpx + env(safe-area-inset-bottom));
+  transition: bottom 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-sheet.show {
+  bottom: 0;
+}
+
+.steps-bar {
+  display: flex;
+  gap: 12rpx;
+  justify-content: center;
+  margin-bottom: 12rpx;
+}
+
+.step-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: var(--color-border);
+  transition: all 0.3s;
+}
+
+.step-dot.active {
+  background: var(--color-gold);
+  width: 32rpx;
+  border-radius: 6rpx;
+}
+
+.step-hint {
+  text-align: center;
+  font-size: 22rpx;
+  color: var(--color-text-tertiary);
+  margin-bottom: 40rpx;
+}
+
+.step-content {
+  flex: 1;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.step-title {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 12rpx;
+}
+
+.step-subtitle {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  margin-bottom: 40rpx;
+}
+
+/* 性别选择 */
+.gender-row {
+  display: flex;
+  gap: 24rpx;
+}
+
+.gender-btn {
+  flex: 1;
+  background: var(--color-surface-2);
+  border: 2rpx solid var(--color-border);
+  border-radius: var(--color-radius-lg);
+  padding: 48rpx 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16rpx;
+  transition: all 0.2s;
+}
+
+.gender-btn.selected {
+  border-color: var(--color-gold);
+  background: var(--color-gold-dim);
+}
+
+.gender-icon {
+  font-size: 64rpx;
+}
+
+.gender-label {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+/* 地区列表 */
+.region-list {
+  flex: 1;
+  max-height: 420rpx;
+}
+
+.region-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28rpx 24rpx;
+  border-radius: var(--color-radius-md);
+  margin-bottom: 12rpx;
+  background: var(--color-surface-2);
+  border: 2rpx solid transparent;
+  transition: all 0.2s;
+}
+
+.region-item.selected {
+  border-color: var(--color-gold);
+  background: var(--color-gold-dim);
+}
+
+.region-name {
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+  font-weight: 500;
+}
+
+.region-tag {
+  font-size: 22rpx;
+  color: var(--color-text-tertiary);
+}
+
+/* 见面性质 */
+.occasion-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.occasion-item {
+  padding: 28rpx 32rpx;
+  border-radius: var(--color-radius-md);
+  background: var(--color-surface-2);
+  border: 2rpx solid transparent;
+  transition: all 0.2s;
+}
+
+.occasion-item.selected {
+  border-color: var(--color-gold);
+  background: var(--color-gold-dim);
+}
+
+.occasion-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 8rpx;
+}
+
+.occasion-desc {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+}
+
+/* 人员多选 */
+.people-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.people-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 24rpx;
+  padding: 28rpx 24rpx;
+  border-radius: var(--color-radius-md);
+  background: var(--color-surface-2);
+  border: 2rpx solid transparent;
+  transition: all 0.2s;
+}
+
+.people-item.selected {
+  border-color: var(--color-gold);
+  background: var(--color-gold-dim);
+}
+
+.people-check {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  border: 2rpx solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 24rpx;
+  color: #0D0D0D;
+  transition: all 0.2s;
+}
+
+.people-check.checked {
+  background: var(--color-gold);
+  border-color: var(--color-gold);
+}
+
+.people-info {
+  flex: 1;
+}
+
+.people-label {
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+  display: block;
+  margin-bottom: 4rpx;
+}
+
+.people-warn {
+  font-size: 22rpx;
+  color: var(--color-orange);
+  display: block;
+}
+
+/* 底部操作 */
+.step-actions {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 40rpx;
+  flex-shrink: 0;
+}
+
+.step-back {
+  width: 160rpx;
+  flex-shrink: 0;
+}
+
+.step-next {
+  flex: 1;
+}

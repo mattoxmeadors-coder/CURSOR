@@ -1,0 +1,53 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/quiz/quiz",
+    "pages/result/result",
+    "pages/handbook/handbook",
+    "pages/couple/couple",
+    "pages/hehun/hehun",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#0D0D0D",
+    "navigationBarTitleText": "见家长",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#0D0D0D"
+  },
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#C9A96E",
+    "backgroundColor": "#0D0D0D",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "备考",
+        "iconPath": "images/tab-home.png",
+        "selectedIconPath": "images/tab-home-active.png"
+      },
+      {
+        "pagePath": "pages/handbook/handbook",
+        "text": "手册",
+        "iconPath": "images/tab-book.png",
+        "selectedIconPath": "images/tab-book-active.png"
+      },
+      {
+        "pagePath": "pages/couple/couple",
+        "text": "情侣",
+        "iconPath": "images/tab-couple.png",
+        "selectedIconPath": "images/tab-couple-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/tab-profile.png",
+        "selectedIconPath": "images/tab-profile-active.png"
+      }
+    ]
+  },
+  "usingComponents": {},
+  "lazyCodeLoading": "requiredComponents",
+  "sitemapLocation": "sitemap.json"
+}

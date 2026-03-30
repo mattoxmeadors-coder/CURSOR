@@ -1,0 +1,44 @@
+<!-- 付费弹窗组件 -->
+<view class="pay-mask {{show ? 'show' : ''}}" catchtap="onClose">
+  <view class="pay-sheet {{show ? 'show' : ''}}" catchtap="">
+
+    <view class="pay-handle"></view>
+
+    <!-- 产品信息 -->
+    <view class="pay-product">
+      <view class="pay-product-name">{{product.name}}</view>
+      <view class="pay-product-desc">{{product.desc}}</view>
+    </view>
+
+    <!-- 价格展示 -->
+    <view class="pay-price-row">
+      <view class="pay-price">¥{{product.price}}</view>
+      <view class="pay-original" wx:if="{{product.originalPrice}}">
+        原价 ¥{{product.originalPrice}}
+      </view>
+    </view>
+
+    <!-- 全套备考升级提示 -->
+    <view wx:if="{{showUpgrade}}" class="pay-upgrade" bindtap="buyFullPackage">
+      <view class="upgrade-text">
+        🎯 推荐：全套备考 ¥29.9 = 通关手册+生辰婚配+情侣完整版，省¥10
+      </view>
+      <view class="upgrade-cta">升级全套 →</view>
+    </view>
+
+    <!-- 差价升级（情侣通关基础版→完整版） -->
+    <view wx:if="{{showDiffUpgrade}}" class="pay-diff-upgrade" bindtap="diffUpgrade">
+      <view class="diff-text">已购基础版？补差价 ¥10 升完整版</view>
+    </view>
+
+    <view class="btn-primary pay-confirm" bindtap="onPay">
+      ¥{{product.price}} 立即解锁
+    </view>
+
+    <view class="btn-ghost pay-cancel" bindtap="onClose">取消</view>
+
+    <view class="pay-disclaimer">
+      · 支付成功后立即解锁 · iOS用户请在安卓微信完成支付
+    </view>
+  </view>
+</view>

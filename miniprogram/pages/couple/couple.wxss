@@ -1,0 +1,422 @@
+/* 情侣通关样式 */
+.couple-page {
+  min-height: 100vh;
+  background: var(--color-bg);
+  padding: calc(40rpx + env(safe-area-inset-top)) 40rpx calc(40rpx + env(safe-area-inset-bottom));
+}
+
+/* Landing */
+.landing {
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 120rpx);
+}
+
+.landing-hero {
+  text-align: center;
+  padding: 60rpx 0 48rpx;
+}
+
+.landing-badge {
+  font-size: 96rpx;
+  margin-bottom: 24rpx;
+}
+
+.landing-title {
+  font-size: 56rpx;
+  font-weight: 800;
+  color: var(--color-text-primary);
+  margin-bottom: 20rpx;
+}
+
+.landing-subtitle {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+  white-space: pre-line;
+}
+
+.landing-features {
+  display: flex;
+  flex-direction: column;
+  gap: 20rpx;
+  margin: 40rpx 0;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 24rpx 32rpx;
+  background: var(--color-surface);
+  border-radius: var(--color-radius-md);
+}
+
+.feature-icon {
+  font-size: 40rpx;
+}
+
+.feature-text {
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+}
+
+.landing-actions {
+  margin-top: auto;
+  padding-top: 40rpx;
+}
+
+/* 版本选择 */
+.couple-price-row {
+  display: flex;
+  gap: 20rpx;
+  margin-bottom: 32rpx;
+}
+
+.couple-price-option {
+  flex: 1;
+  background: var(--color-surface);
+  border: 2rpx solid var(--color-border);
+  border-radius: var(--color-radius-lg);
+  padding: 32rpx 24rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.couple-price-option.selected {
+  border-color: var(--color-gold);
+  background: var(--color-gold-dim);
+}
+
+.price-opt-badge {
+  position: absolute;
+  top: -16rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-gold);
+  color: #0D0D0D;
+  font-size: 18rpx;
+  font-weight: 700;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.price-opt-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.price-opt-count {
+  font-size: 24rpx;
+  color: var(--color-text-secondary);
+}
+
+.price-opt-price {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: var(--color-gold);
+  margin-top: 8rpx;
+}
+
+.mt40 { margin-top: 40rpx; }
+.mt48 { margin-top: 48rpx; }
+
+/* 等待状态 */
+.waiting {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding-top: 60rpx;
+}
+
+.waiting-icon {
+  font-size: 80rpx;
+  margin-bottom: 32rpx;
+}
+
+.waiting-title {
+  font-size: 44rpx;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  margin-bottom: 16rpx;
+}
+
+.waiting-subtitle {
+  font-size: 28rpx;
+  color: var(--color-text-secondary);
+  margin-bottom: 48rpx;
+}
+
+.waiting-warmup {
+  width: 100%;
+  background: var(--color-surface);
+  border-radius: var(--color-radius-lg);
+  padding: 40rpx;
+  margin-bottom: 32rpx;
+}
+
+.warmup-title {
+  font-size: 26rpx;
+  color: var(--color-gold);
+  margin-bottom: 24rpx;
+  font-weight: 500;
+}
+
+.warmup-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 20rpx;
+  margin-bottom: 16rpx;
+}
+
+.warmup-num {
+  width: 36rpx;
+  height: 36rpx;
+  border-radius: 50%;
+  background: var(--color-gold-dim);
+  color: var(--color-gold);
+  font-size: 20rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.warmup-text {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+.waiting-note {
+  font-size: 24rpx;
+  color: var(--color-text-tertiary);
+}
+
+/* 游戏中 */
+.playing {
+  padding-top: 20rpx;
+}
+
+.game-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 32rpx;
+}
+
+.game-progress {
+  font-size: 24rpx;
+  color: var(--color-text-tertiary);
+}
+
+.game-timer {
+  font-size: 28rpx;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  background: var(--color-surface);
+  padding: 8rpx 20rpx;
+  border-radius: 32rpx;
+  border: 1rpx solid var(--color-border);
+  transition: all 0.3s;
+}
+
+.game-timer.warning {
+  color: var(--color-red);
+  border-color: rgba(224, 90, 90, 0.4);
+  background: rgba(224, 90, 90, 0.1);
+}
+
+.game-stage {
+  font-size: 22rpx;
+  color: var(--color-gold);
+  margin-bottom: 16rpx;
+  font-weight: 500;
+  letter-spacing: 1rpx;
+}
+
+.game-question {
+  font-size: 38rpx;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.5;
+  margin-bottom: 20rpx;
+  white-space: pre-line;
+}
+
+.game-hint {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+  padding: 16rpx 20rpx;
+  background: var(--color-surface);
+  border-radius: var(--color-radius-md);
+  margin-bottom: 36rpx;
+  border-left: 3rpx solid rgba(201,169,110,0.4);
+}
+
+.game-options {
+  display: flex;
+  flex-direction: column;
+  gap: 16rpx;
+}
+
+.game-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 20rpx;
+  padding: 32rpx 28rpx;
+  background: var(--color-surface);
+  border: 2rpx solid var(--color-border);
+  border-radius: var(--color-radius-lg);
+  transition: all 0.2s;
+  animation: fadeInUp 0.3s ease both;
+}
+
+.game-option.selected {
+  border-color: var(--color-gold);
+  background: var(--color-gold-dim);
+}
+
+.game-opt-marker {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  background: var(--color-surface-3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20rpx;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+.game-option.selected .game-opt-marker {
+  background: var(--color-gold);
+  color: #0D0D0D;
+}
+
+.game-opt-text {
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+  line-height: 1.6;
+  flex: 1;
+}
+
+.game-open {
+  margin-top: 8rpx;
+}
+
+.game-footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 24rpx 40rpx calc(32rpx + env(safe-area-inset-bottom));
+  background: linear-gradient(to top, var(--color-bg) 80%, transparent);
+}
+
+/* 等待结果 */
+.waiting-result {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 120rpx);
+  text-align: center;
+  gap: 32rpx;
+}
+
+.wr-sand {
+  width: 80rpx;
+  height: 80rpx;
+  border: 6rpx solid var(--color-gold);
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.wr-text {
+  font-size: 40rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.wr-subtext {
+  font-size: 26rpx;
+  color: var(--color-text-secondary);
+}
+
+/* 电梯揭晓 */
+.elevator {
+  min-height: calc(100vh - 120rpx);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 40rpx;
+}
+
+.elev-intro {
+  font-size: 30rpx;
+  color: var(--color-text-secondary);
+  line-height: 2;
+  text-align: center;
+  margin-bottom: 60rpx;
+}
+
+.elev-screen {
+  width: 100%;
+  background: #0A0A0A;
+  border-radius: var(--color-radius-xl);
+  padding: 48rpx 32rpx;
+  display: flex;
+  gap: 32rpx;
+  margin-bottom: 48rpx;
+}
+
+.elev-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.elev-label {
+  font-size: 22rpx;
+  color: var(--color-text-tertiary);
+  letter-spacing: 2rpx;
+}
+
+.elev-words {
+  font-size: 30rpx;
+  color: var(--color-text-primary);
+  font-weight: 500;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.elev-divider {
+  width: 1rpx;
+  background: var(--color-border);
+  align-self: stretch;
+}
+
+.elev-reveal {
+  font-size: 32rpx;
+  color: var(--color-gold);
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 2rpx;
+}

@@ -1,0 +1,161 @@
+/* 我的页面 */
+.profile-page {
+  min-height: 100vh;
+  background: var(--color-bg);
+  padding: calc(48rpx + env(safe-area-inset-top)) 40rpx 40rpx;
+}
+
+.profile-header {
+  display: flex;
+  align-items: center;
+  gap: 32rpx;
+  margin-bottom: 48rpx;
+}
+
+.avatar-wrap {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 50%;
+  background: var(--color-gold-dim);
+  border: 2rpx solid rgba(201,169,110,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-text {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: var(--color-gold);
+}
+
+.user-name {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  margin-bottom: 8rpx;
+}
+
+.user-sub {
+  font-size: 24rpx;
+  color: var(--color-text-tertiary);
+}
+
+.section {
+  margin-bottom: 40rpx;
+}
+
+.section-title-text {
+  font-size: 24rpx;
+  color: var(--color-text-tertiary);
+  letter-spacing: 2rpx;
+  margin-bottom: 20rpx;
+}
+
+.purchased-list {
+  background: var(--color-surface);
+  border-radius: var(--color-radius-lg);
+  overflow: hidden;
+}
+
+.purchased-item {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  padding: 28rpx 32rpx;
+  border-bottom: 1rpx solid var(--color-border);
+}
+
+.purchased-item:last-child {
+  border-bottom: none;
+}
+
+.purchased-icon {
+  font-size: 40rpx;
+}
+
+.purchased-info {
+  flex: 1;
+}
+
+.purchased-name {
+  display: block;
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+  margin-bottom: 4rpx;
+}
+
+.purchased-status {
+  font-size: 22rpx;
+  color: #5ABF8A;
+}
+
+.no-purchase {
+  padding: 48rpx;
+  text-align: center;
+}
+
+.no-purchase-text {
+  font-size: 26rpx;
+  color: var(--color-text-tertiary);
+}
+
+.result-record {
+  display: flex;
+  align-items: center;
+  gap: 24rpx;
+  background: var(--color-surface);
+  border-radius: var(--color-radius-lg);
+  padding: 32rpx;
+}
+
+.rr-score {
+  font-size: 48rpx;
+  font-weight: 800;
+  width: 100rpx;
+}
+
+.rr-info {
+  flex: 1;
+}
+
+.rr-label {
+  font-size: 26rpx;
+  color: var(--color-text-primary);
+  margin-bottom: 4rpx;
+}
+
+.rr-time {
+  font-size: 22rpx;
+  color: var(--color-text-tertiary);
+}
+
+.rr-arrow {
+  font-size: 40rpx;
+  color: var(--color-text-tertiary);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+  padding: 32rpx;
+  background: var(--color-surface);
+  border-radius: var(--color-radius-lg);
+  margin-bottom: 16rpx;
+}
+
+.menu-icon {
+  font-size: 36rpx;
+}
+
+.menu-text {
+  flex: 1;
+  font-size: 28rpx;
+  color: var(--color-text-primary);
+}
+
+.menu-arrow {
+  font-size: 40rpx;
+  color: var(--color-text-tertiary);
+}

@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "个人准备度测评",
+  "navigationBarBackgroundColor": "#0D0D0D",
+  "navigationBarTextStyle": "white",
+  "backgroundColor": "#0D0D0D",
+  "usingComponents": {
+    "knowledge-card": "../../components/knowledge-card/knowledge-card",
+    "pay-modal": "../../components/pay-modal/pay-modal"
+  }
+}

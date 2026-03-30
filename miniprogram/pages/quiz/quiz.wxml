@@ -1,0 +1,136 @@
+<!-- 测评引擎页 -->
+<view class="quiz-page">
+
+  <!-- 顶部进度条 -->
+  <view class="quiz-header">
+    <view class="back-btn" bindtap="goBack">
+      <text class="back-icon">←</text>
+    </view>
+    <view class="progress-wrap">
+      <view class="progress-track">
+        <view class="progress-fill" style="width:{{progressPct}}%"></view>
+      </view>
+      <text class="progress-text">{{currentIndex + 1}} / {{totalCount}}</text>
+    </view>
+    <view class="stage-label">{{currentQ.stage}}</view>
+  </view>
+
+  <!-- 主内容区（题目 or 知识卡） -->
+  <view class="quiz-body">
+
+    <!-- 知识卡 -->
+    <view wx:if="{{showKnowledgeCard}}" class="kcard-wrap animate-fade-up">
+      <knowledge-card
+        card="{{currentKCard}}"
+        bindonNext="hideKnowledgeCard"
+      />
+    </view>
+
+    <!-- 情绪引爆弹层 -->
+    <view wx:elif="{{showBreakdown}}" class="breakdown-wrap animate-fade-up">
+      <view class="breakdown-badge">⚠️</view>
+      <view class="breakdown-title">你刚才有3道题，都是「完全没想过」</view>
+      <view class="breakdown-body">
+        更可怕的是——<text class="text-gold">你们两个</text>，在这三件事上
+        可能想法<text class="text-gold">完全相反</text>。
+
+        而你不知道。
+        TA也不知道。
+
+        <text class="breakdown-punch">这才是见家长真正的风险。</text>
+      </view>
+      <view class="breakdown-btns">
+        <view class="btn-primary breakdown-buy" bindtap="goBuyCouple">
+          <text>现在找出来</text>
+          <text class="breakdown-price">¥9.9</text>
+        </view>
+        <view class="btn-ghost" bindtap="dismissBreakdown">先做完个人测评</view>
+      </view>
+    </view>
+
+    <!-- 题目 -->
+    <view wx:elif="{{currentQ}}" class="question-wrap">
+
+      <!-- 题目序号 + 文本 -->
+      <view class="q-number">Q{{currentIndex + 1}}</view>
+      <view class="q-text animate-fade-up">{{currentQ.text}}</view>
+
+      <!-- 提示语 -->
+      <view class="q-hint animate-fade-up" wx:if="{{currentQ.hint}}">
+        <text class="hint-dot">·</text>
+        <text>{{currentQ.hint}}</text>
+      </view>
+
+      <!-- 选项（单选题） -->
+      <view wx:if="{{currentQ.type !== 'open'}}" class="options-list">
+        <view
+          wx:for="{{currentQ.options}}"
+          wx:key="index"
+          class="option-item {{selectedIdx === index ? 'selected' : ''}} {{showAnalysis && selectedIdx === index ? 'revealed' : ''}}"
+          bindtap="selectOption"
+          data-idx="{{index}}"
+          style="animation-delay: {{index * 80}}ms"
+        >
+          <view class="option-marker">{{optionLabels[index]}}</view>
+          <view class="option-text">{{item.label}}</view>
+          <!-- 评分小点（选了后显示） -->
+          <view wx:if="{{showAnalysis && selectedIdx === index}}" class="option-score">
+            <view class="score-dots">
+              <view wx:for="{{[1,2,3,4,5]}}" wx:key="*this"
+                class="score-dot {{currentQ.options[selectedIdx].score >= item ? 'lit' : ''}}">
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 开放题 -->
+      <view wx:if="{{currentQ.type === 'open'}}" class="open-wrap">
+        <textarea
+          class="open-input"
+          placeholder="写下你脑子里第一句话……"
+          placeholder-style="color: #5A5550"
+          maxlength="100"
+          bindinput="onOpenInput"
+          value="{{openAnswer}}"
+          auto-height
+        />
+        <view class="open-count">{{openAnswer.length}}/100</view>
+      </view>
+
+      <!-- 解析区（选了后渐显） -->
+      <view wx:if="{{showAnalysis && currentQ.type !== 'open'}}" class="analysis-box animate-fade-up">
+        <view class="analysis-label">解析</view>
+        <view class="analysis-text">{{currentQ.analysis}}</view>
+      </view>
+
+    </view>
+
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="quiz-footer">
+    <view wx:if="{{!showKnowledgeCard && !showBreakdown}}">
+      <view wx:if="{{currentQ && currentQ.type === 'open'}}">
+        <view class="btn-primary" bindtap="submitOpen">
+          提交并查看结果
+        </view>
+      </view>
+      <view wx:elif="{{showAnalysis}}" class="btn-primary" bindtap="nextQuestion">
+        {{currentIndex + 1 < totalCount - 1 ? '下一题' : '查看结果'}}
+      </view>
+      <view wx:elif="{{selectedIdx !== null}}" class="btn-primary btn-confirm" bindtap="confirmAnswer">
+        确认这个答案
+      </view>
+    </view>
+  </view>
+
+  <!-- 付费弹窗 -->
+  <pay-modal
+    show="{{showPayModal}}"
+    product="{{payProduct}}"
+    bindclose="onPayClose"
+    bindpay="onPaySuccess"
+  />
+
+</view>

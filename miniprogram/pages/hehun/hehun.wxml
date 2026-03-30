@@ -1,0 +1,179 @@
+<!-- 生辰婚配分析页 -->
+<view class="hehun-page">
+  <scroll-view scroll-y class="hehun-scroll" enhanced>
+
+    <!-- 输入状态 -->
+    <view wx:if="{{pageState === 'input'}}" class="input-section animate-fade-up">
+      <view class="hehun-header">
+        <view class="hehun-tag">✨ 生辰婚配分析</view>
+        <view class="hehun-title">找一个饭桌上的好话题</view>
+        <view class="hehun-subtitle">基于传统民俗文化，提供饭桌话题参考\n输入你们的生辰，生成一份分析报告</view>
+      </view>
+
+      <!-- 你的信息 -->
+      <view class="form-section">
+        <view class="form-title">你的出生信息</view>
+        <view class="calendar-type-row">
+          <view class="cal-btn {{myCalType === 'solar' ? 'active' : ''}}"
+            bindtap="setCalType" data-who="my" data-type="solar">公历（阳历）</view>
+          <view class="cal-btn {{myCalType === 'lunar' ? 'active' : ''}}"
+            bindtap="setCalType" data-who="my" data-type="lunar">农历（阴历）</view>
+        </view>
+        <view class="cal-hint">⚠️ 请确认：农村出生、老一辈通常记农历，不确定请查出生证明</view>
+        <picker mode="date" value="{{myBirthday}}" start="1960-01-01" end="2005-12-31"
+          bindchange="onMyBirthdayChange">
+          <view class="date-picker {{myBirthday ? 'filled' : ''}}">
+            <text>{{myBirthday || '选择出生日期'}}</text>
+            <text class="picker-arrow">›</text>
+          </view>
+        </picker>
+        <view class="gender-row-form">
+          <view class="gen-btn {{myGender === 'male' ? 'active' : ''}}"
+            bindtap="setGender" data-who="my" data-g="male">男</view>
+          <view class="gen-btn {{myGender === 'female' ? 'active' : ''}}"
+            bindtap="setGender" data-who="my" data-g="female">女</view>
+        </view>
+      </view>
+
+      <!-- TA的信息 -->
+      <view class="form-section">
+        <view class="form-title">TA的出生信息</view>
+        <view class="calendar-type-row">
+          <view class="cal-btn {{taCalType === 'solar' ? 'active' : ''}}"
+            bindtap="setCalType" data-who="ta" data-type="solar">公历（阳历）</view>
+          <view class="cal-btn {{taCalType === 'lunar' ? 'active' : ''}}"
+            bindtap="setCalType" data-who="ta" data-type="lunar">农历（阴历）</view>
+        </view>
+        <picker mode="date" value="{{taBirthday}}" start="1960-01-01" end="2005-12-31"
+          bindchange="onTaBirthdayChange">
+          <view class="date-picker {{taBirthday ? 'filled' : ''}}">
+            <text>{{taBirthday || '选择TA的出生日期'}}</text>
+            <text class="picker-arrow">›</text>
+          </view>
+        </picker>
+        <view class="gender-row-form">
+          <view class="gen-btn {{taGender === 'male' ? 'active' : ''}}"
+            bindtap="setGender" data-who="ta" data-g="male">男</view>
+          <view class="gen-btn {{taGender === 'female' ? 'active' : ''}}"
+            bindtap="setGender" data-who="ta" data-g="female">女</view>
+        </view>
+      </view>
+
+      <!-- 提交 -->
+      <view class="submit-area">
+        <view class="price-notice">¥9.9 生成完整报告</view>
+        <view class="btn-primary" bindtap="generateReport">生成婚配分析</view>
+        <view class="disclaimer">本报告基于传统民俗文化，仅供参考</view>
+      </view>
+    </view>
+
+    <!-- 加载状态 -->
+    <view wx:if="{{pageState === 'loading'}}" class="loading-section animate-fade-up">
+      <view class="loading-spin"></view>
+      <view class="loading-text">正在分析你们的生辰八字……</view>
+      <view class="loading-sub">约10-20秒</view>
+    </view>
+
+    <!-- 报告展示 -->
+    <view wx:if="{{pageState === 'report'}}" class="report-section animate-fade-up">
+
+      <!-- 指数头部 -->
+      <view class="report-header">
+        <view class="report-score-wrap">
+          <text class="report-score">{{report.index}}</text>
+          <text class="report-score-unit">分</text>
+        </view>
+        <view class="report-summary">{{report.summary}}</view>
+      </view>
+
+      <!-- 9个模块 -->
+      <!-- 1. 四柱八字 -->
+      <view class="report-card">
+        <view class="rc-title">四柱八字</view>
+        <view class="bazi-grid">
+          <view wx:for="{{report.bazi}}" wx:key="index" class="bazi-item">
+            <view class="bazi-pillar">{{item.pillar}}</view>
+            <view class="bazi-gan">{{item.gan}}</view>
+            <view class="bazi-zhi">{{item.zhi}}</view>
+          </view>
+        </view>
+      </view>
+
+      <!-- 2. 五行关系 -->
+      <view class="report-card">
+        <view class="rc-title">五行关系</view>
+        <view class="wuxing-content">{{report.wuxing}}</view>
+      </view>
+
+      <!-- 3. 四维契合度 -->
+      <view class="report-card">
+        <view class="rc-title">四维契合度</view>
+        <view wx:for="{{report.dimensions}}" wx:key="name" class="dimension-item">
+          <view class="dim-name">{{item.name}}</view>
+          <view class="dim-bar-wrap">
+            <view class="dim-bar" style="width:{{item.score}}%"></view>
+          </view>
+          <view class="dim-score">{{item.score}}</view>
+        </view>
+      </view>
+
+      <!-- 4. 三大优势 -->
+      <view class="report-card">
+        <view class="rc-title">三大优势</view>
+        <view wx:for="{{report.advantages}}" wx:key="index" class="adv-item">
+          <view class="adv-num">0{{index+1}}</view>
+          <view class="adv-text">{{item}}</view>
+        </view>
+      </view>
+
+      <!-- 5. 两个挑战 -->
+      <view class="report-card">
+        <view class="rc-title">两个挑战</view>
+        <view wx:for="{{report.challenges}}" wx:key="index" class="challenge-item">
+          <view class="challenge-title">{{item.title}}</view>
+          <view class="challenge-suggest">💡 {{item.suggest}}</view>
+        </view>
+      </view>
+
+      <!-- 6. 饭桌话题锦囊 -->
+      <view class="report-card report-card-gold">
+        <view class="rc-title">饭桌话题锦囊</view>
+        <view class="topic-intro">见家长时，可以这样自然引出这份报告：</view>
+        <view class="topic-text">{{report.tableTopic}}</view>
+      </view>
+
+      <!-- 7. 最后一句话 -->
+      <view class="report-last-word">
+        <view class="last-word-text">{{report.lastWord}}</view>
+      </view>
+
+      <!-- 设置提醒 -->
+      <view class="reminder-section">
+        <view class="reminder-title">见家长当天提醒</view>
+        <view class="reminder-desc">设置日期，当天早上9点发你一句话版本</view>
+        <picker mode="date" bindchange="onReminderDateChange">
+          <view class="date-picker">
+            <text>{{reminderDate || '选择见家长日期'}}</text>
+            <text class="picker-arrow">›</text>
+          </view>
+        </picker>
+        <view class="btn-secondary set-reminder-btn" bindtap="setReminder">设置提醒</view>
+      </view>
+
+      <!-- 免责声明 -->
+      <view class="disclaimer-box">
+        本报告基于传统民俗文化，仅供参考，不构成任何专业建议
+      </view>
+    </view>
+
+    <view class="safe-bottom"></view>
+  </scroll-view>
+
+  <!-- 付费弹窗 -->
+  <pay-modal
+    show="{{showPayModal}}"
+    product="{{payProduct}}"
+    bindclose="onPayClose"
+    bindpay="onPaySuccess"
+  />
+</view>
